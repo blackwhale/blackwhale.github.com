@@ -435,6 +435,25 @@ function listanchors()
     This is an intended form for caching and storage of frequently
     used regular expressions.<p></p>
 
+<dl><dt class="d_decl">const nothrow bool <a name="empty"></a><span class="ddoc_psymbol">empty</span>();
+</dt>
+<dd>Check if this <span class="d_inlinecode">Regex</span> object is not initialized.<p></p>
+
+</dd>
+<dt class="d_decl">const nothrow T <a name="opCast"></a><span class="ddoc_psymbol">opCast</span>(T : bool)();
+</dt>
+<dd>Same as initialized(), for ease of use in conditional statements.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        Regex!<span class="d_keyword">char</span> r;
+        <span class="d_keyword">assert</span>(!r);
+        r = regex(<span class="d_string">""</span>);<span class="d_comment">//note: "" is a valid regex pattern
+</span>        <span class="d_keyword">assert</span>(r);
+</pre>
+<p></p>
+
+</dd>
+</dl>
 </dd>
 <dt class="d_decl">struct <a name="StaticRegex"></a><span class="ddoc_psymbol">StaticRegex</span>(Char);
 </dt>
@@ -598,7 +617,7 @@ Effectively it's a forward range of Captures!R, produced
 <tr><td valign=top>flags</td>
 <td valign=top>The attributes (g, i, m and x accepted)</td></tr>
 </table><p></p>
-<b>Throws:</b><br><span class="d_inlinecode">RegexException</span> if there are any compilation errors.<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegexException</span> if there were any errors during compilation.<p></p>
 
 </dd>
 <dt class="d_decl">template <a name="ctRegex"></a><span class="ddoc_psymbol">ctRegex</span>(alias pattern,alias flags = [])</dt>
@@ -625,14 +644,18 @@ Compile regular expression using CTFE
     using Thompson NFA matching scheme.
 <p></p>
 This is the <u>recommended</u> method for matching regular expression.
+<p></p>
 
+
+    <span class="d_inlinecode">re</span> parameter can be one of three types:
+    <ul>     <li>Plain string, in which case it's compiled to bytecode before matching. </li>
+      <li>Regex!char (wchar/dchar) that contains pattern in form of
+        precompiled  bytecode. </li>
+      <li>StaticRegex!char (wchar/dchar) that contains pattern in form of
+        specially crafted native code. </li>
+    </ul>
 <p></p>
 <b>Returns:</b><br>a <span class="d_inlinecode">RegexMatch</span> object holding engine state after first <a name="match"></a><span class="ddoc_psymbol">match</span>.<p></p>
-
-</dd>
-<dt class="d_decl">auto <a name="match"></a><span class="ddoc_psymbol">match</span>(R, RegEx)(R <i>input</i>, RegEx <i>re</i>);
-</dt>
-<dd>Match regular expression using statically generated <span class="d_inlinecode">StaticRegex</span>.<p></p>
 
 </dd>
 <dt class="d_decl">auto <a name="bmatch"></a><span class="ddoc_psymbol">bmatch</span>(R, RegEx)(R <i>input</i>, RegEx <i>re</i>);
@@ -641,13 +664,17 @@ This is the <u>recommended</u> method for matching regular expression.
 <dd>Start matching <span class="d_inlinecode">input</span> to regex pattern <span class="d_inlinecode">re</span>,
     using traditional <a href="http://google.com/search?btnI=I%27m+Feeling+Lucky&amp;ie=UTF-8&amp;oe=UTF-8&amp;q=backtracking">backtracking</a> matching scheme.
 <p></p>
+<span class="d_inlinecode">re</span> parameter can be one of three types:
+    <ul>     <li>Plain string, in which case it's compiled to bytecode before matching. </li>
+      <li>Regex!char (wchar/dchar) that contains pattern in form of
+        precompiled  bytecode. </li>
+      <li>StaticRegex!char (wchar/dchar) that contains pattern in form of
+        specially crafted native code. </li>
+    </ul>
+
+<p></p>
 <b>Returns:</b><br>a <span class="d_inlinecode">RegexMatch</span> object holding engine
     state after first match.<p></p>
-
-</dd>
-<dt class="d_decl">auto <a name="bmatch"></a><span class="ddoc_psymbol">bmatch</span>(R, RegEx)(R <i>input</i>, RegEx <i>re</i>);
-</dt>
-<dd>Match regular expression using statically generated <span class="d_inlinecode">StaticRegex</span>.<p></p>
 
 </dd>
 <dt class="d_decl">R <a name="replace"></a><span class="ddoc_psymbol">replace</span>(alias scheme = match, R, RegEx)(R <i>input</i>, RegEx <i>re</i>, R <i>format</i>);
