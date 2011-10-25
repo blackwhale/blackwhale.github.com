@@ -437,18 +437,13 @@ function listanchors()
 
 <dl><dt class="d_decl">const nothrow bool <a name="empty"></a><span class="ddoc_psymbol">empty</span>();
 </dt>
-<dd>Check if this <span class="d_inlinecode">Regex</span> object is not initialized.<p></p>
-
-</dd>
-<dt class="d_decl">const nothrow T <a name="opCast"></a><span class="ddoc_psymbol">opCast</span>(T : bool)();
-</dt>
-<dd>Same as initialized(), for ease of use in conditional statements.
+<dd>Test if this object doesn't contain any compiled pattern.
 <p></p>
 <b>Example:</b><br>
 <pre class="d_code">        Regex!<span class="d_keyword">char</span> r;
-        <span class="d_keyword">assert</span>(!r);
+        <span class="d_keyword">assert</span>(r.<span class="d_psymbol">empty</span>);
         r = regex(<span class="d_string">""</span>);<span class="d_comment">//note: "" is a valid regex pattern
-</span>        <span class="d_keyword">assert</span>(r);
+</span>        <span class="d_keyword">assert</span>(!r.<span class="d_psymbol">empty</span>);
 </pre>
 <p></p>
 
