@@ -1,0 +1,931 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html lang='en'>
+
+<!--
+	Copyright (c) 1999-2010 by Digital Mars
+	All Rights Reserved Written by Walter Bright
+	http://www.digitalmars.com
+  -->
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<title>std.windows.registry - D Programming Language - Digital Mars</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+<script type="text/javascript">
+function listanchors()
+{
+    if (typeof inhibitQuickIndex !== 'undefined') return;
+    var a = document.getElementById("quickindex");
+    if (!a) return;
+    var newText = "";
+    var hash = new Array;
+    var n = 0;
+    var values = new Array;
+    // List all anchors.
+    for (var i = 0; i < document.anchors.length; i++)
+    {
+        var a = document.anchors[i];
+        var text = a.name;
+        if (hash[text] > 0) continue;
+        hash[text] = 1;
+        values[n++] = a.name
+    }
+
+    values.sort();
+
+    for(var i = 0; i < values.length; i++) {
+        var a = values[i];
+        newText += ' \x3Ca href="\x23' + a +
+            '"\x3E\x3Cspan class="d_psymbol"\x3E' + a + '\x3C/span\x3E\x3C/a\x3E';
+    }
+    if (newText != "") newText = "\x3Cp\x3E\x3Cb\x3EJump to:\x3C/b\x3E" + newText + "\x3C/p\x3E";
+    var a = document.getElementById("quickindex");
+    a.innerHTML = newText;
+}
+</script>
+
+<script src="/js/hyphenate_selectively.js" type="text/javascript"></script>
+
+</head>
+
+<body onload="listanchors()" class='hyphenate'>
+
+<div id="top">
+	<div id="search-box">
+		<form method="get" action="http://google.com/search">
+			<img src="/images/search-left.gif" width="11" height="22" alt=""><input id="q" name="q"><input type="image" id="search-submit" name="submit" src="/images/search-button.gif">
+			<input type="hidden" id="domains" name="domains" value="d-programming-language.org">
+			<input type="hidden" id="sourceid" name="sourceid" value="google-search">
+			<div id="search-dropdown">
+				<select id="sitesearch" name="sitesearch" size="1">
+					<option value="d-programming-language.org">Entire D  Site</option>
+					<option value="d-programming-language.org/phobos">Library Reference</option>
+					<option value="www.digitalmars.com/d/archives">Newsgroup Archives</option>
+				</select>
+			</div>
+		</form>
+	</div>
+	<div id="header">
+		<a href="/"><img id="logo" width="125" height="95" border="0" alt="D Logo" src="/images/dlogo.png"></a>
+		<a id="d-language" href="/">D Programming Language </a>
+	</div>
+</div>
+
+<div id="navigation">
+    
+<div class="navblock">
+<form method="get" action="http://www.google.com/search">
+<div id="searchbox">
+<input name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
+<input type="hidden" name="domains" value="www.digitalmars.com">
+<input type="hidden" name="sitesearch" value="www.digitalmars.com/d/2.0/phobos">
+<input type="hidden" name="sourceid" value="google-search">
+<input type="submit" name="submit" value="Go">
+</div>
+</form>
+<div id="toctop">
+    <ul>	<li><a href="../index.html" title="D Programming Language">D</a></li>
+	<li><a href="../spec.html" title="D Language Specification">Language</a></li>
+	<li><a href="../phobos/index.html" title="D Runtime Library">Phobos</a></li>
+	<li><a href="../phobos-prerelease/index.html" title="D Runtime Library (prerelease)">Phobos (prerelease)</a></li>
+	<li><a href="../comparison.html" title="Language Comparisons">Comparisons</a></li>
+    </ul>
+</div>
+</div>
+
+    
+<div class="navblock">
+    <ul>	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    </ul>
+    <h2><a href="index.html#std" title="D standard modules">std</a></h2>
+    <ul>	<li><a href="std_algorithm.html" title="General-purpose algorithms">std.algorithm</a></li>
+	<li><a href="std_array.html" title="Array functions">std.array</a></li>
+	<li><a href="std_ascii.html" title="Functions which operate on ASCII characters">std.ascii</a></li>
+	<li><a href="std_base64.html" title="Encode/decode base64 format">std.base64</a></li>
+	<li><a href="std_bigint.html" title="Arbitrary-precision ('bignum') arithmetic">std.bigint</a></li>
+	<li><a href="std_bitmanip.html" title="Bit-level manipulation">std.bitmanip</a></li>
+	<li><a href="std_compiler.html" title="Information about the D compiler implementation">std.compiler</a></li>
+	<li><a href="std_complex.html" title="Complex numbers">std.complex</a></li>
+	<li><a href="std_concurrency.html" title="Message Passing">std.concurrency</a></li>
+	<li><a href="std_container.html" title="Containers">std.container</a></li>
+	<li><a href="std_contracts.html" title="Think assert">std.contracts</a></li>
+	<li><a href="std_conv.html" title="Conversion of strings to integers">std.conv</a></li>
+	<li><a href="std_cpuid.html" title="CPU identification">std.cpuid</a></li>
+	<li><a href="std_csv.html" title="CSV file parser">std.csv</a></li>
+	<li><a href="std_ctype.html" title="Simple character classification">std.ctype</a></li>
+	<li><a href="std_date.html" title="Date and time functions">std.date</a></li>
+	<li><a href="std_datetime.html" title="Date and time-related types and functions">std.datetime</a></li>
+	<li><a href="std_demangle.html" title="Demangle D names">std.demangle</a></li>
+	<li><a href="std_encoding.html" title="Character and string encoding">std.encoding</a></li>
+	<li><a href="std_exception.html" title="Exceptions and error handling">std.exception</a></li>
+	<li><a href="std_file.html" title="Basic file operations">std.file</a></li>
+	<li><a href="std_format.html" title="Formatted conversions of values to strings">std.format</a></li>
+	<li><a href="std_functional.html" title="functional">std.functional</a></li>
+	<li><a href="std_getopt.html" title="Command line options">std.getopt</a></li>
+	<li><a href="std_gregorian.html" title="Gregorian Calendar">std.gregorian</a></li>
+	<li><a href="std_json.html" title="JSON reader">std.json</a></li>
+	<li><a href="std_math.html" title="the usual math functions">std.math</a></li>
+	<li><a href="std_mathspecial.html" title="mathematical special functions">std.mathspecial</a></li>
+	<li><a href="std_md5.html" title="Compute MD5 digests">std.md5</a></li>
+	<li><a href="std_metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
+	<li><a href="std_mmfile.html" title="Memory mapped files">std.mmfile</a></li>
+	<li><a href="std_numeric.html" title="Numeric algorithms">std.numeric</a></li>
+	<li><a href="std_outbuffer.html" title="Assemble data into an array of bytes">std.outbuffer</a></li>
+	<li><a href="std_parallelism.html" title="High-level primitives for SMP parallelism">std.parallelism</a></li>
+	<li><a href="std_path.html" title="Manipulate file names, path names, etc.">std.path</a></li>
+	<li><a href="std_process.html" title="Create/destroy processes">std.process</a></li>
+	<li><a href="std_random.html" title="Random number generation">std.random</a></li>
+	<li><a href="std_range.html" title="Ranges">std.range</a></li>
+	<li><a href="std_regex.html" title="regular expressions">std.regex</a></li>
+	<li><a href="std_regexp.html" title="regular expressions (deprecated)">std.regexp</a></li>
+	<li><a href="std_signals.html" title="Signals">std.signals</a></li>
+	<li><a href="std_socket.html" title="Sockets">std.socket</a></li>
+	<li><a href="std_socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
+	<li><a href="std_stdint.html" title="Integral types for various purposes">std.stdint</a></li>
+	<li><a href="std_stdio.html" title="Standard I/O">std.stdio</a></li>
+	<li><a href="std_cstream.html" title="Stream I/O">std.cstream</a></li>
+	<li><a href="std_stream.html" title="Stream I/O">std.stream</a></li>
+	<li><a href="std_string.html" title="Basic string operations">std.string</a></li>
+	<li><a href="std_system.html" title="Inquire about the CPU, operating system">std.system</a></li>
+	<li><a href="std_traits.html" title="Type traits">std.traits</a></li>
+	<li><a href="std_typecons.html" title="Type constructors">std.typecons</a></li>
+	<li><a href="std_typetuple.html" title="Type tuples">std.typetuple</a></li>
+	<li><a href="std_uni.html" title="Unicode classification">std.uni</a></li>
+	<li><a href="std_uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
+	<li><a href="std_utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std_variant.html" title="Stores all types in a uniform, dynamically-checked representation">std.variant</a></li>
+	<li><a href="std_xml.html" title="XML file processing">std.xml</a></li>
+	<li><a href="std_zip.html" title="Read/write zip archives">std.zip</a></li>
+	<li><a href="std_zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
+	<li><a href="std_c_fenv.html" title="Floating point environment">std.c.fenv</a></li>
+	<li><a href="std_c_locale.html" title="Locale">std.c.locale</a></li>
+	<li><a href="std_c_math.html" title="Math">std.c.math</a></li>
+	<li><a href="std_c_process.html" title="Process">std.c.process</a></li>
+	<li><a href="std_c_stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
+	<li><a href="std_c_stddef.html" title="Standard definitions">std.c.stddef</a></li>
+	<li><a href="std_c_stdio.html" title="Standard I/O">std.c.stdio</a></li>
+	<li><a href="std_c_stdlib.html" title="Standard library">std.c.stdlib</a></li>
+	<li><a href="std_c_string.html" title="Strings">std.c.string</a></li>
+	<li><a href="std_c_time.html" title="Time">std.c.time</a></li>
+	<li><a href="std_c_wcharh.html" title="Wide characters">std.c.wcharh</a></li>
+	<li><a href="std_net_curl.html" title="High level curl wrapper">std.net.curl</a></li>
+	<li><a href="std_net_isemail.html" title="Validate e-mail addresses">std.net.isemail</a></li>
+	<li><a href="std_windows_charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
+	<li><a href="index.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
+	<li><a href="index.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
+	<li><a href="index.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
+	<li><a href="index.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
+    </ul>
+    <h2><a href="index.html#etc" title="D etc modules">etc</a></h2>
+    <ul>	<li><a href="etc_c_curl.html" title="Interface to libcurl library">etc.c.curl</a></li>
+	<li><a href="etc_c_sqlite3.html" title="Interface to sqlite3 library">etc.c.sqlite3</a></li>
+	<li><a href="etc_c_zlib.html" title="Interface to zlib library">etc.c.zlib</a></li>
+    </ul>
+    <h2><a href="index.html#core" title="D core modules">core</a></h2>
+    <ul>	<li><a href="core_atomic.html" title="Atomic operations">core.atomic</a></li>
+	<li><a href="core_bitop.html" title="Bitwise operations">core.bitop</a></li>
+	<li><a href="core_cpuid.html" title="CPU identification">core.cpuid</a></li>
+	<li><a href="core_exception.html" title="Root of exception hierarchy">core.exception</a></li>
+	<li><a href="core_memory.html" title="Interface to memory management">core.memory</a></li>
+	<li><a href="core_runtime.html" title="Interface to D runtime library internals">core.runtime</a></li>
+	<li><a href="core_thread.html" title="Thread management">core.thread</a></li>
+	<li><a href="core_time.html" title="Core time functionality">core.time</a></li>
+	<li><a href="core_vararg.html" title="Variable function arguments">core.vararg</a></li>
+	<li><a href="core_sync_barrier.html" title="Synchronizing progress of a group of threads">core.sync.barrier</a></li>
+	<li><a href="core_sync_condition.html" title="Synchronized condition checking">core.sync.condition</a></li>
+	<li><a href="core_sync_config.html" title="Stuff for core.sync">core.sync.config</a></li>
+	<li><a href="core_sync_exception.html" title="SyncException">core.sync.exception</a></li>
+	<li><a href="core_sync_mutex.html" title="Mutexes">core.sync.mutex</a></li>
+	<li><a href="core_sync_rwmutex.html" title="R/W mutually exclusive access">core.sync.rwmutex</a></li>
+	<li><a href="core_sync_semaphore.html" title="Semaphores">core.sync.semaphore</a></li>
+    </ul>
+</div>
+
+</div><!--/navigation-->
+<div id="content">
+    <h1>std.windows.registry</h1>
+    <div id=quickindex class=quickindex></div>
+    <!-- Generated by Ddoc from std\windows\registry.d -->
+This library provides Win32 Registry facilities.
+<p></p>
+<b>License:</b><br><p></p>
+<b>Author:</b><br>
+Matthew Wilson, Kenji Hara
+
+<p></p>
+<b>Histry:</b><br>
+Created      15th March 2003,
+        Updated      25th April 2004,
+
+<p></p>
+<b>Source:</b><br>
+<a href="https://github.com/D-Programming-Language/phobos/blob/master/std/windows/registry.d">std/windows/registry.d</a><p></p>
+
+<dl><dt class="d_decl">class <a name="Win32Exception"></a><span class="ddoc_psymbol">Win32Exception</span>: object.Exception;
+</dt>
+<dd><p></p>
+
+</dd>
+<dt class="d_decl">class <a name="RegistryException"></a><span class="ddoc_psymbol">RegistryException</span>: std.windows.registry.Win32Exception;
+</dt>
+<dd>Exception class thrown by the std.windows.registry classes.<p></p>
+
+<dl><dt class="d_decl">this(string <i>message</i>, string <i>fn</i> = __FILE__, uint <i>ln</i> = cast(uint)__LINE__, Throwable <i>next</i> = null);
+</dt>
+<dd>Creates an instance of the exception.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>message</i></td>
+<td valign=top>The <i>message</i> associated with the exception.</td></tr>
+</table><p></p>
+
+</dd>
+<dt class="d_decl">this(string <i>message</i>, int <i>error</i>, string <i>fn</i> = __FILE__, uint <i>ln</i> = cast(uint)__LINE__, Throwable <i>next</i> = null);
+</dt>
+<dd>Creates an instance of the exception, with the given.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>message</i></td>
+<td valign=top>The <i>message</i> associated with the exception.</td></tr>
+<tr><td valign=top>int <i>error</i></td>
+<td valign=top>The Win32 <i>error</i> number associated with the exception.</td></tr>
+</table><p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl">enum <a name="REGSAM"></a><span class="ddoc_psymbol">REGSAM</span>;
+</dt>
+<dd>Enumeration of the recognised registry access modes.<p></p>
+
+<dl><dt class="d_decl"><a name="KEY_QUERY_VALUE"></a><span class="ddoc_psymbol">KEY_QUERY_VALUE</span></dt>
+<dd>Permission to query subkey data<p></p>
+
+</dd>
+<dt class="d_decl"><a name="KEY_SET_VALUE"></a><span class="ddoc_psymbol">KEY_SET_VALUE</span></dt>
+<dd>Permission to set subkey data<p></p>
+
+</dd>
+<dt class="d_decl"><a name="KEY_CREATE_SUB_KEY"></a><span class="ddoc_psymbol">KEY_CREATE_SUB_KEY</span></dt>
+<dd>Permission to create subkeys<p></p>
+
+</dd>
+<dt class="d_decl"><a name="KEY_ENUMERATE_SUB_KEYS"></a><span class="ddoc_psymbol">KEY_ENUMERATE_SUB_KEYS</span></dt>
+<dd>Permission to enumerate subkeys<p></p>
+
+</dd>
+<dt class="d_decl"><a name="KEY_NOTIFY"></a><span class="ddoc_psymbol">KEY_NOTIFY</span></dt>
+<dd>Permission for change notification<p></p>
+
+</dd>
+<dt class="d_decl"><a name="KEY_CREATE_LINK"></a><span class="ddoc_psymbol">KEY_CREATE_LINK</span></dt>
+<dd>Permission to create a symbolic link<p></p>
+
+</dd>
+<dt class="d_decl"><a name="KEY_WOW64_32KEY"></a><span class="ddoc_psymbol">KEY_WOW64_32KEY</span></dt>
+<dd>Enables a 64- or 32-bit application to open a 32-bit key<p></p>
+
+</dd>
+<dt class="d_decl"><a name="KEY_WOW64_64KEY"></a><span class="ddoc_psymbol">KEY_WOW64_64KEY</span></dt>
+<dd>Enables a 64- or 32-bit application to open a 64-bit key<p></p>
+
+</dd>
+<dt class="d_decl"><a name="KEY_WOW64_RES"></a><span class="ddoc_psymbol">KEY_WOW64_RES</span></dt>
+<dd><p></p>
+
+</dd>
+<dt class="d_decl"><a name="KEY_WRITE"></a><span class="ddoc_psymbol">KEY_WRITE</span></dt>
+<dd>Combines the STANDARD_RIGHTS_READ, KEY_QUERY_VALUE,
+ KEY_ENUMERATE_SUB_KEYS, and KEY_NOTIFY access rights<p></p>
+
+</dd>
+<dt class="d_decl"><a name="KEY_EXECUTE"></a><span class="ddoc_psymbol">KEY_EXECUTE</span></dt>
+<dd>Combines the STANDARD_RIGHTS_WRITE, KEY_SET_VALUE,
+ and KEY_CREATE_SUB_KEY access rights<p></p>
+
+</dd>
+<dt class="d_decl"><a name="KEY_ALL_ACCESS"></a><span class="ddoc_psymbol">KEY_ALL_ACCESS</span></dt>
+<dd>Permission for read access<p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl">enum <a name="REG_VALUE_TYPE"></a><span class="ddoc_psymbol">REG_VALUE_TYPE</span>;
+</dt>
+<dd>Enumeration of the recognised registry value types.<p></p>
+
+<dl><dt class="d_decl"><a name="REG_UNKNOWN"></a><span class="ddoc_psymbol">REG_UNKNOWN</span></dt>
+<dd><p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_NONE"></a><span class="ddoc_psymbol">REG_NONE</span></dt>
+<dd>The <b>null</b> value type. (In practise this is treated as a zero-length binary array by the Win32 registry)<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_SZ"></a><span class="ddoc_psymbol">REG_SZ</span></dt>
+<dd>A zero-terminated string<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_EXPAND_SZ"></a><span class="ddoc_psymbol">REG_EXPAND_SZ</span></dt>
+<dd>A zero-terminated string containing expandable environment variable references<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_BINARY"></a><span class="ddoc_psymbol">REG_BINARY</span></dt>
+<dd>A binary blob<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_DWORD"></a><span class="ddoc_psymbol">REG_DWORD</span></dt>
+<dd>A 32-bit unsigned integer<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_DWORD_LITTLE_ENDIAN"></a><span class="ddoc_psymbol">REG_DWORD_LITTLE_ENDIAN</span></dt>
+<dd>A 32-bit unsigned integer, stored in little-endian byte order<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_DWORD_BIG_ENDIAN"></a><span class="ddoc_psymbol">REG_DWORD_BIG_ENDIAN</span></dt>
+<dd>A 32-bit unsigned integer, stored in big-endian byte order<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_LINK"></a><span class="ddoc_psymbol">REG_LINK</span></dt>
+<dd>A registry link<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_MULTI_SZ"></a><span class="ddoc_psymbol">REG_MULTI_SZ</span></dt>
+<dd>A set of zero-terminated strings<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_RESOURCE_LIST"></a><span class="ddoc_psymbol">REG_RESOURCE_LIST</span></dt>
+<dd>A hardware resource list<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_FULL_RESOURCE_DESCRIPTOR"></a><span class="ddoc_psymbol">REG_FULL_RESOURCE_DESCRIPTOR</span></dt>
+<dd>A hardware resource descriptor<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_RESOURCE_REQUIREMENTS_LIST"></a><span class="ddoc_psymbol">REG_RESOURCE_REQUIREMENTS_LIST</span></dt>
+<dd>A hardware resource requirements list<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_QWORD"></a><span class="ddoc_psymbol">REG_QWORD</span></dt>
+<dd>A 64-bit unsigned integer<p></p>
+
+</dd>
+<dt class="d_decl"><a name="REG_QWORD_LITTLE_ENDIAN"></a><span class="ddoc_psymbol">REG_QWORD_LITTLE_ENDIAN</span></dt>
+<dd>A 64-bit unsigned integer, stored in little-endian byte order<p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl">class <a name="Key"></a><span class="ddoc_psymbol">Key</span>;
+</dt>
+<dd>This class represents a registry key.<p></p>
+
+<dl><dt class="d_decl">const pure nothrow @property @safe string <a name="name"></a><span class="ddoc_psymbol">name</span>();
+</dt>
+<dd>The <a name="name"></a><span class="ddoc_psymbol">name</span> of the key<p></p>
+
+</dd>
+<dt class="d_decl">const @property size_t <a name="keyCount"></a><span class="ddoc_psymbol">keyCount</span>();
+</dt>
+<dd>The number of sub keys.<p></p>
+
+</dd>
+<dt class="d_decl">pure @property @safe KeySequence <a name="keys"></a><span class="ddoc_psymbol">keys</span>();
+</dt>
+<dd>An enumerable sequence of all the sub-<a name="keys"></a><span class="ddoc_psymbol">keys</span> of this key.<p></p>
+
+</dd>
+<dt class="d_decl">pure @property @safe KeyNameSequence <a name="keyNames"></a><span class="ddoc_psymbol">keyNames</span>();
+</dt>
+<dd>An enumerable sequence of the names of all the sub-keys of this key.<p></p>
+
+</dd>
+<dt class="d_decl">const @property size_t <a name="valueCount"></a><span class="ddoc_psymbol">valueCount</span>();
+</dt>
+<dd>The number of values.<p></p>
+
+</dd>
+<dt class="d_decl">pure @property @safe ValueSequence <a name="values"></a><span class="ddoc_psymbol">values</span>();
+</dt>
+<dd>An enumerable sequence of all the <a name="values"></a><span class="ddoc_psymbol">values</span> of this key.<p></p>
+
+</dd>
+<dt class="d_decl">pure @property @safe ValueNameSequence <a name="valueNames"></a><span class="ddoc_psymbol">valueNames</span>();
+</dt>
+<dd>An enumerable sequence of the names of all the values of this key.<p></p>
+
+</dd>
+<dt class="d_decl">Key <a name="createKey"></a><span class="ddoc_psymbol">createKey</span>(string <i>name</i>, REGSAM <i>access</i> = (REGSAM).KEY_ALL_ACCESS);
+</dt>
+<dd>Returns the named sub-key of this key.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>name</i></td>
+<td valign=top>The <i>name</i> of the subkey to create. May not be <span class="d_inlinecode"><b>null</b></span>.</td></tr>
+</table><p></p>
+<b>Returns:</b><br>The created key.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> is thrown if the key cannot be created.<p></p>
+
+</dd>
+<dt class="d_decl">Key <a name="getKey"></a><span class="ddoc_psymbol">getKey</span>(string <i>name</i>, REGSAM <i>access</i> = (REGSAM).KEY_READ);
+</dt>
+<dd>Returns the named sub-key of this key.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>name</i></td>
+<td valign=top>The <i>name</i> of the subkey to aquire. If <i>name</i> is the empty
+                   string, then the called key is duplicated.</td></tr>
+<tr><td valign=top>REGSAM <i>access</i></td>
+<td valign=top>The desired <i>access</i>; one of the <span class="d_inlinecode">REGSAM</span> enumeration.</td></tr>
+</table><p></p>
+<b>Returns:</b><br>The aquired key.
+<p></p>
+<b>Throws:</b><br>This function never returns <span class="d_inlinecode"><b>null</b></span>. If a key corresponding to
+            the requested <i>name</i> is not found, <span class="d_inlinecode">RegistryException</span> is thrown.<p></p>
+
+</dd>
+<dt class="d_decl">void <a name="deleteKey"></a><span class="ddoc_psymbol">deleteKey</span>(string <i>name</i>, REGSAM <i>access</i> = cast(REGSAM)0);
+</dt>
+<dd>Deletes the named key.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>name</i></td>
+<td valign=top>The <i>name</i> of the key to delete. May not be <span class="d_inlinecode"><b>null</b></span>.</td></tr>
+</table><p></p>
+
+</dd>
+<dt class="d_decl">Value <a name="getValue"></a><span class="ddoc_psymbol">getValue</span>(string <i>name</i>);
+</dt>
+<dd>Returns the named value.
+        If <span class="d_inlinecode"><i>name</i></span> is the empty string, then the default value is returned.
+<p></p>
+<b>Returns:</b><br>This function never returns <span class="d_inlinecode"><b>null</b></span>. If a value corresponding
+            to the requested <i>name</i> is not found, <span class="d_inlinecode">RegistryException</span> is thrown.<p></p>
+
+</dd>
+<dt class="d_decl">void <a name="setValue"></a><span class="ddoc_psymbol">setValue</span>(string <i>name</i>, uint <i>value</i>);
+</dt>
+<dd>Sets the named <i>value</i> with the given 32-bit unsigned integer <i>value</i>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>name</i></td>
+<td valign=top>The <i>name</i> of the <i>value</i> to set. If it is the empty string,
+                   sets the default <i>value</i>.</td></tr>
+<tr><td valign=top>uint <i>value</i></td>
+<td valign=top>The 32-bit unsigned <i>value</i> to set.</td></tr>
+</table><p></p>
+<b>Throws:</b><br>If a <i>value</i> corresponding to the requested <i>name</i> is not found,
+            <span class="d_inlinecode">RegistryException</span> is thrown.<p></p>
+
+</dd>
+<dt class="d_decl">void <a name="setValue"></a><span class="ddoc_psymbol">setValue</span>(string <i>name</i>, uint <i>value</i>, Endian <i>endian</i>);
+</dt>
+<dd>Sets the named <i>value</i> with the given 32-bit unsigned integer <i>value</i>,
+        according to the desired byte-ordering.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>name</i></td>
+<td valign=top>The <i>name</i> of the <i>value</i> to set. If it is the empty string,
+                   sets the default <i>value</i>.</td></tr>
+<tr><td valign=top>uint <i>value</i></td>
+<td valign=top>The 32-bit unsigned <i>value</i> to set.</td></tr>
+<tr><td valign=top>Endian <i>endian</i></td>
+<td valign=top>Can be <span class="d_inlinecode">Endian.BigEndian</span> or <span class="d_inlinecode">Endian.LittleEndian</span>.</td></tr>
+</table><p></p>
+<b>Throws:</b><br>If a <i>value</i> corresponding to the requested <i>name</i> is not found,
+            <span class="d_inlinecode">RegistryException</span> is thrown.<p></p>
+
+</dd>
+<dt class="d_decl">void <a name="setValue"></a><span class="ddoc_psymbol">setValue</span>(string <i>name</i>, ulong <i>value</i>);
+</dt>
+<dd>Sets the named <i>value</i> with the given 64-bit unsigned integer <i>value</i>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>name</i></td>
+<td valign=top>The <i>name</i> of the <i>value</i> to set. If it is the empty string,
+                   sets the default <i>value</i>.</td></tr>
+<tr><td valign=top>ulong <i>value</i></td>
+<td valign=top>The 64-bit unsigned <i>value</i> to set.</td></tr>
+</table><p></p>
+<b>Throws:</b><br>If a <i>value</i> corresponding to the requested <i>name</i> is not found,
+            <span class="d_inlinecode">RegistryException</span> is thrown.<p></p>
+
+</dd>
+<dt class="d_decl">void <a name="setValue"></a><span class="ddoc_psymbol">setValue</span>(string <i>name</i>, string <i>value</i>);
+</dt>
+<dd>Sets the named <i>value</i> with the given string <i>value</i>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>name</i></td>
+<td valign=top>The <i>name</i> of the <i>value</i> to set. If it is the empty string,
+                   sets the default <i>value</i>.</td></tr>
+<tr><td valign=top>string <i>value</i></td>
+<td valign=top>The string <i>value</i> to set.</td></tr>
+</table><p></p>
+<b>Throws:</b><br>If a <i>value</i> corresponding to the requested <i>name</i> is not found,
+            <span class="d_inlinecode">RegistryException</span> is thrown.<p></p>
+
+</dd>
+<dt class="d_decl">void <a name="setValue"></a><span class="ddoc_psymbol">setValue</span>(string <i>name</i>, string <i>value</i>, bool <i>asEXPAND_SZ</i>);
+</dt>
+<dd>Sets the named <i>value</i> with the given string <i>value</i>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>name</i></td>
+<td valign=top>The <i>name</i> of the <i>value</i> to set. If it is the empty string,
+                   sets the default <i>value</i>.</td></tr>
+<tr><td valign=top>string <i>value</i></td>
+<td valign=top>The string <i>value</i> to set.</td></tr>
+<tr><td valign=top>bool <i>asEXPAND_SZ</i></td>
+<td valign=top>If <span class="d_inlinecode"><b>true</b></span>, the <i>value</i> will be stored as an
+                          expandable environment string, otherwise as a normal string.</td></tr>
+</table><p></p>
+<b>Throws:</b><br>If a <i>value</i> corresponding to the requested <i>name</i> is not found,
+            <span class="d_inlinecode">RegistryException</span> is thrown.<p></p>
+
+</dd>
+<dt class="d_decl">void <a name="setValue"></a><span class="ddoc_psymbol">setValue</span>(string <i>name</i>, string[] <i>value</i>);
+</dt>
+<dd>Sets the named <i>value</i> with the given multiple-strings <i>value</i>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>name</i></td>
+<td valign=top>The <i>name</i> of the <i>value</i> to set. If it is the empty string,
+                   sets the default <i>value</i>.</td></tr>
+<tr><td valign=top>string[] <i>value</i></td>
+<td valign=top>The multiple-strings <i>value</i> to set.</td></tr>
+</table><p></p>
+<b>Throws:</b><br>If a <i>value</i> corresponding to the requested <i>name</i> is not found,
+            <span class="d_inlinecode">RegistryException</span> is thrown.<p></p>
+
+</dd>
+<dt class="d_decl">void <a name="setValue"></a><span class="ddoc_psymbol">setValue</span>(string <i>name</i>, byte[] <i>value</i>);
+</dt>
+<dd>Sets the named <i>value</i> with the given binary <i>value</i>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>name</i></td>
+<td valign=top>The <i>name</i> of the <i>value</i> to set. If it is the empty string,
+                   sets the default <i>value</i>.</td></tr>
+<tr><td valign=top>byte[] <i>value</i></td>
+<td valign=top>The binary <i>value</i> to set.</td></tr>
+</table><p></p>
+<b>Throws:</b><br>If a <i>value</i> corresponding to the requested <i>name</i> is not found,
+            <span class="d_inlinecode">RegistryException</span> is thrown.<p></p>
+
+</dd>
+<dt class="d_decl">void <a name="deleteValue"></a><span class="ddoc_psymbol">deleteValue</span>(string <i>name</i>);
+</dt>
+<dd>Deletes the named value.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>string <i>name</i></td>
+<td valign=top>The <i>name</i> of the value to delete. May not be <span class="d_inlinecode"><b>null</b></span>.</td></tr>
+</table><p></p>
+<b>Throws:</b><br>If a value of the requested <i>name</i> is not found,
+            <span class="d_inlinecode">RegistryException</span> is thrown.<p></p>
+
+</dd>
+<dt class="d_decl">void <a name="flush"></a><span class="ddoc_psymbol">flush</span>();
+</dt>
+<dd>Flushes any changes to the key to disk.<p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl">class <a name="Value"></a><span class="ddoc_psymbol">Value</span>;
+</dt>
+<dd>This class represents a value of a registry key.<p></p>
+
+<dl><dt class="d_decl">const pure nothrow @property @safe string <a name="name"></a><span class="ddoc_psymbol">name</span>();
+</dt>
+<dd>The <a name="name"></a><span class="ddoc_psymbol">name</span> of the value.
+        If the value represents a default value of a key, which has no <a name="name"></a><span class="ddoc_psymbol">name</span>,
+        the returned string will be of zero length.<p></p>
+
+</dd>
+<dt class="d_decl">const pure nothrow @property @safe REG_VALUE_TYPE <a name="type"></a><span class="ddoc_psymbol">type</span>();
+</dt>
+<dd>The <a name="type"></a><span class="ddoc_psymbol">type</span> of value.<p></p>
+
+</dd>
+<dt class="d_decl">const @property string <a name="value_SZ"></a><span class="ddoc_psymbol">value_SZ</span>();
+</dt>
+<dd>Obtains the current value of the value as a string.
+        If the value's type is REG_EXPAND_SZ the returned value is <b>not</b>
+        expanded; <span class="d_inlinecode">value_EXPAND_SZ</span> should be called
+<p></p>
+<b>Returns:</b><br>The contents of the value.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> if the type of the value is not REG_SZ,
+            REG_EXPAND_SZ, REG_DWORD, or REG_QWORD.<p></p>
+
+</dd>
+<dt class="d_decl">const @property string <a name="value_EXPAND_SZ"></a><span class="ddoc_psymbol">value_EXPAND_SZ</span>();
+</dt>
+<dd>Obtains the current value as a string, within which any environment
+        variables have undergone expansion.
+        This function works with the same value-types as <span class="d_inlinecode">value_SZ</span>.
+<p></p>
+<b>Returns:</b><br>The contents of the value.<p></p>
+
+</dd>
+<dt class="d_decl">const @property string[] <a name="value_MULTI_SZ"></a><span class="ddoc_psymbol">value_MULTI_SZ</span>();
+</dt>
+<dd>Obtains the current value as an array of strings.
+<p></p>
+<b>Returns:</b><br>The contents of the value.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> if the type of the value is not REG_MULTI_SZ.<p></p>
+
+</dd>
+<dt class="d_decl">const @property uint <a name="value_DWORD"></a><span class="ddoc_psymbol">value_DWORD</span>();
+</dt>
+<dd>Obtains the current value as a 32-bit unsigned integer, ordered
+        correctly according to the current architecture.
+<p></p>
+<b>Returns:</b><br>The contents of the value.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> is thrown for all types other than
+            REG_DWORD, REG_DWORD_LITTLE_ENDIAN and REG_DWORD_BIG_ENDIAN.<p></p>
+
+</dd>
+<dt class="d_decl">const @property ulong <a name="value_QWORD"></a><span class="ddoc_psymbol">value_QWORD</span>();
+</dt>
+<dd>Obtains the value as a 64-bit unsigned integer, ordered correctly
+        according to the current architecture.
+<p></p>
+<b>Returns:</b><br>The contents of the value.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> if the type of the value is not REG_QWORD.<p></p>
+
+</dd>
+<dt class="d_decl">const @property byte[] <a name="value_BINARY"></a><span class="ddoc_psymbol">value_BINARY</span>();
+</dt>
+<dd>Obtains the value as a binary blob.
+<p></p>
+<b>Returns:</b><br>The contents of the value.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> if the type of the value is not REG_BINARY.<p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl">class <a name="Registry"></a><span class="ddoc_psymbol">Registry</span>;
+</dt>
+<dd>Represents the local system registry.<p></p>
+
+<dl><dt class="d_decl">static @property Key <a name="classesRoot"></a><span class="ddoc_psymbol">classesRoot</span>();
+</dt>
+<dd>Returns the root key for the HKEY_CLASSES_ROOT hive<p></p>
+
+</dd>
+<dt class="d_decl">static @property Key <a name="currentUser"></a><span class="ddoc_psymbol">currentUser</span>();
+</dt>
+<dd>Returns the root key for the HKEY_CURRENT_USER hive<p></p>
+
+</dd>
+<dt class="d_decl">static @property Key <a name="localMachine"></a><span class="ddoc_psymbol">localMachine</span>();
+</dt>
+<dd>Returns the root key for the HKEY_LOCAL_MACHINE hive<p></p>
+
+</dd>
+<dt class="d_decl">static @property Key <a name="users"></a><span class="ddoc_psymbol">users</span>();
+</dt>
+<dd>Returns the root key for the HKEY_USERS hive<p></p>
+
+</dd>
+<dt class="d_decl">static @property Key <a name="performanceData"></a><span class="ddoc_psymbol">performanceData</span>();
+</dt>
+<dd>Returns the root key for the HKEY_PERFORMANCE_DATA hive<p></p>
+
+</dd>
+<dt class="d_decl">static @property Key <a name="currentConfig"></a><span class="ddoc_psymbol">currentConfig</span>();
+</dt>
+<dd>Returns the root key for the HKEY_CURRENT_CONFIG hive<p></p>
+
+</dd>
+<dt class="d_decl">static @property Key <a name="dynData"></a><span class="ddoc_psymbol">dynData</span>();
+</dt>
+<dd>Returns the root key for the HKEY_DYN_DATA hive<p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl">class <a name="KeyNameSequence"></a><span class="ddoc_psymbol">KeyNameSequence</span>;
+</dt>
+<dd>An enumerable sequence representing the names of the sub-keys of a registry Key.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">Key key = ...
+<span class="d_keyword">foreach</span> (string subkeyName; key.keyNames)
+{
+    <span class="d_comment">// using subkeyName
+</span>}
+</pre>
+<p></p>
+
+<dl><dt class="d_decl">const @property size_t <a name="count"></a><span class="ddoc_psymbol">count</span>();
+</dt>
+<dd>The number of keys.<p></p>
+
+</dd>
+<dt class="d_decl">string <a name="getKeyName"></a><span class="ddoc_psymbol">getKeyName</span>(size_t <i>index</i>);
+</dt>
+<dd>The name of the key at the given <i>index</i>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>size_t <i>index</i></td>
+<td valign=top>The 0-based <i>index</i> of the key to retrieve.</td></tr>
+</table><p></p>
+<b>Returns:</b><br>The name of the key corresponding to the given <i>index</i>.
+<p></p>
+<b>Throws:</b><br>RegistryException if no corresponding key is retrieved.<p></p>
+
+</dd>
+<dt class="d_decl">string <a name="opIndex"></a><span class="ddoc_psymbol">opIndex</span>(size_t <i>index</i>);
+</dt>
+<dd>The name of the key at the given <i>index</i>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>size_t <i>index</i></td>
+<td valign=top>The 0-based <i>index</i> of the key to retrieve.</td></tr>
+</table><p></p>
+<b>Returns:</b><br>The name of the key corresponding to the given <i>index</i>.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> if no corresponding key is retrieved.<p></p>
+
+</dd>
+<dt class="d_decl">int <a name="opApply"></a><span class="ddoc_psymbol">opApply</span>(scope int delegate(ref string name) <i>dg</i>);
+</dt>
+<dd><p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl">class <a name="KeySequence"></a><span class="ddoc_psymbol">KeySequence</span>;
+</dt>
+<dd>An enumerable sequence representing the sub-keys of a registry Key.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">Key key = ...
+<span class="d_keyword">foreach</span> (Key subkey; key.keys)
+{
+    <span class="d_comment">// using subkey
+</span>}
+</pre>
+<p></p>
+
+<dl><dt class="d_decl">const @property size_t <a name="count"></a><span class="ddoc_psymbol">count</span>();
+</dt>
+<dd>The number of keys.<p></p>
+
+</dd>
+<dt class="d_decl">Key <a name="getKey"></a><span class="ddoc_psymbol">getKey</span>(size_t <i>index</i>);
+</dt>
+<dd>The key at the given <i>index</i>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>size_t <i>index</i></td>
+<td valign=top>The 0-based <i>index</i> of the key to retrieve.</td></tr>
+</table><p></p>
+<b>Returns:</b><br>The key corresponding to the given <i>index</i>.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> if no corresponding key is retrieved.<p></p>
+
+</dd>
+<dt class="d_decl">Key <a name="opIndex"></a><span class="ddoc_psymbol">opIndex</span>(size_t <i>index</i>);
+</dt>
+<dd>The key at the given <i>index</i>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>size_t <i>index</i></td>
+<td valign=top>The 0-based <i>index</i> of the key to retrieve.</td></tr>
+</table><p></p>
+<b>Returns:</b><br>The key corresponding to the given <i>index</i>.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> if no corresponding key is retrieved.<p></p>
+
+</dd>
+<dt class="d_decl">int <a name="opApply"></a><span class="ddoc_psymbol">opApply</span>(scope int delegate(ref Key key) <i>dg</i>);
+</dt>
+<dd><p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl">class <a name="ValueNameSequence"></a><span class="ddoc_psymbol">ValueNameSequence</span>;
+</dt>
+<dd>An enumerable sequence representing the names of the values of a registry Key.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">Key key = ...
+<span class="d_keyword">foreach</span> (string valueName; key.valueNames)
+{
+    <span class="d_comment">// using valueName
+</span>}
+</pre>
+<p></p>
+
+<dl><dt class="d_decl">const @property size_t <a name="count"></a><span class="ddoc_psymbol">count</span>();
+</dt>
+<dd>The number of values.<p></p>
+
+</dd>
+<dt class="d_decl">string <a name="getValueName"></a><span class="ddoc_psymbol">getValueName</span>(size_t <i>index</i>);
+</dt>
+<dd>The name of the value at the given <i>index</i>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>size_t <i>index</i></td>
+<td valign=top>The 0-based <i>index</i> of the value to retrieve.</td></tr>
+</table><p></p>
+<b>Returns:</b><br>The name of the value corresponding to the given <i>index</i>.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> if no corresponding value is retrieved.<p></p>
+
+</dd>
+<dt class="d_decl">string <a name="opIndex"></a><span class="ddoc_psymbol">opIndex</span>(size_t <i>index</i>);
+</dt>
+<dd>The name of the value at the given <i>index</i>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>size_t <i>index</i></td>
+<td valign=top>The 0-based <i>index</i> of the value to retrieve.</td></tr>
+</table><p></p>
+<b>Returns:</b><br>The name of the value corresponding to the given <i>index</i>.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> if no corresponding value is retrieved.<p></p>
+
+</dd>
+<dt class="d_decl">int <a name="opApply"></a><span class="ddoc_psymbol">opApply</span>(scope int delegate(ref string name) <i>dg</i>);
+</dt>
+<dd><p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl">class <a name="ValueSequence"></a><span class="ddoc_psymbol">ValueSequence</span>;
+</dt>
+<dd>An enumerable sequence representing the values of a registry Key.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">Key key = ...
+<span class="d_keyword">foreach</span> (Value value; key.values)
+{
+    <span class="d_comment">// using value
+</span>}
+</pre>
+<p></p>
+
+<dl><dt class="d_decl">const @property size_t <a name="count"></a><span class="ddoc_psymbol">count</span>();
+</dt>
+<dd>The number of values<p></p>
+
+</dd>
+<dt class="d_decl">Value <a name="getValue"></a><span class="ddoc_psymbol">getValue</span>(size_t <i>index</i>);
+</dt>
+<dd>The value at the given <span class="d_inlinecode"><i>index</i></span>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>size_t <i>index</i></td>
+<td valign=top>The 0-based <i>index</i> of the value to retrieve</td></tr>
+</table><p></p>
+<b>Returns:</b><br>The value corresponding to the given <i>index</i>.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> if no corresponding value is retrieved<p></p>
+
+</dd>
+<dt class="d_decl">Value <a name="opIndex"></a><span class="ddoc_psymbol">opIndex</span>(size_t <i>index</i>);
+</dt>
+<dd>The value at the given <span class="d_inlinecode"><i>index</i></span>.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>size_t <i>index</i></td>
+<td valign=top>The 0-based <i>index</i> of the value to retrieve.</td></tr>
+</table><p></p>
+<b>Returns:</b><br>The value corresponding to the given <i>index</i>.
+<p></p>
+<b>Throws:</b><br><span class="d_inlinecode">RegistryException</span> if no corresponding value is retrieved.<p></p>
+
+</dd>
+<dt class="d_decl">int <a name="opApply"></a><span class="ddoc_psymbol">opApply</span>(scope int delegate(ref Value value) <i>dg</i>);
+</dt>
+<dd><p></p>
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+    
+<br><br>
+<br><br>
+<!-- Google ad -->
+<script type="text/javascript"><!--
+/**/google_ad_client = "pub-5628673096434613";
+/**/google_ad_width = 728;
+/**/google_ad_height = 90;
+/**/google_ad_format = "728x90_as";
+/**/google_ad_channel ="6203743411";
+/**/google_page_url = document.location;
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+</div><!--/content-->
+
+
+<div id="copyright">
+Copyright 2003-2004 by Matthew Wilson and Synesis Software
+               Written by Matthew Wilson
+
+ |
+Page generated by <a href="http://www.digitalmars.com/d/2.0/ddoc.html">Ddoc</a>.
+</div>
+
+</body>
+</html>
+
