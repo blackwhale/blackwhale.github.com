@@ -166,45 +166,45 @@ function showHideAnswer(zis)
 <div id="content" class='hyphenate'>
   
 <div id="tools">
-	<!--span id="lastupdate">Last update Mon Mar  5 21:44:59 2012
+	<!--span id="lastupdate">Last update Wed Mar  7 12:22:41 2012
 </span-->
 	<span id="wiki"><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/">Comment on this page</a></span>
 </div>
 
   <h1>Regular expressions</h1>
-      <p>	<small>by Dmitry Olshansky, the author of std.regex </small>
-	</p>
+      <p>    <small>by Dmitry Olshansky, the author of std.regex </small>
+    </p>
     <h3>Introduction</h3>
-    <p>String processing is a kind of daily routine that most applications do in a one way or another. 
-    It should come as no wonder that many programming languages have standard libraries stoked 
+    <p>String processing is a kind of daily routine that most applications do in a one way or another.
+    It should come as no wonder that many programming languages have standard libraries stoked
     with specialized functions for common needs. The D programming language standard library among others
     offers a nice assortment in <a href="phobos/std_string.html">std.string</a> and generic ones from <a href="phobos/std_algorithm.html">std.algorithm</a>.
     Still no amount of fixed functionality could cover all needs, as naturally flexible text data
     needs flexible solutions.
     </p>
     <p>Here is where <a href="http://google.com/search?btnI=I%27m+Feeling+Lucky&amp;ie=UTF-8&amp;oe=UTF-8&amp;q=regular expressions">regular expressions</a>
- come in handy, often succintly called as regexes.
+ come in handy, often succinctly called as regexes.
      Simple yet powerful language for defining patterns of strings, put together with a substitution mechanism,
-     forms a swiss army knife of text processing.
+     forms a Swiss Army knife of text processing.
      It's considered so useful that a number of languages provides built-in support
-     for regular expressions, though one though one should <b>not</b> jump to conclusion that 
+     for regular expressions, though one though one should <b>not</b> jump to conclusion that
      built-in implies <b>faster</b> processing or more features. It's all about getting more
-     <b>convenient and friendly syntax</b> for typical operations and usage patterns. 
-    </p> 
-    <p>The D programming language provides a standard library module <a href="phobos/std_regex.html">std.regex</a>. 
+     <b>convenient and friendly syntax</b> for typical operations and usage patterns.
+    </p>
+    <p>The D programming language provides a standard library module <a href="phobos/std_regex.html">std.regex</a>.
      Being a highly expressive systems language, it opens a possibility to get
      a good look and feel via core features, while keeping it's implementation within the language.
      We'll see how close to built-ins one can get this way.
     </p>
     <p>By the end of article you'd have a good understanding of regular expression capabilities in this library,
-     and how to utilize it's API in a most strightforward way. Examples in this article assume the reader
-     has a basic understanding of regex elements, yet it's not requied to get an understanding of the API.
+     and how to utilize it's API in a most straightforward way. Examples in this article assume the reader
+     has fairly good understanding of regex elements, yet it's not required to get an understanding of the API.
     </p>
 
     <h3>A warm up</h3>
     <p>How do you check if something is a phone number by looking at it? </p>
     <p>Yes, it's something with numbers, and there may be a country code in front of that...
-    Ok, going for an international format should make it more strict. As this is the first time, let's 
+    Ok, going for an international format should make it more strict. As this is the first time, let's
     put together a full program:
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">import</span> std.stdio, std.regex;
 <span class="d_keyword">void</span> main(string argv[]){
@@ -212,50 +212,50 @@ function showHideAnswer(zis)
 </span>    <span class="d_keyword">if</span>(match(phone, <span class="d_string">r"^\+[1-9][0-9]* [0-9 ]*$"</span>))
         writeln(<span class="d_string">"It looks like a phone number."</span>);
     <span class="d_keyword">else</span>
-        writeln(<span class="d_string">"Nope, it's not a phone numer."</span>);
+        writeln(<span class="d_string">"Nope, it's not a phone number."</span>);
 }
 </span></pre>
-    And that's it! Just keep in mind the boundaries of regular expressions power - to truly establish a 
-    validness of a phone number, one has to try dialing it or contact the authority. 
+    And that's it! Just keep in mind the boundaries of regular expressions power - to truly establish a
+    validness of a phone number, one has to try dialing it or contact the authority.
     </p>
     <p>Now, come to think of it, this tiny sample showed a lot of useful things already:
         <ol></ol>
         <li>a row string literal of form r"...", that allows writing a regex pattern in it's natural notation </li>
-        <li><span class="notranslate"><span class="d_inlinecode">match</span></span> function, is an universal tool that we'll see in other work scenarios as well. 
+        <li><span class="notranslate"><span class="d_inlinecode">match</span></span> function, is an universal tool that we'll see in other work scenarios as well.
         To check if there was a match on a string, just test the return value explicitly as boolean.  </li>
         <li>when trying to match special characters like  +, *, (, ), [, ] and $ don't forget to use escaping with \ </li>
-        <li>Unless there is a lot of text processing going on, it's OK to pass a plain string as a pattern. 
+        <li>Unless there is a lot of text processing going on, it's OK to pass a plain string as a pattern.
         The internal representation used to do the actual work is cached, to speed up subsequent calls. </li>
     </p>
-    <p>Continuing with the phone number example, it could be useful to get the exact value of  
+    <p>Continuing with the phone number example, it could be useful to get the exact value of 
     country code, as well as the whole number. For the sake of experiment let's also explicitly store
     compiled regex pattern via <span class="notranslate"><span class="d_inlinecode">regex</span></span> to see how it works.
     </p>
-<pre class="d_code"><span class="notranslate">string phone = <span class="d_string">"+31 650 903 7158"</span>; <span class="d_comment">//fictional, any coincedece is just that
+<pre class="d_code"><span class="notranslate">string phone = <span class="d_string">"+31 650 903 7158"</span>; <span class="d_comment">//fictional, any coincidence is just that
 </span><span class="d_keyword">auto</span> phoneReg = regex(<span class="d_string">r"^\+([1-9][0-9]*) [0-9 ]*$"</span>);
 <span class="d_keyword">auto</span> m = match(phone, phoneReg);
 <span class="d_keyword">assert</span>(m);
 <span class="d_keyword">assert</span>(m.captures[0] == <span class="d_string">"+31 650 903 7158"</span>);
 <span class="d_keyword">assert</span>(m.captures[1] == <span class="d_string">"31"</span>);
-<span class="d_comment">//you shouldn't realy care about the type of regex object,
+<span class="d_comment">//you shouldn't really care about the type of regex object,
 </span><span class="d_comment">//but here it is
 </span><span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(<span class="d_keyword">typeof</span>(phoneReg) : Regex!<span class="d_keyword">char</span>));
 </span></pre>
-    
+   
     <h3>To search and replace</h3>
-    <p>There is a frequent need to find all matches in piece of text. 
-    Picking an easy task, let's see how to filter out all white space-only lines. 
-    There is no special routine for looping over input like e.g. search or simillar as found in some libraries. 
-    Instead <span class="notranslate"><span class="d_inlinecode">std.regex</span></span> provides a natural syntax for looping over all matches via plain foreach. 
+    <p>There is a frequent need to find all matches in piece of text.
+    Picking an easy task, let's see how to filter out all white space-only lines.
+    There is no special routine for looping over input like e.g. search or simillar as found in some libraries.
+    Instead <span class="notranslate"><span class="d_inlinecode">std.regex</span></span> provides a natural syntax for looping over all matches via plain foreach.
     </p>
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">auto</span> buffer = std.file.readText(<span class="d_string">"regex.d"</span>);
 <span class="d_keyword">foreach</span>(m; match(buffer, regex(<span class="d_string">r"^.*[^\p{WhiteSpace}]+.*$"</span>,<span class="d_string">"gm"</span>))){
-	writeln(m.hit); <span class="d_comment">//hit is a shorthand for m.captures[0]
+    writeln(m.hit); <span class="d_comment">//hit is a shorthand for m.captures[0]
 </span>}
 </span></pre>
-    <p>It just works as the result of match is an input range. An element type is Captures for the string type used, it is a random access range. 
-    I won't go into full detail of the range conception, suffice to say, that it's a primary way of representing sequences of data in D. 
-    Random access here implies one can peek at elements with direct indexing. To have a feeling of how this affects the API:
+    <p>It just works as the result of match is an input range. An element type is Captures for the string type being used, it is a random access range.
+    I won't go into full detail of the range conception, suffice to say, that it's a primary way of representing sequences of data in D.
+    Random access here implies one can peek at any element with direct indexing. To have a feeling of how this affects the API:
     </p>
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">auto</span> m = match(<span class="d_string">"Ranges are hot!"</span>, <span class="d_string">r"(\w)\w*(\w)"</span>); <span class="d_comment">//at least 3 "word" symbols
 </span><span class="d_keyword">assert</span>(m.front[0] == <span class="d_string">"Ranges"</span>);
@@ -267,46 +267,46 @@ function showHideAnswer(zis)
     writeln(c); <span class="d_comment">//will show lines: Ranges, R, s
 </span>
 </span></pre>
-    <p>By playing by rules <a href="phobos/std_, regex.html">std., regex</a> gets some nice benefits in interaction with other modules e.g. 
-    this is how one could count non-empty lines in text buffer 
+    <p>By playing by the rules <a href="phobos/std_regex.html">std.regex</a> gets some nice benefits in interaction with other modules e.g.
+    this is how one could count non-empty lines in text buffer
     (just don't forget to import <a href="phobos/std_algorithm.html">std.algorithm</a> when trying that at home):
     </p>
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">auto</span> buffer = std.file.readText(<span class="d_string">"regex.d"</span>);
 <span class="d_keyword">int</span> count = count(match(text, regex(<span class="d_string">r"^.*\P{WhiteSpace}+.*$"</span>,<span class="d_string">"gm"</span>)));
 </span></pre>
-    <p>This by the way tells me that <a href="phobos/std_regex.html">std.regex</a> has 7128 non-blank lines as of this writing. But let's get back to the regular expression itself. 
-    A seasoned regex user catches instantly that unicode properties are supported with perl-style \p{xxx}, to spice that all of Scripts and Blocks are supported.
-    Let us dully note that \P{xxx} means not having an xxx property, i.e here not a white space character. 
-    Refer to the unicode standard <a href="http://unicode.org/reports/tr18/">UTS 18</a> for full list and specific details.
+    <p>This by the way tells me that <a href="phobos/std_regex.html">std.regex</a> has 7128 non-blank lines as of this writing. But let's get back to the regular expression itself.
+    A seasoned regex user catches instantly that Unicode properties are supported with perl-style \p{xxx}, to spice that all of Scripts and Blocks are supported.
+    Let us dully note that \P{xxx} means not having an xxx property, i.e here not a white space character.
+    Refer to the Unicode standard <a href="http://Unicode.org/reports/tr18/">UTS 18</a> for full list and specific details.
     </p>
 
-    <p>Another thing of importance is the option string - "gm",  where g stands for global and m for multi-line mode. 
+    <p>Another thing of importance is the option string - "gm",  where g stands for global and m for multi-line mode.
     While global is obvious in this context, what multi-line mode does deserves some explanation.
     </p>
 
-    <p>Historically utilities that supported regex patterns (unix grep, sed, etc.) processed text line by line. 
+    <p>Historically utilities that supported regex patterns (unix grep, sed, etc.) processed text line by line.
     At that time ancors like ^, $ meant the start of the whole input buffer that has been same as that of line.
-    As regular expressions became more ubiquitous the need to recognize mutliple lines in a chunk of text, 
-    with anchors ^ &amp; $ matching before and after line break literally. For the curious, line break is defined as 
-    (\n | \v | \r | \f | \u0085 | \u2028 | \u2029 | \r\n). Needless to say, one need not to turn on multiline mode if not using any of ^, $.
+    As regular expressions became more ubiquitous the need to recognize multiple lines in a chunk of text,
+    with anchors ^ &amp; $ matching before and after line break literally. For the curious, line break is defined as
+    (\n | \v | \r | \f | \u0085 | \u2028 | \u2029 | \r\n). Needless to say, one need not to turn on multi-line mode if not using any of ^, $.
     </p>
 
-    <p>Now that search was covered, the topic suggest that it's about time to do some replacements. 
+    <p>Now that search was covered, the topic suggest that it's about time to do some replacements.
     For instance to replace all dates in a text from "MM/dd/YYYY" format to a sortable version of "YYYY-MM-dd":
     </p>
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">auto</span> text = readText(...);
-<span class="d_keyword">auto</span> replaced = replace(text, 
-	regex(<span class="d_string">r"([0-9]{1,2})/([0-9]{1,2})/([0-9]{4})"</span>,<span class="d_string">"g"</span>), <span class="d_string">r"--"</span>);
+<span class="d_keyword">auto</span> replaced = replace(text,
+    regex(<span class="d_string">r"([0-9]{1,2})/([0-9]{1,2})/([0-9]{4})"</span>,<span class="d_string">"g"</span>), <span class="d_string">"--"</span>);
 </span></pre>
-    <p>The "all dates" part comes from the fact that regex has global option set, omit it to replace only the first occurance.
-    As seen the replacement is controlled by format string not unlike one in C's famous printf. 
-    The &#36;1, &#36;2, &#36;3 substituted with content of subexpresions.
-    Aside from referencing submatches, one can include the whole part of input preciding the match via &#36;` and &#36;'
+    <p>The "all dates" part comes from the fact that regex has global option set, omit it to replace only the first occurrence.
+    As seen the replacement is controlled by format string not unlike one in C's famous printf.
+    The &#36;1, &#36;2, &#36;3 substituted with content of sub-expresions.
+    Aside from referencing sub-matches, one can include the whole part of input preceding the match via &#36;` and &#36;'
      for the content following right after the match.
     </p>
-    <p>Ok, now let's aim for something bigger, this time to show that <a href="phobos/std_regex.html">std.regex</a> can do things that 
-    are unattainable by classic textual substitution alone. Imagine you want to transalte a web shop catalog so 
-    that it display prices in your currency. Yes, one can use calculator or estimate it, once having current ratio. 
+    <p>Ok, now let's aim for something bigger, this time to show that <a href="phobos/std_regex.html">std.regex</a> can do things that
+    are unattainable by classic textual substitution alone. Imagine you want to translate a web shop catalog so
+    that it display prices in your currency. Yes, one can use calculator or estimate it, once having current ratio.
     Being programmers we can do better, so let's wrap up a simple program that converts text to use correct prices everywhere.
     For the sake of example let it be UK pounds and US dollars.
     </p>
@@ -316,91 +316,100 @@ function showHideAnswer(zis)
 <span class="d_keyword">void</span> main(string[] argv){
     <span class="d_keyword">immutable</span> ratio = 1.5824; <span class="d_comment">//UK pounds to US dollar as of this writing
 </span>    <span class="d_keyword">auto</span> to_dollars(Captures!string price){
-        <span class="d_keyword">real</span> value = to!<span class="d_keyword">real</span>(price[<span class="d_string">"integer"</span>]); 
-	    <span class="d_keyword">if</span>(!price[<span class="d_string">"fraction"</span>].empty)
-	        value += 0.01*to!<span class="d_keyword">real</span>(price[<span class="d_string">"fraction"</span>]); 
+        <span class="d_keyword">real</span> value = to!<span class="d_keyword">real</span>(price[<span class="d_string">"integer"</span>]);
+        <span class="d_keyword">if</span>(!price[<span class="d_string">"fraction"</span>].empty)
+            value += 0.01*to!<span class="d_keyword">real</span>(price[<span class="d_string">"fraction"</span>]);
         <span class="d_keyword">return</span> format(<span class="d_string">"$%.2f"</span>,value * ratio);
     }
     string text = std.file.readText(argv[1]);
-    <span class="d_keyword">auto</span> converted = replace!to_dollars(text, 
+    <span class="d_keyword">auto</span> converted = replace!to_dollars(text,
             regex(<span class="d_string">r"£\s*(?P&lt;integer&gt;[0-9]+)(\.(?P&lt;fraction&gt;[0-9]{2}))?"</span>,<span class="d_string">"g"</span>));
     write(converted);
 }
 </span></pre>
-    <p>Getting current conversion rates and supporting more currencies is left as an excersise for the reader.  
-    What at work here is so-called replace with delegate, analogous to a callout ability found in other languages and regex libraires.
-    The magic is simple: whenever replace finds a match it calls a user suppllied callback on the captured piece,
+    <p>Getting current conversion rates and supporting more currencies is left as an exercise for the reader. 
+    What at work here is so-called replace with delegate, analogous to a callout ability found in other languages and regex libraries.
+    The magic is simple: whenever replace finds a match it calls a user supplied callback on the captured piece,
     then it uses the return value as replacement. And so on for other matches, given the "g" flag of regex.
     </p>
-    
-    <p>I couldn't resist to spice this example up with yet another feature - named groups. 
-    Names work just like opaque aliases for numbers of captured subexpressions. 
+   
+    <p>I couldn't resist to spice this example up with yet another feature - named groups.
+    Names work just like opaque aliases for numbers of captured subexpressions.
     Meaning that with the same exact regular expression one could as well change these lines to:
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">real</span> value = to!<span class="d_keyword">real</span>(price[1]);
 <span class="d_keyword">if</span>(!price[3].empty)
-	        value += 0.01*to!<span class="d_keyword">real</span>(price[3]); 
+            value += 0.01*to!<span class="d_keyword">real</span>(price[3]);
 </span></pre>
-    Though that lacks readablility and future proofness. Also note that optional captures are still represented, 
+    Though that lacks readability and is not future proof. Also note that optional captures are still represented,
     it's just they can be an empty string if not matched.
     </p>
 
     <h3>More features, more options</h3>
-    
-    <p>As core functionallity was already presented, let's move on to extras. 
+   
+    <p>As core functionallity was already presented, let's move on to extras.
     Sometimes it's useful to do almost the opposite of searching - split up input using regex as separator.
     Like the following sample, that outputs text by sentences:
     </p>
-<pre class="d_code"><span class="notranslate"><span class="d_keyword">foreach</span>(sentence; splitter(text, regex(<span class="d_string">r"(?&lt;=\.|[?!]+)\s*"</span>)))
+<pre class="d_code"><span class="notranslate"><span class="d_keyword">foreach</span>(sentence; splitter(argv[1], regex(<span class="d_string">r"(?&lt;=\.|[?!]+(?![?!]))\s*"</span>)))
     writeln(sentence);
 </span></pre>
     <p>Again the type of splitter is range, thus allowing foreach iteration.
-    Notice the usage of lookbehind, it's nice trick here as
+    Notice the usage of lookaround in regex, it's a neat trick here as
     stripping off final punctuation is not our intention.
+    Even more observe that there are no restrictions on contents of lookaround,
+    one can go for lookahead inside lookbehind and so on. The second lookahead here just checks that [?!]+
+    ate all of repeated punctuation. Amdittedly, barrage of ? and ! makes regex rather obscure, more then it's actually is.
+    However in general it's recommended to use them sparingly, keeping them as weapon of last resort.
     </p>
-    
-    <p>Now for something completely different yet the same. For one there is an ability 
+   
+    <p>Now for something completely different yet exactly the same. For one, there is an ability
     to precompile constant regex at compile-time:
     </p>
-<pre class="d_code"><span class="notranslate">    <span class="d_keyword">static</span> r = regex(<span class="d_string">"Boo-hoo"</span>);
-    <span class="d_keyword">assert</span>(match(<span class="d_string">"What was that? Boo-hoo!"</span>, r));
+<pre class="d_code"><span class="notranslate"><span class="d_keyword">static</span> r = regex(<span class="d_string">"Boo-hoo"</span>);
+<span class="d_keyword">assert</span>(match(<span class="d_string">"What was that? Boo-hoo?"</span>, r));
 </span></pre>
     <p>Needless to say it's the same Regex object that works through all of the API we've seen so far.
-    It's just takes less then microsecond of run-time to initialize. Run-time version took around 10-20us on my machine.
-    Now stepping futher in this direction there is an ability to construct specialized native code for a given regex, to speed up matching.
-    All of this at compile time, and again the module usage stays consistent! 
+    It's just takes less then microsecond of run-time to initialize.
+    Run-time version took around 10-20us on my machine, admittedly no statistics.
+    Now stepping futher in this direction there is an ability to construct specialized
+    native machine code that matches a given regex to speed up matching.
+    All of this at compile time, and again the module usage stays consistent!
     </p>
     <p>Recalling the phone number example:
     </p>
-<pre class="d_code"><span class="notranslate"><span class="d_comment">//a 4 character diff
-</span>string phone = <span class="d_string">"+31 650 903 7158"</span>; 
-<span class="d_keyword">auto</span> phoneReg = ctRegex!<span class="d_string">r"^\+([1-9][0-9]*) [0-9 ]*$"</span>; 
+<pre class="d_code"><span class="notranslate"><span class="d_comment">//It's only a 5 characters difference
+</span>string phone = <span class="d_string">"+31 650 903 7158"</span>;
+<span class="d_keyword">auto</span> phoneReg = ctRegex!<span class="d_string">r"^\+([1-9][0-9]*) [0-9 ]*$"</span>;
 <span class="d_keyword">auto</span> m = match(phone, phoneReg);
 <span class="d_keyword">assert</span>(m);
 <span class="d_keyword">assert</span>(m.captures[0] == <span class="d_string">"+31 650 903 7158"</span>);
 <span class="d_keyword">assert</span>(m.captures[1] == <span class="d_string">"31"</span>);
 </span></pre>
-    <p>In this particular case it matched roughly 50% faster for me though I haven't done comprehencive analyizis.
-    Not to spoil the excitment, but as of this writing the feature is experimental and temporarily lacks some extensions.
-    Continuing the gloomy trend, be warned that compiler might choke on it, as it's also less tested it start with run-time version 
-    unless experimenting or when need to squize out some more performance. Yet there is no doubt ctRegex facility will only improve over time.
+    <p>In this particular case it matched roughly 50% faster for me though I haven't done comprehensive analysis of this case.
+    Not to spoil the excitement, but as of this writing the feature is experimental and temporarily lacks some extensions.
+    Continuing the gloomy trend, be warned that compiler might choke on it, and it's also less tested. 
+    That being sad, there is no doubt ctRegex facility will only improve over time.
+    So start with run-time version, then go compile-time if willing to experiment or
+    when need to squeeze out some more performance.
     </p>
-    
+   
     <h3>Conclusion</h3>
-    <p>The article represents a walkthrough of <span class="notranslate"><span class="d_inlinecode">std.regex</span></span> focused on showcasing the API. 
-    By following a row of easy yet meaningful tasks, that underline the elegance and 
-    flexibility of this library solution.  The good thing that not only API is natural, 
-    but it also follows established standards and integrates well with the rest of Phobos.
-    Putting together it's major features for a short-list, <a href="phobos/std_regex.html">std.regex</a> is: 
+    <p>The article represents a walkthrough of <span class="notranslate"><span class="d_inlinecode">std.regex</span></span> focused on showcasing the API.
+    By following a series of easy yet meaningful tasks, it's features are exposed in combinations,
+    that underline the elegance and flexibility of this library solution.
+    The good thing that not only the API is natural, but it also follows established 
+    standards and integrates well with the rest of Phobos.
+    Putting together it's major features for a short-list, <a href="phobos/std_regex.html">std.regex</a> is:
     </p>
      <ol></ol>
-     <li>Fully unicode-aware, qualifies to standard full level 1 unicode support</li>
+     <li>Fully Unicode-aware, qualifies to standard full level 1 Unicode support</li>
      <li>Lots of modern extensions, including unlimited generalized lookaround. It makes porting regexes from other libraries a breeze</li>
      <li>Lean API that consists of a few flexible tools: <span class="notranslate"><span class="d_inlinecode">match</span></span>, <span class="notranslate"><span class="d_inlinecode">replace</span></span>, <span class="notranslate"><span class="d_inlinecode">spliter</span></span> </li>
-     <li>Uniform and powerful, with unique ablilities like precompiling regex or using ctRegex
+     <li>Uniform and powerful, with unique abilities like precompiling regex or using ctRegex
      specially tailored engine at compile-time. All of this fits within the common interface without a notch.</li>
 
-    <p>The format of this article is intentionaly more of an overview, as such it doesn't stop to talk in-depth about
-     certain features like case-insensitve matching (via simple casefolding rules of unicode).
+    <p>The format of this article is intentionally more of an overview, as such it doesn't stop to talk in-depth about
+     certain capabilities like case-insensitive matching (via simple casefolding rules of Unicode).
      And even more features are coming, as there are interesting opportunities not exploited.
     </p>
 
@@ -436,7 +445,7 @@ function showHideAnswer(zis)
 
 Copyright &copy; 1999-2012 by Digital Mars &reg;, All Rights Reserved
  |
-Page generated by <a href="ddoc.html">Ddoc</a> on Mon Mar  5 21:44:59 2012
+Page generated by <a href="ddoc.html">Ddoc</a> on Wed Mar  7 12:22:41 2012
 
 </div>
 
