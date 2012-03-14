@@ -166,7 +166,7 @@ function showHideAnswer(zis)
 <div id="content" class='hyphenate'>
   
 <div id="tools">
-	<!--span id="lastupdate">Last update Wed Mar  7 12:22:41 2012
+	<!--span id="lastupdate">Last update Wed Mar 14 12:57:32 2012
 </span-->
 	<span id="wiki"><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/">Comment on this page</a></span>
 </div>
@@ -187,18 +187,18 @@ function showHideAnswer(zis)
      Simple yet powerful language for defining patterns of strings, put together with a substitution mechanism,
      forms a Swiss Army knife of text processing.
      It's considered so useful that a number of languages provides built-in support
-     for regular expressions, though one though one should <b>not</b> jump to conclusion that
+     for regular expressions, though one should <b>not</b> jump to conclusion that
      built-in implies <b>faster</b> processing or more features. It's all about getting more
      <b>convenient and friendly syntax</b> for typical operations and usage patterns.
     </p>
     <p>The D programming language provides a standard library module <a href="phobos/std_regex.html">std.regex</a>.
      Being a highly expressive systems language, it opens a possibility to get
-     a good look and feel via core features, while keeping it's implementation within the language.
+     a good look and feel via core features, while keeping its implementation within the language.
      We'll see how close to built-ins one can get this way.
     </p>
-    <p>By the end of article you'd have a good understanding of regular expression capabilities in this library,
-     and how to utilize it's API in a most straightforward way. Examples in this article assume the reader
-     has fairly good understanding of regex elements, yet it's not required to get an understanding of the API.
+    <p>By the end of article you'll have a good understanding of regular expression capabilities in this library,
+     and how to utilize its API in a most straightforward way. Examples in this article assume the reader
+     has fairly good understanding of regex elements, yet it's not required to understand the API.
     </p>
 
     <h3>A warm up</h3>
@@ -220,10 +220,10 @@ function showHideAnswer(zis)
     </p>
     <p>Now, come to think of it, this tiny sample showed a lot of useful things already:
         <ol></ol>
-        <li>a row string literal of form r"...", that allows writing a regex pattern in it's natural notation </li>
+        <li>a row string literal of form r"...", that allows writing a regex pattern in its natural notation </li>
         <li><span class="notranslate"><span class="d_inlinecode">match</span></span> function, is an universal tool that we'll see in other work scenarios as well.
         To check if there was a match on a string, just test the return value explicitly as boolean.  </li>
-        <li>when trying to match special characters like  +, *, (, ), [, ] and $ don't forget to use escaping with \ </li>
+        <li>when trying to match special regex characters like  +, *, (, ), [, ] and $ don't forget to use escaping with \ </li>
         <li>Unless there is a lot of text processing going on, it's OK to pass a plain string as a pattern.
         The internal representation used to do the actual work is cached, to speed up subsequent calls. </li>
     </p>
@@ -245,7 +245,7 @@ function showHideAnswer(zis)
     <h3>To search and replace</h3>
     <p>There is a frequent need to find all matches in piece of text.
     Picking an easy task, let's see how to filter out all white space-only lines.
-    There is no special routine for looping over input like e.g. search or simillar as found in some libraries.
+    There is no special routine for looping over input like search() or similar as found in some libraries.
     Instead <span class="notranslate"><span class="d_inlinecode">std.regex</span></span> provides a natural syntax for looping over all matches via plain foreach.
     </p>
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">auto</span> buffer = std.file.readText(<span class="d_string">"regex.d"</span>);
@@ -253,8 +253,9 @@ function showHideAnswer(zis)
     writeln(m.hit); <span class="d_comment">//hit is a shorthand for m.captures[0]
 </span>}
 </span></pre>
-    <p>It just works as the result of match is an input range. An element type is Captures for the string type being used, it is a random access range.
-    I won't go into full detail of the range conception, suffice to say, that it's a primary way of representing sequences of data in D.
+    <p>It just works as the result of match is an input range. 
+    An element type is Captures for the string type being used, it is a random access range of submatches.
+    I won't go into full detail of the range concept, suffice to say, that it's a primary way of representing sequences of data in D.
     Random access here implies one can peek at any element with direct indexing. To have a feeling of how this affects the API:
     </p>
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">auto</span> m = match(<span class="d_string">"Ranges are hot!"</span>, <span class="d_string">r"(\w)\w*(\w)"</span>); <span class="d_comment">//at least 3 "word" symbols
@@ -285,7 +286,7 @@ function showHideAnswer(zis)
     </p>
 
     <p>Historically utilities that supported regex patterns (unix grep, sed, etc.) processed text line by line.
-    At that time ancors like ^, $ meant the start of the whole input buffer that has been same as that of line.
+    At that time anchors like ^, $ meant the start of the whole input buffer that has been same as that of line.
     As regular expressions became more ubiquitous the need to recognize multiple lines in a chunk of text,
     with anchors ^ &amp; $ matching before and after line break literally. For the curious, line break is defined as
     (\n | \v | \r | \f | \u0085 | \u2028 | \u2029 | \r\n). Needless to say, one need not to turn on multi-line mode if not using any of ^, $.
@@ -350,12 +351,12 @@ function showHideAnswer(zis)
     Sometimes it's useful to do almost the opposite of searching - split up input using regex as separator.
     Like the following sample, that outputs text by sentences:
     </p>
-<pre class="d_code"><span class="notranslate"><span class="d_keyword">foreach</span>(sentence; splitter(argv[1], regex(<span class="d_string">r"(?&lt;=\.|[?!]+(?![?!]))\s*"</span>)))
+<pre class="d_code"><span class="notranslate"><span class="d_keyword">foreach</span>(sentence; splitter(argv[1], regex(<span class="d_string">r"(?&lt;=[.?!]+(?![?!]))\s*"</span>)))
     writeln(sentence);
 </span></pre>
     <p>Again the type of splitter is range, thus allowing foreach iteration.
     Notice the usage of lookaround in regex, it's a neat trick here as
-    stripping off final punctuation is not our intention.
+    stripping off final punctuation is not our intention. Simply put (?&lt;=[.?!]) part looks behind for first ., ? or !
     Even more observe that there are no restrictions on contents of lookaround,
     one can go for lookahead inside lookbehind and so on. The second lookahead here just checks that [?!]+
     ate all of repeated punctuation. Amdittedly, barrage of ? and ! makes regex rather obscure, more then it's actually is.
@@ -368,16 +369,18 @@ function showHideAnswer(zis)
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">static</span> r = regex(<span class="d_string">"Boo-hoo"</span>);
 <span class="d_keyword">assert</span>(match(<span class="d_string">"What was that? Boo-hoo?"</span>, r));
 </span></pre>
-    <p>Needless to say it's the same Regex object that works through all of the API we've seen so far.
-    It's just takes less then microsecond of run-time to initialize.
-    Run-time version took around 10-20us on my machine, admittedly no statistics.
-    Now stepping futher in this direction there is an ability to construct specialized
+    <p>Importantly it's the exact same Regex object that works through all of the API we've seen so far.
+    It's just takes less then 1 μs of run-time to initialize.
+    Run-time version took around 10-20 μs on my machine, 
+    keep in mind that it was a trivial pattern.
+    </p>
+    <p>Now stepping futher in this direction there is an ability to construct specialized
     native machine code that matches a given regex to speed up matching.
     All of this at compile time, and again the module usage stays consistent!
     </p>
     <p>Recalling the phone number example:
     </p>
-<pre class="d_code"><span class="notranslate"><span class="d_comment">//It's only a 5 characters difference
+<pre class="d_code"><span class="notranslate"><span class="d_comment">//It's only a 5 characters difference!
 </span>string phone = <span class="d_string">"+31 650 903 7158"</span>;
 <span class="d_keyword">auto</span> phoneReg = ctRegex!<span class="d_string">r"^\+([1-9][0-9]*) [0-9 ]*$"</span>;
 <span class="d_keyword">auto</span> m = match(phone, phoneReg);
@@ -395,16 +398,16 @@ function showHideAnswer(zis)
    
     <h3>Conclusion</h3>
     <p>The article represents a walkthrough of <span class="notranslate"><span class="d_inlinecode">std.regex</span></span> focused on showcasing the API.
-    By following a series of easy yet meaningful tasks, it's features are exposed in combinations,
+    By following a series of easy yet meaningful tasks, its features are exposed in combinations,
     that underline the elegance and flexibility of this library solution.
     The good thing that not only the API is natural, but it also follows established 
     standards and integrates well with the rest of Phobos.
-    Putting together it's major features for a short-list, <a href="phobos/std_regex.html">std.regex</a> is:
+    Putting together its major features for a short-list, <a href="phobos/std_regex.html">std.regex</a> is:
     </p>
      <ol></ol>
      <li>Fully Unicode-aware, qualifies to standard full level 1 Unicode support</li>
      <li>Lots of modern extensions, including unlimited generalized lookaround. It makes porting regexes from other libraries a breeze</li>
-     <li>Lean API that consists of a few flexible tools: <span class="notranslate"><span class="d_inlinecode">match</span></span>, <span class="notranslate"><span class="d_inlinecode">replace</span></span>, <span class="notranslate"><span class="d_inlinecode">spliter</span></span> </li>
+     <li>Lean API that consists of a few flexible tools: <span class="notranslate"><span class="d_inlinecode">match</span></span>, <span class="notranslate"><span class="d_inlinecode">replace</span></span>, <span class="notranslate"><span class="d_inlinecode">splitter</span></span> </li>
      <li>Uniform and powerful, with unique abilities like precompiling regex or using ctRegex
      specially tailored engine at compile-time. All of this fits within the common interface without a notch.</li>
 
@@ -445,7 +448,7 @@ function showHideAnswer(zis)
 
 Copyright &copy; 1999-2012 by Digital Mars &reg;, All Rights Reserved
  |
-Page generated by <a href="ddoc.html">Ddoc</a> on Wed Mar  7 12:22:41 2012
+Page generated by <a href="ddoc.html">Ddoc</a> on Wed Mar 14 12:57:32 2012
 
 </div>
 
