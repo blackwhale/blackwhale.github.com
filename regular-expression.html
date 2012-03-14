@@ -166,7 +166,7 @@ function showHideAnswer(zis)
 <div id="content" class='hyphenate'>
   
 <div id="tools">
-	<!--span id="lastupdate">Last update Wed Mar 14 12:57:32 2012
+	<!--span id="lastupdate">Last update Wed Mar 14 14:18:26 2012
 </span-->
 	<span id="wiki"><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/">Comment on this page</a></span>
 </div>
@@ -176,28 +176,29 @@ function showHideAnswer(zis)
     </p>
     <h3>Introduction</h3>
     <p>String processing is a kind of daily routine that most applications do in a one way or another.
-    It should come as no wonder that many programming languages have standard libraries stoked
-    with specialized functions for common needs. The D programming language standard library among others
-    offers a nice assortment in <a href="phobos/std_string.html">std.string</a> and generic ones from <a href="phobos/std_algorithm.html">std.algorithm</a>.
+    It should come as no wonder that many programming languages come with standard libraries equipped
+    with a variety of specialized functions for common string manipulation needs.
+    The D programming language standard library among others offers a nice assortment in <a href="phobos/std_string.html">std.string</a>,
+     as well as generic functions  from <a href="phobos/std_algorithm.html">std.algorithm</a> that work with strings.
     Still no amount of fixed functionality could cover all needs, as naturally flexible text data
     needs flexible solutions.
     </p>
     <p>Here is where <a href="http://google.com/search?btnI=I%27m+Feeling+Lucky&amp;ie=UTF-8&amp;oe=UTF-8&amp;q=regular expressions">regular expressions</a>
  come in handy, often succinctly called as regexes.
-     Simple yet powerful language for defining patterns of strings, put together with a substitution mechanism,
-     forms a Swiss Army knife of text processing.
-     It's considered so useful that a number of languages provides built-in support
-     for regular expressions, though one should <b>not</b> jump to conclusion that
-     built-in implies <b>faster</b> processing or more features. It's all about getting more
+     Regexes are simple yet powerful language for defining patterns of strings, 
+     put together with a substitution mechanism, they form a Swiss Army knife of text processing.
+     They are considered so useful that a number of languages provides built-in support
+     for regular expressions. This does <b>not</b> nessary mean that
+     built-in implies <b>faster</b> processing or more features. It's more of providing
      <b>convenient and friendly syntax</b> for typical operations and usage patterns.
     </p>
     <p>The D programming language provides a standard library module <a href="phobos/std_regex.html">std.regex</a>.
-     Being a highly expressive systems language, it opens a possibility to get
-     a good look and feel via core features, while keeping its implementation within the language.
-     We'll see how close to built-ins one can get this way.
+     Being a highly expressive systems language, D allows regexes to be <i>efficiently</i> implemented 
+     within the language itself, yet have the same level of readability and usability as built-in version would provide.
+     We'll see below how close to built-in regexes look and feel we can achieve.
     </p>
     <p>By the end of article you'll have a good understanding of regular expression capabilities in this library,
-     and how to utilize its API in a most straightforward way. Examples in this article assume the reader
+     and how to utilize its API in a most straightforward way. Examples in this article assume that the reader
      has fairly good understanding of regex elements, yet it's not required to understand the API.
     </p>
 
@@ -219,13 +220,13 @@ function showHideAnswer(zis)
     validness of a phone number, one has to try dialing it or contact the authority.
     </p>
     <p>Now, come to think of it, this tiny sample showed a lot of useful things already:
-        <ol></ol>
-        <li>a row string literal of form r"...", that allows writing a regex pattern in its natural notation </li>
+        <ul>        <li>a row string literal of form r"...", that allows writing a regex pattern in its natural notation </li>
         <li><span class="notranslate"><span class="d_inlinecode">match</span></span> function, is an universal tool that we'll see in other work scenarios as well.
         To check if there was a match on a string, just test the return value explicitly as boolean.  </li>
         <li>when trying to match special regex characters like  +, *, (, ), [, ] and $ don't forget to use escaping with \ </li>
         <li>Unless there is a lot of text processing going on, it's OK to pass a plain string as a pattern.
         The internal representation used to do the actual work is cached, to speed up subsequent calls. </li>
+        </ul>
     </p>
     <p>Continuing with the phone number example, it could be useful to get the exact value of 
     country code, as well as the whole number. For the sake of experiment let's also explicitly store
@@ -404,13 +405,12 @@ function showHideAnswer(zis)
     standards and integrates well with the rest of Phobos.
     Putting together its major features for a short-list, <a href="phobos/std_regex.html">std.regex</a> is:
     </p>
-     <ol></ol>
-     <li>Fully Unicode-aware, qualifies to standard full level 1 Unicode support</li>
+     <ul>     <li>Fully Unicode-aware, qualifies to standard full level 1 Unicode support</li>
      <li>Lots of modern extensions, including unlimited generalized lookaround. It makes porting regexes from other libraries a breeze</li>
      <li>Lean API that consists of a few flexible tools: <span class="notranslate"><span class="d_inlinecode">match</span></span>, <span class="notranslate"><span class="d_inlinecode">replace</span></span>, <span class="notranslate"><span class="d_inlinecode">splitter</span></span> </li>
      <li>Uniform and powerful, with unique abilities like precompiling regex or using ctRegex
      specially tailored engine at compile-time. All of this fits within the common interface without a notch.</li>
-
+     </ul>
     <p>The format of this article is intentionally more of an overview, as such it doesn't stop to talk in-depth about
      certain capabilities like case-insensitive matching (via simple casefolding rules of Unicode).
      And even more features are coming, as there are interesting opportunities not exploited.
@@ -448,7 +448,7 @@ function showHideAnswer(zis)
 
 Copyright &copy; 1999-2012 by Digital Mars &reg;, All Rights Reserved
  |
-Page generated by <a href="ddoc.html">Ddoc</a> on Wed Mar 14 12:57:32 2012
+Page generated by <a href="ddoc.html">Ddoc</a> on Wed Mar 14 14:18:26 2012
 
 </div>
 
