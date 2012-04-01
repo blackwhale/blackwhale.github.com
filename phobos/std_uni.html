@@ -212,6 +212,52 @@ Functions which operate on Unicode characters.
 <p></p>
 For functions which operate on ASCII characters and ignore Unicode
     characters, see <a href="std_ascii.html">std.ascii</a>.
+<p></p>
+
+
+    (Short introduction to come)
+
+<p></p>
+<b>Synopsis:</b><br>
+<pre class="d_code">    <span class="d_keyword">unittest</span>
+    {
+        <span class="d_keyword">import</span> std.<span class="d_psymbol">uni</span>;
+        <span class="d_comment">//intialize codepoint sets using regex notation
+</span>        <span class="d_comment">//<span class="d_inlinecode">set</span> contains codepoints from both scripts.
+</span>        <span class="d_keyword">auto</span> set = CodepointSet(<span class="d_string">"[\p{Cyrilic}||\p{Armenian}]"</span>);
+        <span class="d_keyword">auto</span> ascii = CodepointSet(<span class="d_string">"[\p{ASCII}]"</span>);
+        <span class="d_keyword">auto</span> currency = CodepointSet(<span class="d_string">"[\p{Currency_Symbol}]"</span>);
+
+        <span class="d_comment">//easy set ops
+</span>        <span class="d_keyword">auto</span> a = set &amp; ascii;
+        <span class="d_keyword">assert</span>(a.empty); <span class="d_comment">//as it has no intersection with ascii
+</span>        a = set | ascii;
+        <span class="d_keyword">auto</span> b = currency - a; <span class="d_comment">//subtract all ASCII, cyrilic and armenian
+</span>
+        <span class="d_comment">//some properties of codepoint sets
+</span>        <span class="d_keyword">assert</span>(b.length == 46); <span class="d_comment">//only 46 left per unicode 6.1
+</span>        <span class="d_keyword">assert</span>(!b['$']);    <span class="d_comment">//testing is not really fast but works
+</span>
+        <span class="d_comment">//building lookup tables
+</span>        <span class="d_keyword">auto</span> oneTrie = a.buildTrie!1; <span class="d_comment">//1-level Trie lookup table
+</span>        <span class="d_keyword">assert</span>(oneTrie['£']);
+        <span class="d_comment">//pick best trie level, and bind it as a functor
+</span>        <span class="d_keyword">auto</span> cyrilicOrArmenian = set.buildLookup;
+        <span class="d_keyword">import</span> std.algorithm;
+        <span class="d_keyword">auto</span> balance = find!(cyrilicOrArmenian)(<span class="d_string">"Hello ընկեր!"</span>);
+        <span class="d_keyword">assert</span>(balance == <span class="d_string">"ընկեր!"</span>);
+
+        <span class="d_comment">//Normalization
+</span>        string s = <span class="d_string">"Plain ascii (and not only), is always normalized!"</span>;
+        <span class="d_keyword">assert</span>(s <span class="d_keyword">is</span> normalize(s));<span class="d_comment">//same string
+</span>        string nonS = <span class="d_string">"eﬃcient?"</span>); <span class="d_comment">//ffi ligature
+</span>        <span class="d_keyword">auto</span> nS = normalize(nonS);
+        <span class="d_keyword">assert</span>(nS == <span class="d_string">"efficient?"</span>);
+        <span class="d_keyword">assert</span>(nS != n);
+        <span class="d_comment">//to NFKD, if available
+</span>        asert(normalize!NFKD(<span class="d_string">"2¹⁰"</span>) == <span class="d_string">"210"</span>);
+    }
+</pre>
 
 <p></p>
 <b>References:</b><br>
