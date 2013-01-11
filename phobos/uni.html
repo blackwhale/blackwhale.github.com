@@ -231,7 +231,7 @@ Implementation of fundamental data structures and algorithms for Unicode.
 <p></p>
 
 
-    <li>codepoint classification by category and common properties
+    <li>codepoint classification by category and common properties:
         <a href="#isAlpha"><span class="d_inlinecode">isAlpha</span></a>, <a href="#isWhite"><span class="d_inlinecode">isWhite</span></a> and others.
     </li>
     <li>       Case-insensitive string comparison (<a href="#sicmp"><span class="d_inlinecode">sicmp</span></a>, <a href="#icmp"><span class="d_inlinecode">icmp</span></a>)
@@ -445,12 +445,7 @@ Unicode(tm) is a trademark of Unicode, Inc.
 <dt class="d_decl"><a name="opBinary"></a>This <a name="opBinary"></a><span class="ddoc_psymbol">opBinary</span>(string op, U)(U <i>rhs</i>);
 </dt>
 <dd><p>Sets support natural syntax for set algebra, namely: </p>
-        <table cellspacing=0 cellpadding=5 class=book><caption>           <tr><th>Operator</th> <th>Math notation</th> <th>Description</th> </tr>
-            <tr><td valign=top>&amp;</td> <td valign=top>a ∩ b</td> <td valign=top>intersection</td> </tr>
-            <tr><td valign=top>|</td> <td valign=top>a ∪ b</td> <td valign=top>union</td> </tr>
-            <tr><td valign=top>-</td> <td valign=top>a ∖ b</td> <td valign=top>subtraction</td> </tr>
-            <tr><td valign=top>~</td> <td valign=top>a ~ b</td> <td valign=top>symmetric set difference i.e. (a ∪ b) \ (a ∩ b)</td> </tr>
-        </caption>           <tr><th>Operator</th> <th>Math notation</th> <th>Description</th> </tr>
+        <table cellspacing=0 cellpadding=5 class=book><caption></caption>            <tr><th>Operator</th> <th>Math notation</th> <th>Description</th> </tr>
             <tr><td valign=top>&amp;</td> <td valign=top>a ∩ b</td> <td valign=top>intersection</td> </tr>
             <tr><td valign=top>|</td> <td valign=top>a ∪ b</td> <td valign=top>union</td> </tr>
             <tr><td valign=top>-</td> <td valign=top>a ∖ b</td> <td valign=top>subtraction</td> </tr>
@@ -491,13 +486,18 @@ Unicode(tm) is a trademark of Unicode, Inc.
 </dd>
 <dt class="d_decl"><a name="toSourceCode"></a>string <a name="toSourceCode"></a><span class="ddoc_psymbol">toSourceCode</span>(string <i>funcName</i> = "");
 </dt>
-<dd>Generates string with D source code of function that tests if the codepoint
+<dd>Generates string with D source code of unary function with name of
+        <span class="d_inlinecode"><i>funcName</i></span> taking a single <span class="d_inlinecode">dchar</span> argument. If <span class="d_inlinecode"><i>funcName</i></span> is empty
+        the code is adjusted to be a lambda function.
+<p></p>
+The function generated tests if the codepoint passed
         belongs to this set or not. The result is to be used with string mixin.
         The intended usage area is aggressive optimization via meta programming
         in parser generators and the like.
+
 <p></p>
 <b>Note:</b><br>
-to be used with care for relatively small or regular sets. It
+To be used with care for relatively small or regular sets. It
         could be end up being slower then just using multi-staged tables.
 
 <p></p>
@@ -550,7 +550,10 @@ The first (leftmost) predicate defines the most significant bits of
 </dd>
 <dt class="d_decl"><a name="TrieBuilder"></a>struct <a name="TrieBuilder"></a><span class="ddoc_psymbol">TrieBuilder</span>(Value, Key, Args...) if (isBitPackableType!(Value) &amp;&amp; isValidArgsForTrie!(Key, Args));
 </dt>
-<dd><p></p>
+<dd><span class="d_inlinecode"><a name="TrieBuilder"></a><span class="ddoc_psymbol">TrieBuilder</span></span> is a type used for incremental construction
+    of <a href="#Trie"><span class="d_inlinecode">Trie</span></a>s.
+<p></p>
+See <a href="#buildTrie"><span class="d_inlinecode">buildTrie</span></a> for generic helpers built on top of it.<p></p>
 
 <dl><dt class="d_decl"><a name="this"></a> this(Value <i>filler</i>);
 </dt>
@@ -560,12 +563,17 @@ The first (leftmost) predicate defines the most significant bits of
 </dd>
 <dt class="d_decl"><a name="putRange"></a>void <a name="putRange"></a><span class="ddoc_psymbol">putRange</span>(Key <i>a</i>, Key <i>b</i>, Value <i>v</i>);
 </dt>
-<dd>Puts <p></p>
+<dd>Put <i>a</i> value <span class="d_inlinecode"><i>v</i></span> into interval as
+        mapped by keys from <span class="d_inlinecode"><i>a</i></span> to <span class="d_inlinecode"><i>b</i></span>.
+        All slots prior to <span class="d_inlinecode"><i>a</i></span> are filled with
+        the default filler.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="putValue"></a>void <a name="putValue"></a><span class="ddoc_psymbol">putValue</span>(Key <i>key</i>, Value <i>v</i>);
 </dt>
-<dd>Puts <p></p>
+<dd>Put a value <span class="d_inlinecode"><i>v</i></span> into slot mapped by <span class="d_inlinecode"><i>key</i></span>.
+        All slots prior to <span class="d_inlinecode"><i>key</i></span> are filled with the
+        default filler.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="build"></a>auto <a name="build"></a><span class="ddoc_psymbol">build</span>();
@@ -669,7 +677,7 @@ Provides a number of convenience overloads.
 
 
     Alternatively if the first argument is not a value convertible to <span class="d_inlinecode">Key</span>
-    then whole tuple of <span class="d_inlinecode">Args</span> is treated as predicates
+    then the whole tuple of <span class="d_inlinecode">Args</span> is treated as predicates
     and the maximum Key is deduced from predicates.<p></p>
 
 <dl><dt class="d_decl"><a name="buildTrie"></a>auto <a name="buildTrie"></a><span class="ddoc_psymbol">buildTrie</span>(Range)(Range <i>range</i>, Value <i>filler</i> = Value.init);
@@ -680,7 +688,14 @@ Provides a number of convenience overloads.
 </pre>
         Exception is thrown if it's detected that the above order doesn't hold.
 <p></p>
-See also: std.algorithm.sort, std.range.SortedRange, std.algorithm.setUnion.<p></p>
+In other words <a href="#mapTrieIndex"><span class="d_inlinecode">mapTrieIndex</span></a> should be a
+        monotonically increasing function that maps <span class="d_inlinecode">Key</span> to an integer.
+<p></p>
+
+
+        See also: <a href="std_algorithm.html#sort"><span class="d_inlinecode">std.algorithm.sort</span></a>,
+        <a href="std_range.html#SortedRange"><span class="d_inlinecode">std.range.SortedRange</span></a>,
+        <a href="std_algorithm.html#setUnion"><span class="d_inlinecode">std.algorithm.setUnion</span></a>.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="buildTrie"></a>auto <a name="buildTrie"></a><span class="ddoc_psymbol">buildTrie</span>(Range)(Range <i>range</i>, Value <i>filler</i> = Value.init);
@@ -874,7 +889,7 @@ Appending to and direct manipulation of grapheme's codepoints may
 </dd>
 </dl>
 </dd>
-<dt class="d_decl"><a name="sicmp"></a>int <a name="sicmp"></a><span class="ddoc_psymbol">sicmp</span>(C1, C2)(in C1[] <i>str1</i>, in C2[] <i>str2</i>);
+<dt class="d_decl"><a name="sicmp"></a>int <a name="sicmp"></a><span class="ddoc_psymbol">sicmp</span>(C1, C2)(const(C1)[] <i>str1</i>, const(C2)[] <i>str2</i>);
 </dt>
 <dd>Does basic case-insensitive comparison of strings <span class="d_inlinecode">str1</span> and <span class="d_inlinecode">str2</span>.
 <p></p>
@@ -884,7 +899,7 @@ this function only handles 1:1 codepoint mapping
     like German, Greek and few others.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="icmp"></a>int <a name="icmp"></a><span class="ddoc_psymbol">icmp</span>(C1, C2)(inout(C1)[] <i>str1</i>, inout(C2)[] <i>str2</i>);
+<dt class="d_decl"><a name="icmp"></a>int <a name="icmp"></a><span class="ddoc_psymbol">icmp</span>(C1, C2)(const(C1)[] <i>str1</i>, const(C2)[] <i>str2</i>);
 </dt>
 <dd>Does case insensitive comparison of <span class="d_inlinecode">str1</span> and <span class="d_inlinecode">str2</span>.
     Follows rules of full casefolding mapping.
