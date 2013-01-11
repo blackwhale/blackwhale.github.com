@@ -3,7 +3,7 @@
 <html lang="en-US">
 
 <!--
-	Copyright (c) 1999-2012 by Digital Mars
+	Copyright (c) 1999-2013 by Digital Mars
 	All Rights Reserved Written by Walter Bright
 	http://digitalmars.com
   -->
@@ -13,11 +13,18 @@
 <meta name="keywords" content="D programming language" />
 <meta name="description" content="D Programming Language" />
 <title>Conditional Compilation - D Programming Language</title>
+<link rel="stylesheet" href="/css/codemirror.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="/js/codemirror.js"></script>
+<script src="/js/run-main-website.js" type="text/javascript"></script>
+<script src="/js/d.js"></script>
+<script src="/js/run.js" type="text/javascript"></script>
+
 <link rel="shortcut icon" href="favicon.ico" />
 
-<script src="/js/hyphenate_selectively.js" type="text/javascript"></script>
+<script src="/js/hyphenate.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 function bodyLoad()
@@ -35,37 +42,6 @@ function bodyLoad()
 	}
 }
 </script>
-
-<script type="text/javascript">
-/*
-(C) www.dhtmlgoodies.com, September 2005
-
-This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.
-
-Terms of use:
-You are free to use this script as long as the copyright message is kept intact. However, you may not
-redistribute, sell or repost it without our permission.
-
-Thank you!
-
-www.dhtmlgoodies.com
-Alf Magne Kalleland
-
-*/
-function showHideAnswer(zis)
-{
-	var numericID = zis.id.replace(/[^\d]/g,'');
-	var obj = document.getElementById('a' + numericID);
-	if(obj.style.display=='block'){
-        zis.innerHTML = '<span class="nobr">See example.</span>';
-		obj.style.display='none';
-	}else{
-        zis.innerHTML = '<span class="nobr">Hide example.</span>';
-		obj.style.display='block';
-	}
-}
-</script>
-
 </head>
 
 <body onLoad='bodyLoad()'>
@@ -74,12 +50,12 @@ function showHideAnswer(zis)
 	<div id="search-box">
 		<form method="get" action="http://google.com/search">
 			<img src="/images/search-left.gif" width="11" height="22" /><input id="q" name="q" /><input type="image" id="search-submit" name="submit" src="/images/search-button.gif" />
-			<input type="hidden" id="domains" name="domains" value="d-programming-language.org" />
+			<input type="hidden" id="domains" name="domains" value="dlang.org" />
 			<input type="hidden" id="sourceid" name="sourceid" value="google-search" />
 			<div id="search-dropdown">
 				<select id="sitesearch" name="sitesearch" size="1">
-					<option value="d-programming-language.org">Entire D Site</option>
-					<option value="d-programming-language.org/phobos">Library Reference</option>
+					<option value="dlang.org">Entire D Site</option>
+					<option value="dlang.org/phobos">Library Reference</option>
 					<option value="digitalmars.com/d/archives">Newsgroup Archives</option>
 				</select>
 			</div>
@@ -107,8 +83,8 @@ function showHideAnswer(zis)
 
 	<li><a href="download.html" title="Download a D compiler">Downloads &amp; Tools</a></li>
 
-	<li><a href="changelog.html" title="History of changes to D">Changelog</a></li>
-	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug tracker</a></li>
+	<li><a href="changelog.html" title="History of changes to D">Change Log</a></li>
+	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug Tracker</a></li>
 	<li><a href="faq.html" title="Frequently Asked Questions">FAQ</a></li>
 
 	<li><a href="appendices.html">Appendices</a></li>
@@ -170,7 +146,7 @@ function showHideAnswer(zis)
 
 </li>
 	<li><a href="phobos/index.html">Library Reference</a></li>
-	<li><a href="howtos.html" title="Helps for using D">Howtos</a></li>
+	<li><a href="howtos.html" title="Helps for using D">How-tos</a></li>
 
 	<li><a href="articles.html">Articles</a></li>
 </ul>
@@ -179,10 +155,10 @@ function showHideAnswer(zis)
 
 <div class="navblock">
 <h2>Community</h2>
-<ul>	<li><a href="http://digitalmars.com/NewsGroup.html" title="User forums">Forums</a></li>
-	<li><a href="http://github.com/D-Programming-Language" title="D on github">Github</a></li>
+<ul>	<li><a href="http://forum.dlang.org/" title="User forums">Forums</a></li>
+	<li><a href="http://github.com/D-Programming-Language" title="D on github">GitHub</a></li>
 	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?FrontPage" title="Wiki for the D Programming Language">Wiki</a></li>
-	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review queue</a></li>
+	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review Queue</a></li>
 	<li><a href="http://twitter.com/#search?q=%23d_lang" title="#d_lang on twitter.com">Twitter</a></li>
 	<li><a href="http://digitalmars.com/d/dlinks.html" title="External D related links">Links</a></li>
 	
@@ -208,9 +184,23 @@ function showHideAnswer(zis)
 <div id="content" class='hyphenate'>
   
 <div id="tools">
-	<!--span id="lastupdate">Last update Mon Mar  5 00:18:19 2012
+	<!--span id="lastupdate">Last update Fri Jan 11 21:27:49 2013
 </span-->
-	<span id="wiki"><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Version">Comment on this page</a></span>
+	<a href="https://github.com/D-Programming-Language/d-programming-language.org/edit/master/version.dd" class="tip button">
+		Improve this page
+		<span>
+	        Quickly fork, edit online, and submit a pull request for this page.
+			Requires a signed-in GitHub account. This works well for small changes.
+			If you'd like to make larger changes you may want to consider using
+			local clone.
+		</span>
+	</a>
+	<a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Version" class="tip button">
+		Page wiki
+		<span>
+	        View or edit the community-maintained wiki page associated with this page.
+		</span>
+	</a>
 </div>
 
   <h1>Conditional Compilation</h1>
@@ -434,7 +424,6 @@ x = i;      <span class="d_comment">// uses the i declared above
 	<tr><td><b>GNU</b></td> <td>GDC (GNU D Compiler) is the compiler</td></tr>
 	<tr><td><b>LDC</b></td> <td>LDC (LLVM D Compiler) is the compiler</td></tr>
 	<tr><td><b>SDC</b></td> <td>SDC (Stupid D Compiler) is the compiler</td></tr>
-	<tr><td><b>D_NET</b></td> <td>D.NET is the compiler</td></tr>
 	<tr><td><b>Windows</b></td> <td>Microsoft Windows systems</td></tr>
 	<tr><td><b>Win32</b></td> <td>Microsoft 32-bit Windows systems</td></tr>
 	<tr><td><b>Win64</b></td> <td>Microsoft 64-bit Windows systems</td></tr>
@@ -442,10 +431,13 @@ x = i;      <span class="d_comment">// uses the i declared above
 	<tr><td><b>OSX</b></td> <td>Mac OS X</td></tr>
 	<tr><td><b>FreeBSD</b></td> <td>FreeBSD</td></tr>
 	<tr><td><b>OpenBSD</b></td> <td>OpenBSD</td></tr>
+	<tr><td><b>NetBSD</b></td> <td>NetBSD</td></tr>
+	<tr><td><b>DragonFlyBSD</b></td> <td>DragonFlyBSD</td></tr>
 	<tr><td><b>BSD</b></td> <td>All other BSDs</td></tr>
 	<tr><td><b>Solaris</b></td> <td>Solaris</td></tr>
 	<tr><td><b>Posix</b></td> <td>All POSIX systems (includes Linux, FreeBSD, OS X, Solaris, etc.)</td></tr>
 	<tr><td><b>AIX</b></td> <td>IBM Advanced Interactive eXecutive OS</td></tr>
+	<tr><td><b>Haiku</b></td> <td>The Haiku operating system</td></tr>
 	<tr><td><b>SkyOS</b></td> <td>The SkyOS operating system</td></tr>
 	<tr><td><b>SysV3</b></td> <td>System V Release 3</td></tr>
 	<tr><td><b>SysV4</b></td> <td>System V Release 4</td></tr>
@@ -454,14 +446,33 @@ x = i;      <span class="d_comment">// uses the i declared above
 	<tr><td><b>Cygwin</b></td> <td>The Cygwin environment</td></tr>
 	<tr><td><b>MinGW</b></td> <td>The MinGW environment</td></tr>
 	<tr><td><b>X86</b></td> <td>Intel and AMD 32-bit processors</td></tr>
-	<tr><td><b>X86_64</b></td> <td>AMD and Intel 64-bit processors</td></tr>
-	<tr><td><b>ARM</b></td> <td>The Advanced RISC Machine architecture (32-bit)</td></tr>
+	<tr><td><b>X86_64</b></td> <td>Intel and AMD 64-bit processors</td></tr>
+	<tr><td><b>ARM</b></td> <td>The ARM architecture (32-bit) (AArch32:A32)</td></tr>
+	<tr><td><b>ARM_Thumb</b></td> <td>ARM in Thumb mode (AArch32:T32)</td></tr>
+	<tr><td><b>ARM_Soft</b></td> <td>The ARM <b>soft</b> floating point ABI</td></tr>
+	<tr><td><b>ARM_SoftFP</b></td> <td>The ARM <b>softfp</b> floating point ABI</td></tr>
+	<tr><td><b>ARM_HardFP</b></td> <td>The ARM <b>hardfp</b> floating point ABI</td></tr>
+	<tr><td><b>ARM64</b></td> <td>The Advanced RISC Machine architecture (64-bit) (AArch64:A64)</td></tr>
 	<tr><td><b>PPC</b></td> <td>The PowerPC architecture, 32-bit</td></tr>
+	<tr><td><b>PPC_SoftFP</b></td> <td>The PowerPC soft float ABI</td></tr>
+	<tr><td><b>PPC_HardFP</b></td> <td>The PowerPC hard float ABI</td></tr>
 	<tr><td><b>PPC64</b></td> <td>The PowerPC architecture, 64-bit</td></tr>
 	<tr><td><b>IA64</b></td> <td>The Itanium architecture (64-bit)</td></tr>
-	<tr><td><b>MIPS</b></td> <td>The MIPS architecture, 32-bit</td></tr>
+	<tr><td><b>MIPS</b></td> <td>The MIPS architecture</td></tr>
+	<tr><td><b>MIPS32</b></td> <td>The MIPS architecture, 32-bit</td></tr>
 	<tr><td><b>MIPS64</b></td> <td>The MIPS architecture, 64-bit</td></tr>
+	<tr><td><b>MIPS_O32</b></td> <td>The MIPS O32 ABI</td></tr>
+	<tr><td><b>MIPS_N32</b></td> <td>The MIPS N32 ABI</td></tr>
+	<tr><td><b>MIPS_O64</b></td> <td>The MIPS O64 ABI</td></tr>
+	<tr><td><b>MIPS_N64</b></td> <td>The MIPS N64 ABI</td></tr>
+	<tr><td><b>MIPS_EABI</b></td> <td>The MIPS EABI</td></tr>
+	<tr><td><b>MIPS_NoFloat</b></td> <td>The MIPS <b>no-float</b> ABI</td></tr>
+	<tr><td><b>MIPS_SoftFloat</b></td> <td>The MIPS <b>soft-float</b> ABI</td></tr>
+	<tr><td><b>MIPS_HardFloat</b></td> <td>The MIPS <b>hard-float</b> ABI</td></tr>
 	<tr><td><b>SPARC</b></td> <td>The SPARC architecture, 32-bit</td></tr>
+	<tr><td><b>SPARC_V8Plus</b></td> <td>The SPARC v8+ ABI</td></tr>
+	<tr><td><b>SPARC_SoftFP</b></td> <td>The SPARC soft float ABI</td></tr>
+	<tr><td><b>SPARC_HardFP</b></td> <td>The SPARC hard float ABI</td></tr>
 	<tr><td><b>SPARC64</b></td> <td>The SPARC architecture, 64-bit</td></tr>
 	<tr><td><b>S390</b></td> <td>The System/390 architecture, 32-bit</td></tr>
 	<tr><td><b>S390X</b></td> <td>The System/390X architecture, 64-bit</td></tr>
@@ -470,6 +481,8 @@ x = i;      <span class="d_comment">// uses the i declared above
 	<tr><td><b>SH</b></td> <td>The SuperH architecture, 32-bit</td></tr>
 	<tr><td><b>SH64</b></td> <td>The SuperH architecture, 64-bit</td></tr>
 	<tr><td><b>Alpha</b></td> <td>The Alpha architecture</td></tr>
+	<tr><td><b>Alpha_SoftFP</b></td> <td>The Alpha soft float ABI</td></tr>
+	<tr><td><b>Alpha_HardFP</b></td> <td>The Alpha hard float ABI</td></tr>
 	<tr><td><b>LittleEndian</b></td> <td>Byte order, least significant first</td></tr>
 	<tr><td><b>BigEndian</b></td> <td>Byte order, most significant first</td></tr>
 	<tr><td><b>D_Coverage</b></td> <td><a href="code_coverage.html">Code coverage analysis</a> instrumentation (command line <a href="dmd-windows.html#switches">switch</a> <b>-cov</b>) is being generated</td></tr>
@@ -477,10 +490,15 @@ x = i;      <span class="d_comment">// uses the i declared above
 	<tr><td><b>D_InlineAsm_X86</b></td> <td><a href="iasm.html">Inline assembler</a> for X86 is implemented</td></tr>
 	<tr><td><b>D_InlineAsm_X86_64</b></td> <td><a href="iasm.html">Inline assembler</a> for X86-64 is implemented</td></tr>
 	<tr><td><b>D_LP64</b></td> <td>Pointers are 64 bits (command line <a href="dmd-windows.html#switches">switch</a> <b>-m64</b>)</td></tr>
+	<tr><td><b>D_X32</b></td> <td>Pointers are 32 bits, but words are still 64 bits (x32 ABI)</td></tr>
+	<tr><td><b>D_HardFloat</b></td> <td>The target hardware has a floating point unit</td></tr>
+	<tr><td><b>D_SoftFloat</b></td> <td>The target hardware does not have a floating point unit</td></tr>
 	<tr><td><b>D_PIC</b></td> <td>Position Independent Code (command line <a href="dmd-windows.html#switches">switch</a> <b>-fPIC</b>) is being generated</td></tr>
-	<tr><td><b>D_SIMD</b></td> <td><a href="simd.html">Vector extensions</a> (__vector and __simd) are supported</td></tr>
+	<tr><td><b>D_SIMD</b></td> <td><a href="simd.html">Vector extensions</a> (via <b>__simd</b>) are supported</td></tr>
 	<tr><td><b>D_Version2</b></td> <td>This is a D version 2 compiler</td></tr>
+	<tr><td><b>D_NoBoundsChecks</b></td> <td>Array bounds checks are disabled (command line <a href="dmd-windows.html#switches">switch</a> <b>-noboundscheck</b>)</td></tr>
 	<tr><td><b>unittest</b></td> <td><a href="unittest.html">Unit tests</a> are enabled (command line <a href="dmd-windows.html#switches">switch</a> <b>-unittest</b>)</td></tr>
+	<tr><td><b>assert</b></td> <td>assert expressions are enabled</td></tr>
 	<tr><td><b>none</b></td> <td>Never defined; used to just disable a section of code</td></tr>
 	<tr><td><b>all</b></td> <td>Always defined; used as the opposite of <b>none</b></td></tr>
 	</table></center>
@@ -491,6 +509,7 @@ x = i;      <span class="d_comment">// uses the i declared above
 	<center><table border=1 cellpadding=4 cellspacing=0><caption>Predefined Version Identifiers</caption>
 	<tr><th scope="col">Version Identifier</th> <th scope="col">Description</th></tr>
 	<tr><td><b>darwin</b></td> <td>The Darwin operating system; use <b>OSX</b> instead</td></tr>
+	<tr><td><b>Thumb</b></td> <td>ARM in Thumb mode; use <b>ARM_Thumb</b> instead</td></tr>
 	</table></center>
 
 	<p>Others will be added as they make sense and new implementations appear.
@@ -499,7 +518,10 @@ x = i;      <span class="d_comment">// uses the i declared above
 	<p>It is inevitable that the D language will evolve over time.
 	Therefore, the version identifier namespace beginning with "D_"
 	is reserved for identifiers indicating D language specification
-	or new feature conformance.
+	or new feature conformance. Further, all identifiers derived from
+	the ones listed above by appending any character(s) are reserved. This
+	means that e.g. <b>ARM_foo</b> and <b>Windows_bar</b> are reserved while
+	<b>foo_ARM</b> and <b>bar_Windows</b> are not.
 	</p>
 
 	<p>Furthermore, predefined version identifiers from this list cannot
@@ -509,8 +531,7 @@ x = i;      <span class="d_comment">// uses the i declared above
 	</p>
 
 	<p>Compiler vendor specific versions can be predefined if the
-	trademarked vendor
-	identifier prefixes it, as in:
+	trademarked vendor identifier prefixes it, as in:
 	</p>
 
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">version</span>(DigitalMars_funky_extension)
@@ -680,7 +701,7 @@ INT!(32) a;  <span class="d_comment">// a is an int
 	</ol>
 
 
-<h2><a name="static-assert"><a name="StaticAssert">Static Assert</a></a></h2>
+<h2><a name="StaticAssert">Static Assert</a></h2>
 
 <pre class="bnf"><span class="notranslate"><a name="StaticAssert"><i>StaticAssert</i></a>:
     <b>static assert (</b> <a href="expression.html#AssignExpression"><i>AssignExpression</i></a> <b>);</b>
@@ -745,7 +766,7 @@ INT!(32) a;  <span class="d_comment">// a is an int
 
 
 <div id="footernav">
-<a href="http://digitalmars.com/NewsGroup.html" title="User Forums">Forums</a> |
+<a href="http://forum.dlang.org/" title="User Forums">Forums</a> |
 <a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Version" title="Read/write comments and feedback">Comments</a> |
 <a href="http://digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a> |
 <a href="download.html" title="Download D">Downloads</a> |
@@ -753,9 +774,9 @@ INT!(32) a;  <span class="d_comment">// a is an int
 </div>
 <div id="copyright">
 
-Copyright &copy; 1999-2012 by Digital Mars &reg;, All Rights Reserved
+Copyright &copy; 1999-2013 by Digital Mars &reg;, All Rights Reserved
  |
-Page generated by <a href="ddoc.html">Ddoc</a> on Mon Mar  5 00:18:19 2012
+Page generated by <a href="ddoc.html">Ddoc</a> on Fri Jan 11 21:27:49 2013
 
 </div>
 

@@ -3,7 +3,7 @@
 <html lang="en-US">
 
 <!--
-	Copyright (c) 1999-2012 by Digital Mars
+	Copyright (c) 1999-2013 by Digital Mars
 	All Rights Reserved Written by Walter Bright
 	http://digitalmars.com
   -->
@@ -13,11 +13,18 @@
 <meta name="keywords" content="D programming language" />
 <meta name="description" content="D Programming Language" />
 <title>D 2.0 FAQ - D Programming Language</title>
+<link rel="stylesheet" href="/css/codemirror.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="/js/codemirror.js"></script>
+<script src="/js/run-main-website.js" type="text/javascript"></script>
+<script src="/js/d.js"></script>
+<script src="/js/run.js" type="text/javascript"></script>
+
 <link rel="shortcut icon" href="favicon.ico" />
 
-<script src="/js/hyphenate_selectively.js" type="text/javascript"></script>
+<script src="/js/hyphenate.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 function bodyLoad()
@@ -35,37 +42,6 @@ function bodyLoad()
 	}
 }
 </script>
-
-<script type="text/javascript">
-/*
-(C) www.dhtmlgoodies.com, September 2005
-
-This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.
-
-Terms of use:
-You are free to use this script as long as the copyright message is kept intact. However, you may not
-redistribute, sell or repost it without our permission.
-
-Thank you!
-
-www.dhtmlgoodies.com
-Alf Magne Kalleland
-
-*/
-function showHideAnswer(zis)
-{
-	var numericID = zis.id.replace(/[^\d]/g,'');
-	var obj = document.getElementById('a' + numericID);
-	if(obj.style.display=='block'){
-        zis.innerHTML = '<span class="nobr">See example.</span>';
-		obj.style.display='none';
-	}else{
-        zis.innerHTML = '<span class="nobr">Hide example.</span>';
-		obj.style.display='block';
-	}
-}
-</script>
-
 </head>
 
 <body onLoad='bodyLoad()'>
@@ -74,12 +50,12 @@ function showHideAnswer(zis)
 	<div id="search-box">
 		<form method="get" action="http://google.com/search">
 			<img src="/images/search-left.gif" width="11" height="22" /><input id="q" name="q" /><input type="image" id="search-submit" name="submit" src="/images/search-button.gif" />
-			<input type="hidden" id="domains" name="domains" value="d-programming-language.org" />
+			<input type="hidden" id="domains" name="domains" value="dlang.org" />
 			<input type="hidden" id="sourceid" name="sourceid" value="google-search" />
 			<div id="search-dropdown">
 				<select id="sitesearch" name="sitesearch" size="1">
-					<option value="d-programming-language.org">Entire D Site</option>
-					<option value="d-programming-language.org/phobos">Library Reference</option>
+					<option value="dlang.org">Entire D Site</option>
+					<option value="dlang.org/phobos">Library Reference</option>
 					<option value="digitalmars.com/d/archives">Newsgroup Archives</option>
 				</select>
 			</div>
@@ -107,8 +83,8 @@ function showHideAnswer(zis)
 
 	<li><a href="download.html" title="Download a D compiler">Downloads &amp; Tools</a></li>
 
-	<li><a href="changelog.html" title="History of changes to D">Changelog</a></li>
-	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug tracker</a></li>
+	<li><a href="changelog.html" title="History of changes to D">Change Log</a></li>
+	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug Tracker</a></li>
 	<li><a href="faq.html" title="Frequently Asked Questions">FAQ</a>
 
     <div class="navblock">
@@ -135,7 +111,7 @@ function showHideAnswer(zis)
 
 	<li><a href="language-reference.html">Language Reference</a></li>
 	<li><a href="phobos/index.html">Library Reference</a></li>
-	<li><a href="howtos.html" title="Helps for using D">Howtos</a></li>
+	<li><a href="howtos.html" title="Helps for using D">How-tos</a></li>
 
 	<li><a href="articles.html">Articles</a></li>
 </ul>
@@ -144,10 +120,10 @@ function showHideAnswer(zis)
 
 <div class="navblock">
 <h2>Community</h2>
-<ul>	<li><a href="http://digitalmars.com/NewsGroup.html" title="User forums">Forums</a></li>
-	<li><a href="http://github.com/D-Programming-Language" title="D on github">Github</a></li>
+<ul>	<li><a href="http://forum.dlang.org/" title="User forums">Forums</a></li>
+	<li><a href="http://github.com/D-Programming-Language" title="D on github">GitHub</a></li>
 	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?FrontPage" title="Wiki for the D Programming Language">Wiki</a></li>
-	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review queue</a></li>
+	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review Queue</a></li>
 	<li><a href="http://twitter.com/#search?q=%23d_lang" title="#d_lang on twitter.com">Twitter</a></li>
 	<li><a href="http://digitalmars.com/d/dlinks.html" title="External D related links">Links</a></li>
 	
@@ -173,9 +149,23 @@ function showHideAnswer(zis)
 <div id="content" class='hyphenate'>
   
 <div id="tools">
-	<!--span id="lastupdate">Last update Mon Mar  5 00:18:19 2012
+	<!--span id="lastupdate">Last update Fri Jan 11 21:27:49 2013
 </span-->
-	<span id="wiki"><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/FAQ">Comment on this page</a></span>
+	<a href="https://github.com/D-Programming-Language/d-programming-language.org/edit/master/faq.dd" class="tip button">
+		Improve this page
+		<span>
+	        Quickly fork, edit online, and submit a pull request for this page.
+			Requires a signed-in GitHub account. This works well for small changes.
+			If you'd like to make larger changes you may want to consider using
+			local clone.
+		</span>
+	</a>
+	<a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/FAQ" class="tip button">
+		Page wiki
+		<span>
+	        View or edit the community-maintained wiki page associated with this page.
+		</span>
+	</a>
 </div>
 
   <h1>D 2.0 FAQ</h1>
@@ -233,6 +223,7 @@ function showHideAnswer(zis)
 	with many more questions answered</li>
 	<li><a href="comparison.html">What does D have that C++ doesn't?</a></li>
 	<li><a href="#q1">Why the name D?</a></li>
+	<li><a href="#q1_1">Could you change the name? D is kind of hard to search for on search engines.</a></li>
 	<li><a href="http://www.digitalmars.com/d/download.html">Where can I get a D compiler?</a></li>
 	<li><a href="#q1_2">Is there linux port of D?</a></li>
 	<li><a href="#gdc">Is there a GNU version of D?</a></li>
@@ -265,6 +256,7 @@ function showHideAnswer(zis)
 	<li><a href="#gc_1">Isn't garbage collection slow and non-deterministic?</a></li>
 	<li><a href="#pure">Can't a sufficiently smart compiler figure out that a function is pure automatically?</a></li>
 	<li><a href="#minimum precision">Why allow <span class="notranslate"><span class="d_inlinecode">cast(float)</span></span> if it isn't supposed to work?</a></li>
+    <li><a href="#nested_forward_references">Why can't nested functions be forward referenced?</a></li>
 	</ul>
 
 <hr><h3><a name="case_range">Why doesn't the case range statement
@@ -351,6 +343,18 @@ function showHideAnswer(zis)
 	<a href="http://groups.google.com/group/comp.lang.c/browse_thread/thread/cb4b868fab477b61/d4b5407644d16806">thread</a>.
 	</p>
 
+<hr><h3><a name="q1_1">Could you change the name? D is kind of hard to search for on search engines.</a></h3>
+
+	<p>No. We understand it can be frustrating but it's far too late for a
+	name change at this point. We recommend using "dlang", "d programming",
+	"d language", or "d programming language" in your search terms.  Doing so
+	should yield substantially better search results.
+	</p>
+
+	<p>Most publically available D code has "// Written in the D programming
+	language" as its first comment.
+	</p>
+
 <hr><h3><a name="q1_2">Is there a linux port of D?</a></h3>
 
 	<p>Yes, the D compiler includes a <a href="dmd-linux.html">linux version</a>.
@@ -388,7 +392,7 @@ function showHideAnswer(zis)
 	is not part of D, it is part of C's standard
 	runtime library which is accessible from D.
 	D's standard runtime library has
-	<a href="http://www.d-programming-language.org/phobos/std_stdio.html#writefln">std.stdio.writefln</a>,
+	<a href="http://dlang.org/phobos/std_stdio.html#writefln">std.stdio.writefln</a>,
 	which is as powerful as <a href="http://www.digitalmars.com/rtl/stdio.html#printf">printf</a>
 	but is much easier to use.
 	</p>
@@ -484,19 +488,18 @@ function showHideAnswer(zis)
 
 <hr><h3><a name="q7_3">Can't garbage collection be done in C++ with an add-on library?</a></h3>
 
-	Yes, I use one myself. It isn't part of the language, though, and
+	<p>Yes, I use one myself. It isn't part of the language, though, and
 	requires some subverting of the language to make it work.
 	Using gc with C++ isn't for the standard or casual C++ programmer.
 	Building it into the
-	language, like in D, makes it practical for everyday programming chores.
-	<p>
+	language, like in D, makes it practical for everyday programming chores.</p>
 
-	GC isn't that hard to implement, either, unless you're building one
+	<p>GC isn't that hard to implement, either, unless you're building one
 	of the more advanced ones. But a more advanced one is like building
 	a better optimizer - the language still works 100% correctly even
 	with a simple, basic one. The programming community is better served
 	by multiple implementations competing on quality of code generated
-	rather than by which corners of the spec are implemented at all.
+	rather than by which corners of the spec are implemented at all.</p>
 
 <hr><h3><a name="q7_4">Can't unit testing be done in C++ with an add-on library?</a></h3>
 
@@ -506,22 +509,21 @@ function showHideAnswer(zis)
 
 <hr><h3><a name="q8">Why have an asm statement in a portable language?</a></h3>
 
-	An asm statement allows assembly code to be inserted directly into a D
+	<p>An asm statement allows assembly code to be inserted directly into a D
 	function. Assembler code will obviously be inherently non-portable. D is
 	intended, however, to be a useful language for developing systems apps.
 	Systems apps almost invariably wind up with system dependent code in them
 	anyway, inline asm isn't much different. Inline asm will be useful for
 	things like accessing special CPU instructions, accessing flag bits, special
-	computational situations, and super optimizing a piece of code.
-	<p>
+	computational situations, and super optimizing a piece of code.</p>
 
-	Before the C compiler had an inline assembler, I used external assemblers.
+	<p>Before the C compiler had an inline assembler, I used external assemblers.
 	There was constant grief because many, many different versions of the
 	assembler were out there, the vendors kept changing the syntax of the
 	assemblers, there were many different bugs in different versions, and even
 	the command line syntax kept changing. What it all meant was that users
 	could not reliably rebuild any code that needed assembler. An inline
-	assembler provided reliability and consistency.
+	assembler provided reliability and consistency.</p>
 
 <hr><h3><a name="real">What is the point of 80 bit reals?</a></h3>
 
@@ -601,36 +603,32 @@ printf(<span class="d_string">"string = '<b>%.*s</b>'\n"</span>, s);
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">double</span> d;	<span class="d_comment">// d is set to double.nan
 </span></span></pre>
 
-	NaNs have the interesting property in that whenever a NaN is
+	<p>NaNs have the interesting property in that whenever a NaN is
 	used as an operand in a computation, the result is a NaN. Therefore,
 	NaNs will propagate and appear in the output whenever a computation
 	made use of one. This implies that a NaN appearing in the output
 	is an unambiguous indication of the use of an uninitialized
-	variable.
-	<p>
+	variable.</p>
 
-	If 0.0 was used as the default initializer for floating point
+	<p>If 0.0 was used as the default initializer for floating point
 	values, its effect could easily be unnoticed in the output, and so
 	if the default initializer was unintended, the bug may go
-	unrecognized.
-	<p>
+	unrecognized.</p>
 
-	The default initializer value is not meant to be a useful value,
-	it is meant to expose bugs. Nan fills that role well.
-	<p>
+	<p>The default initializer value is not meant to be a useful value,
+	it is meant to expose bugs. Nan fills that role well.</p>
 
-	But surely the compiler can detect and issue an error message
+	<p>But surely the compiler can detect and issue an error message
 	for variables used that are not initialized? Most of the time,
 	it can, but not always, and what it can do is dependent on the
 	sophistication of the compiler's internal data flow analysis.
-	Hence, relying on such is unportable and unreliable.
-	<p>
+	Hence, relying on such is unportable and unreliable.</p>
 
-	Because of the way CPUs are designed, there is no NaN value for
+	<p>Because of the way CPUs are designed, there is no NaN value for
 	integers, so D uses 0 instead. It doesn't have the advantages of
 	error detection that NaN has, but at least errors resulting from
 	unintended default initializations will be consistent and therefore more
-	debuggable.
+	debuggable.</p>
 
 <hr><h3><a name="assignmentoverloading">Why is overloading of the assignment operator not supported?</a></h3>
 
@@ -647,48 +645,43 @@ printf(<span class="d_string">"string = '<b>%.*s</b>'\n"</span>, s);
 <hr><h3><a name="omf">Can I link in C object files created with another compiler?</a></h3>
 
 
-	DMD produces OMF (Microsoft Object Module Format) object
+	<p>DMD produces OMF (Microsoft Object Module Format) object
 	files while other compilers such as VC++ produce COFF object
 	files.
 	DMD's output is designed to work with DMC, the Digital Mars C
-	compiler, which also produces object files in OMF format.
-	<p>
+	compiler, which also produces object files in OMF format.</p>
 
-	The OMF format that DMD uses is a Microsoft defined format based on an
+	<p>The OMF format that DMD uses is a Microsoft defined format based on an
 	earlier Intel designed one. Microsoft at one point decided to abandon it
-	in favor of a Microsoft defined variant on COFF.
-	<p>
+	in favor of a Microsoft defined variant on COFF.</p>
 
-	Using the same object format doesn't mean that any C library in that
+	<p>Using the same object format doesn't mean that any C library in that
 	format will successfully link and run. There is a lot more compatibility
 	required - such as calling conventions, name mangling, compiler helper
 	functions, and hidden assumptions about the way things work. If DMD
 	produced Microsoft COFF output files, there is still little chance that
 	they would work successfully with object files designed and tested for
 	use with VC. There were a lot of problems with this back when
-	Microsoft's compilers did generate OMF.
-	<p>
+	Microsoft's compilers did generate OMF.</p>
 
-	Having a different object file format makes it helpful in identifying
+	<p>Having a different object file format makes it helpful in identifying
 	library files that were not tested to work with DMD. If they are not,
 	weird problems would result even if they successfully managed to link
 	them together. It really takes an expert to get a binary built with a
 	compiler from one vendor to work with the output of another vendor's
-	compiler.
-	<p>
+	compiler.</p>
 
-	That said, the linux version of DMD produces object files in the ELF
+	<p>That said, the linux version of DMD produces object files in the ELF
 	format which is standard on linux, and it is specifically designed to
-	work with the standard linux C compiler, gcc.
-	<p>
+	work with the standard linux C compiler, gcc.</p>
 
-	There is one case where using existing C libraries does work - when
+	<p>There is one case where using existing C libraries does work - when
 	those libraries come in the form of a DLL conforming to the usual C ABI
 	interface. The linkable part of this is called an "import library", and
 	Microsoft COFF format import libraries can be successfully converted to
 	DMD OMF using the
 	<a href="http://www.digitalmars.com/ctg/coff2omf.html">coff2omf</a>
-	tool.
+	tool.</p>
 
 <hr><h3><a name="regexp_literals">Why not support regular expression literals
 	with the <span class="notranslate"><span class="d_inlinecode">/foo/g</span></span> syntax?</a></h3>
@@ -1022,6 +1015,25 @@ the termination condition on the fly.</p>
 	<p>Programs that rely on a maximum accuracy need to be rethought and reengineered.</p>
 
 
+<hr><h3><a name="nested_forward_references">Why can't nested functions be forward referenced?</a></h3>
+
+	<p>Declarations within a function are different from declarations at module scope.
+    Within a function, initializers for variable declarations are guaranteed to run in
+    sequential order. Allowing arbitrary forward references to nested functions would
+    break this, because nested functions can reference any variables declared above them.
+    </p>
+<pre class="d_code"><span class="notranslate">    <span class="d_keyword">int</span> first() {  <span class="d_keyword">return</span> second();    }
+    <span class="d_keyword">int</span> x = first();   <span class="d_comment">// x depends on y, which hasn't been declared yet.
+</span>    <span class="d_keyword">int</span> y = x + 1;
+    <span class="d_keyword">int</span> second() {  <span class="d_keyword">return</span> y;    }
+</span></pre>
+
+    <p>But, forward references of nested functions are sometimes required (eg, for
+    mutually recursive nested functions). The most general solution is to declare a local,
+    nested struct. Any member functions (and variables!) of that struct have
+    non-sequential semantics, so they can forward reference each other.
+    </p>
+
 
 
 
@@ -1048,7 +1060,7 @@ the termination condition on the fly.</p>
 
 
 <div id="footernav">
-<a href="http://digitalmars.com/NewsGroup.html" title="User Forums">Forums</a> |
+<a href="http://forum.dlang.org/" title="User Forums">Forums</a> |
 <a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/FAQ" title="Read/write comments and feedback">Comments</a> |
 <a href="http://digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a> |
 <a href="download.html" title="Download D">Downloads</a> |
@@ -1056,9 +1068,9 @@ the termination condition on the fly.</p>
 </div>
 <div id="copyright">
 
-Copyright &copy; 1999-2012 by Digital Mars &reg;, All Rights Reserved
+Copyright &copy; 1999-2013 by Digital Mars &reg;, All Rights Reserved
  |
-Page generated by <a href="ddoc.html">Ddoc</a> on Mon Mar  5 00:18:19 2012
+Page generated by <a href="ddoc.html">Ddoc</a> on Fri Jan 11 21:27:49 2013
 
 </div>
 

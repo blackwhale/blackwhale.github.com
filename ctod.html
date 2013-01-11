@@ -3,7 +3,7 @@
 <html lang="en-US">
 
 <!--
-	Copyright (c) 1999-2012 by Digital Mars
+	Copyright (c) 1999-2013 by Digital Mars
 	All Rights Reserved Written by Walter Bright
 	http://digitalmars.com
   -->
@@ -13,11 +13,18 @@
 <meta name="keywords" content="D programming language" />
 <meta name="description" content="D Programming Language" />
 <title>Programming in D for C Programmers - D Programming Language</title>
+<link rel="stylesheet" href="/css/codemirror.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="/js/codemirror.js"></script>
+<script src="/js/run-main-website.js" type="text/javascript"></script>
+<script src="/js/d.js"></script>
+<script src="/js/run.js" type="text/javascript"></script>
+
 <link rel="shortcut icon" href="favicon.ico" />
 
-<script src="/js/hyphenate_selectively.js" type="text/javascript"></script>
+<script src="/js/hyphenate.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 function bodyLoad()
@@ -35,37 +42,6 @@ function bodyLoad()
 	}
 }
 </script>
-
-<script type="text/javascript">
-/*
-(C) www.dhtmlgoodies.com, September 2005
-
-This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.
-
-Terms of use:
-You are free to use this script as long as the copyright message is kept intact. However, you may not
-redistribute, sell or repost it without our permission.
-
-Thank you!
-
-www.dhtmlgoodies.com
-Alf Magne Kalleland
-
-*/
-function showHideAnswer(zis)
-{
-	var numericID = zis.id.replace(/[^\d]/g,'');
-	var obj = document.getElementById('a' + numericID);
-	if(obj.style.display=='block'){
-        zis.innerHTML = '<span class="nobr">See example.</span>';
-		obj.style.display='none';
-	}else{
-        zis.innerHTML = '<span class="nobr">Hide example.</span>';
-		obj.style.display='block';
-	}
-}
-</script>
-
 </head>
 
 <body onLoad='bodyLoad()'>
@@ -74,12 +50,12 @@ function showHideAnswer(zis)
 	<div id="search-box">
 		<form method="get" action="http://google.com/search">
 			<img src="/images/search-left.gif" width="11" height="22" /><input id="q" name="q" /><input type="image" id="search-submit" name="submit" src="/images/search-button.gif" />
-			<input type="hidden" id="domains" name="domains" value="d-programming-language.org" />
+			<input type="hidden" id="domains" name="domains" value="dlang.org" />
 			<input type="hidden" id="sourceid" name="sourceid" value="google-search" />
 			<div id="search-dropdown">
 				<select id="sitesearch" name="sitesearch" size="1">
-					<option value="d-programming-language.org">Entire D Site</option>
-					<option value="d-programming-language.org/phobos">Library Reference</option>
+					<option value="dlang.org">Entire D Site</option>
+					<option value="dlang.org/phobos">Library Reference</option>
 					<option value="digitalmars.com/d/archives">Newsgroup Archives</option>
 				</select>
 			</div>
@@ -122,8 +98,8 @@ function showHideAnswer(zis)
 
 	<li><a href="download.html" title="Download a D compiler">Downloads &amp; Tools</a></li>
 
-	<li><a href="changelog.html" title="History of changes to D">Changelog</a></li>
-	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug tracker</a></li>
+	<li><a href="changelog.html" title="History of changes to D">Change Log</a></li>
+	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug Tracker</a></li>
 	<li><a href="faq.html" title="Frequently Asked Questions">FAQ</a></li>
 
 	<li><a href="appendices.html">Appendices</a></li>
@@ -143,7 +119,7 @@ function showHideAnswer(zis)
 
 	<li><a href="language-reference.html">Language Reference</a></li>
 	<li><a href="phobos/index.html">Library Reference</a></li>
-	<li><a href="howtos.html" title="Helps for using D">Howtos</a></li>
+	<li><a href="howtos.html" title="Helps for using D">How-tos</a></li>
 
 	<li><a href="articles.html">Articles</a></li>
 </ul>
@@ -152,10 +128,10 @@ function showHideAnswer(zis)
 
 <div class="navblock">
 <h2>Community</h2>
-<ul>	<li><a href="http://digitalmars.com/NewsGroup.html" title="User forums">Forums</a></li>
-	<li><a href="http://github.com/D-Programming-Language" title="D on github">Github</a></li>
+<ul>	<li><a href="http://forum.dlang.org/" title="User forums">Forums</a></li>
+	<li><a href="http://github.com/D-Programming-Language" title="D on github">GitHub</a></li>
 	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?FrontPage" title="Wiki for the D Programming Language">Wiki</a></li>
-	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review queue</a></li>
+	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review Queue</a></li>
 	<li><a href="http://twitter.com/#search?q=%23d_lang" title="#d_lang on twitter.com">Twitter</a></li>
 	<li><a href="http://digitalmars.com/d/dlinks.html" title="External D related links">Links</a></li>
 	
@@ -181,9 +157,23 @@ function showHideAnswer(zis)
 <div id="content" class='hyphenate'>
   
 <div id="tools">
-	<!--span id="lastupdate">Last update Mon Mar  5 00:18:17 2012
+	<!--span id="lastupdate">Last update Fri Jan 11 21:27:47 2013
 </span-->
-	<span id="wiki"><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/ctod">Comment on this page</a></span>
+	<a href="https://github.com/D-Programming-Language/d-programming-language.org/edit/master/ctod.dd" class="tip button">
+		Improve this page
+		<span>
+	        Quickly fork, edit online, and submit a pull request for this page.
+			Requires a signed-in GitHub account. This works well for small changes.
+			If you'd like to make larger changes you may want to consider using
+			local clone.
+		</span>
+	</a>
+	<a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/ctod" class="tip button">
+		Page wiki
+		<span>
+	        View or edit the community-maintained wiki page associated with this page.
+		</span>
+	</a>
 </div>
 
   <h1>Programming in D for C Programmers</h1>
@@ -261,7 +251,7 @@ sizeof(struct Foo)
 
 <h4>The D Way</h4>
 
-<P>Use the size property:</P>
+<p>Use the size property:</p>
 
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">int</span>.sizeof
 (<span class="d_keyword">char</span> *).sizeof
@@ -315,12 +305,11 @@ long double        =&gt;        real
 _Imaginary long double =&gt;    ireal
 _Complex long double   =&gt;    creal
 </span></pre>
-<p>
-       Although char is an unsigned 8 bit type, and
+<p>       Although char is an unsigned 8 bit type, and
        wchar is an unsigned 16 bit type, they have their own separate types
        in order to aid overloading and type safety.
-<p>
-       Ints and unsigneds in C are of varying size; not so in D.
+</p>
+<p>      Ints and unsigneds in C are of varying size; not so in D.</p>
 
 <hr><!-- ============================================ -->
 <h3><a name="floating">Special Floating Point Values</a></h3>
@@ -406,10 +395,9 @@ else
 <h3><a name="assert">Asserts are a necessary part of any good defensive coding strategy</a></h3>
 
 <h4>The C Way</h4>
-<p>
-C doesn't directly support assert, but does support __FILE__
+<p>C doesn't directly support assert, but does support __FILE__
 and __LINE__ from which an assert macro can be built. In fact,
-there appears to be practically no other use for __FILE__ and __LINE__.
+there appears to be practically no other use for __FILE__ and __LINE__.</p>
 
 <pre class="ccode"><span class="notranslate">#include &lt;assert.h&gt;
 
@@ -444,9 +432,8 @@ array[] = value;
 <h3><a name="arrayloop">Looping through an array</a></h3>
 
 <h4>The C Way</h4>
-<p>
-       The array length is defined separately, or a clumsy
-       sizeof() expression is used to get the length.
+<p>       The array length is defined separately, or a clumsy
+       sizeof() expression is used to get the length.</p>
 
 <pre class="ccode"><span class="notranslate">#define ARRAY_LENGTH        17
 int array[ARRAY_LENGTH];
@@ -1051,7 +1038,7 @@ This gets even more unpleasant with regular expressions.
 Consider the escape sequence to match a quoted string:
 <pre class="ccode"><span class="notranslate">/"[^\\]*(\\.[^\\]*)*"/
 </span></pre>
-<P>In C, this horror is expressed as:
+<p>In C, this horror is expressed as:</p>
 <pre class="ccode"><span class="notranslate">char quoteString[] = "\"[^\\\\]*(\\\\.[^\\\\]*)*\"";
 </span></pre>
 <h4>The D Way</h4>
@@ -1060,17 +1047,17 @@ Consider the escape sequence to match a quoted string:
 	Escapes are in separate strings. So:
 
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">char</span>[] file = <span class="d_string">`c:\root\file.c`</span>;
-<span class="d_keyword">char</span>[] quoteString = <span class="d_string">\"</span>  <span class="d_string">r"[^\\]*(\\.[^\\]*)*"</span>  <span class="d_string">\"</span>;
+<span class="d_keyword">char</span>[] quoteString = <span class="d_string">"\""</span>  <span class="d_string">r"[^\\]*(\\.[^\\]*)*"</span>  <span class="d_string">"\""</span>;
 </span></pre>
 
        The famous hello world string becomes:
-<pre class="d_code"><span class="notranslate"><span class="d_keyword">char</span>[] hello = <span class="d_string">"hello world"</span> <span class="d_string">\n</span>;
+<pre class="d_code"><span class="notranslate"><span class="d_keyword">char</span>[] hello = <span class="d_string">"hello world\n"</span>;
 </span></pre>
 
 <hr><!-- ============================================ -->
 <h3><a name="ascii">Ascii vs Wide Characters</a></h3>
 
-<P>Modern programming requires that wchar strings be supported in an easy way, for internationalization of the programs.
+<p>Modern programming requires that wchar strings be supported in an easy way, for internationalization of the programs.</p>
 
 <h4>The C Way</h4>
 
@@ -1223,15 +1210,14 @@ if (memcmp(&x, &y, sizeof(struct A)) == 0)
     ...
 </span></pre>
 
-	Note the obtuseness of this, coupled with the lack of any kind
-	of help from the language with type checking.
-	<p>
+	<p>Note the obtuseness of this, coupled with the lack of any kind
+	of help from the language with type checking.</p>
 
-	There's a nasty bug lurking in the memcmp().
+	<p>There's a nasty bug lurking in the memcmp().
 	The layout of a struct, due to alignment, can have 'holes' in it.
 	C does not guarantee those holes are assigned any values, and so
 	two different struct instances can have the same value for each member,
-	but compare different because the holes contain different garbage.
+	but compare different because the holes contain different garbage.</p>
 
 <h4>The D Way</h4>
 
@@ -1269,13 +1255,12 @@ if (strcmp(string, "betty") == 0)	// do strings match?
     ...
 </span></pre>
 
-	D strings have the length stored separately from the string.
+	<p>D strings have the length stored separately from the string.
 	Thus, the implementation of string compares can be much faster
 	than in C (the difference being equivalent to the difference
-	in speed between the C memcmp() and strcmp()).
-	<p>
+	in speed between the C memcmp() and strcmp()).</p>
 
-	D supports comparison operators on strings, too:
+	<p>D supports comparison operators on strings, too:</p>
 
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">char</span>[] string = <span class="d_string">"hello"</span>;
 
@@ -1374,19 +1359,18 @@ lines
 
 <h4>The C Way</h4>
 
-    Consider a function to traverse a recursive data structure.
+    <p>Consider a function to traverse a recursive data structure.
     In this example, there's a simple symbol table of strings.
     The data structure is an array of binary trees.
     The code needs to do an exhaustive search of it to find
     a particular string in it, and determine if it is a unique
-    instance.
-    <p>
+    instance.</p>
 
-    To make this work, a helper function <span class="notranslate"><span class="d_inlinecode">membersearchx</span></span>
+    <p>To make this work, a helper function <span class="notranslate"><span class="d_inlinecode">membersearchx</span></span>
     is needed to recursively
     walk the trees. The helper function needs to read and write
     some context outside of the trees, so a custom <span class="notranslate"><span class="d_inlinecode">struct Paramblock</span></span>
-    is created and a pointer to it is used to maximize efficiency.
+    is created and a pointer to it is used to maximize efficiency.</p>
 
 <pre class="ccode"><span class="notranslate">struct Symbol
 {
@@ -1435,15 +1419,14 @@ struct Symbol *symbol_membersearch(Symbol *table[], int tablemax, char *id)
 
 <h4>The D Way</h4>
 
-    This is the same algorithm in D, and it shrinks dramatically.
+    <p>This is the same algorithm in D, and it shrinks dramatically.
     Since nested functions have access to the lexically enclosing
     function's variables, there's no need for a Paramblock or
     to deal with its bookkeeping details. The nested helper function
     is contained wholly within the function that needs it,
-    improving locality and maintainability.
-    <p>
+    improving locality and maintainability.</p>
 
-    The performance of the two versions is indistinguishable.
+    <p>The performance of the two versions is indistinguishable.</p>
 
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">class</span> Symbol
 {   <span class="d_keyword">char</span>[] id;
@@ -1529,17 +1512,16 @@ j = i &gt;&gt;&gt; 3;
 
 <h4>The C Way</h4>
 
-	Consider a reusable container type. In order to be reusable,
+	<p>Consider a reusable container type. In order to be reusable,
 	it must support a way to apply arbitrary code to each element
 	of the container. This is done by creating an <i>apply</i> function
 	that accepts a function pointer to which is passed each
-	element of the container contents.
-	<p>
+	element of the container contents.</p>
 
-	A generic context pointer is also needed, represented here by
+	<p>A generic context pointer is also needed, represented here by
 	<span class="notranslate"><span class="d_inlinecode">void *p</span></span>. The example here is of a trivial container
 	class that holds an array of ints, and a user of that container
-	that computes the maximum of those ints.
+	that computes the maximum of those ints.</p>
 
 <pre class="ccode"><span class="notranslate">void apply(void *p, int *array, int dim, void (*fp)(void *, int))
 {
@@ -1712,7 +1694,7 @@ int main()
 
 
 <div id="footernav">
-<a href="http://digitalmars.com/NewsGroup.html" title="User Forums">Forums</a> |
+<a href="http://forum.dlang.org/" title="User Forums">Forums</a> |
 <a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/ctod" title="Read/write comments and feedback">Comments</a> |
 <a href="http://digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a> |
 <a href="download.html" title="Download D">Downloads</a> |
@@ -1720,9 +1702,9 @@ int main()
 </div>
 <div id="copyright">
 
-Copyright &copy; 1999-2012 by Digital Mars &reg;, All Rights Reserved
+Copyright &copy; 1999-2013 by Digital Mars &reg;, All Rights Reserved
  |
-Page generated by <a href="ddoc.html">Ddoc</a> on Mon Mar  5 00:18:17 2012
+Page generated by <a href="ddoc.html">Ddoc</a> on Fri Jan 11 21:27:47 2013
 
 </div>
 

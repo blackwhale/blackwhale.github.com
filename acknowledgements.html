@@ -3,7 +3,7 @@
 <html lang="en-US">
 
 <!--
-	Copyright (c) 1999-2012 by Digital Mars
+	Copyright (c) 1999-2013 by Digital Mars
 	All Rights Reserved Written by Walter Bright
 	http://digitalmars.com
   -->
@@ -13,11 +13,18 @@
 <meta name="keywords" content="D programming language" />
 <meta name="description" content="D Programming Language" />
 <title>Acknowledgements - D Programming Language</title>
+<link rel="stylesheet" href="/css/codemirror.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="/js/codemirror.js"></script>
+<script src="/js/run-main-website.js" type="text/javascript"></script>
+<script src="/js/d.js"></script>
+<script src="/js/run.js" type="text/javascript"></script>
+
 <link rel="shortcut icon" href="favicon.ico" />
 
-<script src="/js/hyphenate_selectively.js" type="text/javascript"></script>
+<script src="/js/hyphenate.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 function bodyLoad()
@@ -35,37 +42,6 @@ function bodyLoad()
 	}
 }
 </script>
-
-<script type="text/javascript">
-/*
-(C) www.dhtmlgoodies.com, September 2005
-
-This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.
-
-Terms of use:
-You are free to use this script as long as the copyright message is kept intact. However, you may not
-redistribute, sell or repost it without our permission.
-
-Thank you!
-
-www.dhtmlgoodies.com
-Alf Magne Kalleland
-
-*/
-function showHideAnswer(zis)
-{
-	var numericID = zis.id.replace(/[^\d]/g,'');
-	var obj = document.getElementById('a' + numericID);
-	if(obj.style.display=='block'){
-        zis.innerHTML = '<span class="nobr">See example.</span>';
-		obj.style.display='none';
-	}else{
-        zis.innerHTML = '<span class="nobr">Hide example.</span>';
-		obj.style.display='block';
-	}
-}
-</script>
-
 </head>
 
 <body onLoad='bodyLoad()'>
@@ -74,12 +50,12 @@ function showHideAnswer(zis)
 	<div id="search-box">
 		<form method="get" action="http://google.com/search">
 			<img src="/images/search-left.gif" width="11" height="22" /><input id="q" name="q" /><input type="image" id="search-submit" name="submit" src="/images/search-button.gif" />
-			<input type="hidden" id="domains" name="domains" value="d-programming-language.org" />
+			<input type="hidden" id="domains" name="domains" value="dlang.org" />
 			<input type="hidden" id="sourceid" name="sourceid" value="google-search" />
 			<div id="search-dropdown">
 				<select id="sitesearch" name="sitesearch" size="1">
-					<option value="d-programming-language.org">Entire D Site</option>
-					<option value="d-programming-language.org/phobos">Library Reference</option>
+					<option value="dlang.org">Entire D Site</option>
+					<option value="dlang.org/phobos">Library Reference</option>
 					<option value="digitalmars.com/d/archives">Newsgroup Archives</option>
 				</select>
 			</div>
@@ -107,8 +83,8 @@ function showHideAnswer(zis)
 
 	<li><a href="download.html" title="Download a D compiler">Downloads &amp; Tools</a></li>
 
-	<li><a href="changelog.html" title="History of changes to D">Changelog</a></li>
-	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug tracker</a></li>
+	<li><a href="changelog.html" title="History of changes to D">Change Log</a></li>
+	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug Tracker</a></li>
 	<li><a href="faq.html" title="Frequently Asked Questions">FAQ</a></li>
 
 	<li><a href="appendices.html">Appendices</a></li>
@@ -128,7 +104,7 @@ function showHideAnswer(zis)
 
 	<li><a href="language-reference.html">Language Reference</a></li>
 	<li><a href="phobos/index.html">Library Reference</a></li>
-	<li><a href="howtos.html" title="Helps for using D">Howtos</a></li>
+	<li><a href="howtos.html" title="Helps for using D">How-tos</a></li>
 
 	<li><a href="articles.html">Articles</a></li>
 </ul>
@@ -137,10 +113,10 @@ function showHideAnswer(zis)
 
 <div class="navblock">
 <h2>Community</h2>
-<ul>	<li><a href="http://digitalmars.com/NewsGroup.html" title="User forums">Forums</a></li>
-	<li><a href="http://github.com/D-Programming-Language" title="D on github">Github</a></li>
+<ul>	<li><a href="http://forum.dlang.org/" title="User forums">Forums</a></li>
+	<li><a href="http://github.com/D-Programming-Language" title="D on github">GitHub</a></li>
 	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?FrontPage" title="Wiki for the D Programming Language">Wiki</a></li>
-	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review queue</a></li>
+	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review Queue</a></li>
 	<li><a href="http://twitter.com/#search?q=%23d_lang" title="#d_lang on twitter.com">Twitter</a></li>
 	<li><a href="http://digitalmars.com/d/dlinks.html" title="External D related links">Links</a></li>
 	
@@ -166,10 +142,24 @@ function showHideAnswer(zis)
 <div id="content" class='hyphenate'>
   
 <div id="tools">
-	<!--span id="lastupdate">Last update Mon Mar  5 00:18:20 2012
+	<!--span id="lastupdate">Last update Fri Jan 11 21:27:50 2013
 </span-->
-	<span id="wiki"><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Acknowledgements
-">Comment on this page</a></span>
+	<a href="https://github.com/D-Programming-Language/d-programming-language.org/edit/master/acknowledgements.dd" class="tip button">
+		Improve this page
+		<span>
+	        Quickly fork, edit online, and submit a pull request for this page.
+			Requires a signed-in GitHub account. This works well for small changes.
+			If you'd like to make larger changes you may want to consider using
+			local clone.
+		</span>
+	</a>
+	<a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Acknowledgements
+" class="tip button">
+		Page wiki
+		<span>
+	        View or edit the community-maintained wiki page associated with this page.
+		</span>
+	</a>
 </div>
 
   <h1>Acknowledgements</h1>
@@ -238,7 +228,7 @@ and moral support.
 
 
 <div id="footernav">
-<a href="http://digitalmars.com/NewsGroup.html" title="User Forums">Forums</a> |
+<a href="http://forum.dlang.org/" title="User Forums">Forums</a> |
 <a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Acknowledgements
 " title="Read/write comments and feedback">Comments</a> |
 <a href="http://digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a> |
@@ -247,9 +237,9 @@ and moral support.
 </div>
 <div id="copyright">
 
-Copyright &copy; 1999-2012 by Digital Mars &reg;, All Rights Reserved
+Copyright &copy; 1999-2013 by Digital Mars &reg;, All Rights Reserved
  |
-Page generated by <a href="ddoc.html">Ddoc</a> on Mon Mar  5 00:18:20 2012
+Page generated by <a href="ddoc.html">Ddoc</a> on Fri Jan 11 21:27:50 2013
 
 </div>
 

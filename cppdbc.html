@@ -3,7 +3,7 @@
 <html lang="en-US">
 
 <!--
-	Copyright (c) 1999-2012 by Digital Mars
+	Copyright (c) 1999-2013 by Digital Mars
 	All Rights Reserved Written by Walter Bright
 	http://digitalmars.com
   -->
@@ -13,11 +13,18 @@
 <meta name="keywords" content="D programming language" />
 <meta name="description" content="D Programming Language" />
 <title>D's Contract Programming vs C++'s - D Programming Language</title>
+<link rel="stylesheet" href="/css/codemirror.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="/js/codemirror.js"></script>
+<script src="/js/run-main-website.js" type="text/javascript"></script>
+<script src="/js/d.js"></script>
+<script src="/js/run.js" type="text/javascript"></script>
+
 <link rel="shortcut icon" href="favicon.ico" />
 
-<script src="/js/hyphenate_selectively.js" type="text/javascript"></script>
+<script src="/js/hyphenate.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 function bodyLoad()
@@ -35,37 +42,6 @@ function bodyLoad()
 	}
 }
 </script>
-
-<script type="text/javascript">
-/*
-(C) www.dhtmlgoodies.com, September 2005
-
-This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.
-
-Terms of use:
-You are free to use this script as long as the copyright message is kept intact. However, you may not
-redistribute, sell or repost it without our permission.
-
-Thank you!
-
-www.dhtmlgoodies.com
-Alf Magne Kalleland
-
-*/
-function showHideAnswer(zis)
-{
-	var numericID = zis.id.replace(/[^\d]/g,'');
-	var obj = document.getElementById('a' + numericID);
-	if(obj.style.display=='block'){
-        zis.innerHTML = '<span class="nobr">See example.</span>';
-		obj.style.display='none';
-	}else{
-        zis.innerHTML = '<span class="nobr">Hide example.</span>';
-		obj.style.display='block';
-	}
-}
-</script>
-
 </head>
 
 <body onLoad='bodyLoad()'>
@@ -74,12 +50,12 @@ function showHideAnswer(zis)
 	<div id="search-box">
 		<form method="get" action="http://google.com/search">
 			<img src="/images/search-left.gif" width="11" height="22" /><input id="q" name="q" /><input type="image" id="search-submit" name="submit" src="/images/search-button.gif" />
-			<input type="hidden" id="domains" name="domains" value="d-programming-language.org" />
+			<input type="hidden" id="domains" name="domains" value="dlang.org" />
 			<input type="hidden" id="sourceid" name="sourceid" value="google-search" />
 			<div id="search-dropdown">
 				<select id="sitesearch" name="sitesearch" size="1">
-					<option value="d-programming-language.org">Entire D Site</option>
-					<option value="d-programming-language.org/phobos">Library Reference</option>
+					<option value="dlang.org">Entire D Site</option>
+					<option value="dlang.org/phobos">Library Reference</option>
 					<option value="digitalmars.com/d/archives">Newsgroup Archives</option>
 				</select>
 			</div>
@@ -122,8 +98,8 @@ function showHideAnswer(zis)
 
 	<li><a href="download.html" title="Download a D compiler">Downloads &amp; Tools</a></li>
 
-	<li><a href="changelog.html" title="History of changes to D">Changelog</a></li>
-	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug tracker</a></li>
+	<li><a href="changelog.html" title="History of changes to D">Change Log</a></li>
+	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug Tracker</a></li>
 	<li><a href="faq.html" title="Frequently Asked Questions">FAQ</a></li>
 
 	<li><a href="appendices.html">Appendices</a></li>
@@ -143,7 +119,7 @@ function showHideAnswer(zis)
 
 	<li><a href="language-reference.html">Language Reference</a></li>
 	<li><a href="phobos/index.html">Library Reference</a></li>
-	<li><a href="howtos.html" title="Helps for using D">Howtos</a></li>
+	<li><a href="howtos.html" title="Helps for using D">How-tos</a></li>
 
 	<li><a href="articles.html">Articles</a></li>
 </ul>
@@ -152,10 +128,10 @@ function showHideAnswer(zis)
 
 <div class="navblock">
 <h2>Community</h2>
-<ul>	<li><a href="http://digitalmars.com/NewsGroup.html" title="User forums">Forums</a></li>
-	<li><a href="http://github.com/D-Programming-Language" title="D on github">Github</a></li>
+<ul>	<li><a href="http://forum.dlang.org/" title="User forums">Forums</a></li>
+	<li><a href="http://github.com/D-Programming-Language" title="D on github">GitHub</a></li>
 	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?FrontPage" title="Wiki for the D Programming Language">Wiki</a></li>
-	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review queue</a></li>
+	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review Queue</a></li>
 	<li><a href="http://twitter.com/#search?q=%23d_lang" title="#d_lang on twitter.com">Twitter</a></li>
 	<li><a href="http://digitalmars.com/d/dlinks.html" title="External D related links">Links</a></li>
 	
@@ -181,30 +157,42 @@ function showHideAnswer(zis)
 <div id="content" class='hyphenate'>
   
 <div id="tools">
-	<!--span id="lastupdate">Last update Mon Mar  5 00:18:17 2012
+	<!--span id="lastupdate">Last update Fri Jan 11 21:27:48 2013
 </span-->
-	<span id="wiki"><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/CppDbc
+	<a href="https://github.com/D-Programming-Language/d-programming-language.org/edit/master/cppdbc.dd" class="tip button">
+		Improve this page
+		<span>
+	        Quickly fork, edit online, and submit a pull request for this page.
+			Requires a signed-in GitHub account. This works well for small changes.
+			If you'd like to make larger changes you may want to consider using
+			local clone.
+		</span>
+	</a>
+	<a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/CppDbc
 
-">Comment on this page</a></span>
+" class="tip button">
+		Page wiki
+		<span>
+	        View or edit the community-maintained wiki page associated with this page.
+		</span>
+	</a>
 </div>
 
   <h1>D's Contract Programming vs C++'s</h1>
   
-	Many people have written me saying that D's Contract Programming
+	<p>Many people have written me saying that D's Contract Programming
 	(DbC) does not add anything that C++ does not already support.
 	They go on to illustrate their point with a technique for doing DbC in
-	C++.
-	<p>
+	C++.</p>
 
-	It makes sense to review what DbC is, how it is done in D,
+	<p>It makes sense to review what DbC is, how it is done in D,
 	and stack that up with what each of the various C++ DbC techniques
-	can do.
-	<p>
+	can do.</p>
 
-	Digital Mars C++ adds
+	<p>Digital Mars C++ adds
 	<a href="http://digitalmars.com/ctg/contract.html">extensions to C++</a>
 	to support DbC, but they are not covered here because they are not
-	part of standard C++ and are not supported by any other C++ compiler.
+	part of standard C++ and are not supported by any other C++ compiler.</p>
 
 <h2>Contract Programming in D</h2>
 
@@ -257,19 +245,17 @@ function showHideAnswer(zis)
 
 <h3>The <span class="notranslate"><span class="d_inlinecode">assert</span></span> Macro</h3>
 
-	C++ does have the basic <span class="notranslate"><span class="d_inlinecode">assert</span></span> macro, which tests its argument
+	<p>C++ does have the basic <span class="notranslate"><span class="d_inlinecode">assert</span></span> macro, which tests its argument
 	and if it fails, aborts the program. <span class="notranslate"><span class="d_inlinecode">assert</span></span> can be turned
-	on and off with the <span class="notranslate"><span class="d_inlinecode">NDEBUG</span></span> macro.
-	<p>
+	on and off with the <span class="notranslate"><span class="d_inlinecode">NDEBUG</span></span> macro.</p>
 
-	<span class="notranslate"><span class="d_inlinecode">assert</span></span> does not know anything about class invariants,
+	<p><span class="notranslate"><span class="d_inlinecode">assert</span></span> does not know anything about class invariants,
 	and does not throw an exception when it fails. It just aborts
 	the program after writing a message. <span class="notranslate"><span class="d_inlinecode">assert</span></span> relies on
-	a macro text preprocessor to work.
-	<p>
+	a macro text preprocessor to work.</p>
 
-	<span class="notranslate"><span class="d_inlinecode">assert</span></span> is where explicit support for DbC in Standard C++
-	begins and ends.
+	<p><span class="notranslate"><span class="d_inlinecode">assert</span></span> is where explicit support for DbC in Standard C++
+	begins and ends.</p>
 
 <h3>Class Invariants</h3>
 
@@ -426,15 +412,14 @@ void B::barG()
 }
 </span></pre>
 
-	If the preconditions and postconditions consist of nothing
+	<p>If the preconditions and postconditions consist of nothing
 	more than <span class="notranslate"><span class="d_inlinecode">assert</span></span> macros, the whole doesn't need to
 	be wrapped in a <span class="notranslate"><span class="d_inlinecode">#ifdef</span></span> pair, since a good C++ compiler will
-	optimize the whole thing away if the <span class="notranslate"><span class="d_inlinecode">assert</span></span>s are turned off.
-	<p>
+	optimize the whole thing away if the <span class="notranslate"><span class="d_inlinecode">assert</span></span>s are turned off.</p>
 
-	But suppose <span class="notranslate"><span class="d_inlinecode">foo()</span></span> sorts an array, and the postcondition needs
+	<p>But suppose <span class="notranslate"><span class="d_inlinecode">foo()</span></span> sorts an array, and the postcondition needs
 	to walk the array and verify that it really is sorted. Now
-	the shebang needs to be wrapped in <span class="notranslate"><span class="d_inlinecode">#ifdef</span></span>:
+	the shebang needs to be wrapped in <span class="notranslate"><span class="d_inlinecode">#ifdef</span></span>:</p>
 
 <pre class="ccode"><span class="notranslate">void foo()
 {
@@ -448,14 +433,13 @@ void B::barG()
 }
 </span></pre>
 
-	(One can make use of the C++ rule that templates are only
+	<p>(One can make use of the C++ rule that templates are only
 	instantiated when used can be used to avoid the <span class="notranslate"><span class="d_inlinecode">#ifdef</span></span>, by
 	putting the conditions into a template function referenced
-	by the <span class="notranslate"><span class="d_inlinecode">assert</span></span>.)
-	<p>
+	by the <span class="notranslate"><span class="d_inlinecode">assert</span></span>.)</p>
 
-	Let's add a return value to <span class="notranslate"><span class="d_inlinecode">foo()</span></span> that needs to be checked in
-	the postconditions. In D:
+	<p>Let's add a return value to <span class="notranslate"><span class="d_inlinecode">foo()</span></span> that needs to be checked in
+	the postconditions. In D:</p>
 
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">int</span> foo()
     <span class="d_keyword">in</span> { ...preconditions... }
@@ -637,33 +621,30 @@ public:
 
 <h2>Conclusion</h2>
 
-	These C++ techniques can work up to a point. But, aside from
+	<p>These C++ techniques can work up to a point. But, aside from
 	<span class="notranslate"><span class="d_inlinecode">assert</span></span>, they are not standardized and so will vary from
 	project to project. Furthermore, they require much tedious
 	adhesion to a particular convention, and add significant clutter
-	to the code. Perhaps that's why it's rarely seen in practice.
-	<p>
+	to the code. Perhaps that's why it's rarely seen in practice.</p>
 
-	By adding support for DbC into the language, D offers an easy
+	<p>By adding support for DbC into the language, D offers an easy
 	way to use DbC and get it right. Being in the language standardizes
-	the way it will be used from project to project.
+	the way it will be used from project to project.</p>
 
 <h2>References</h2>
 
-	Chapter C.11 introduces the theory and rationale of
+	<p>Chapter C.11 introduces the theory and rationale of
 	Contract Programming in
 	<a href="http://www.amazon.com/exec/obidos/ASIN/0136291554/classicempire">
 	Object-Oriented Software Construction
 	</a><br>
-	Bertrand Meyer, Prentice Hall
-	<p>
+	Bertrand Meyer, Prentice Hall</p>
 
-	Chapters 24.3.7.1 to 24.3.7.3 discuss Contract Programming in C++ in
+	<p>Chapters 24.3.7.1 to 24.3.7.3 discuss Contract Programming in C++ in
 	<a href="http://www.amazon.com/exec/obidos/ASIN/0201700735/classicempire">
 	The C++ Programming Language Special Edition
 	</a><br>
-	Bjarne Stroustrup, Addison-Wesley
-	<p>
+	Bjarne Stroustrup, Addison-Wesley</p>
 
 
   
@@ -688,7 +669,7 @@ public:
 
 
 <div id="footernav">
-<a href="http://digitalmars.com/NewsGroup.html" title="User Forums">Forums</a> |
+<a href="http://forum.dlang.org/" title="User Forums">Forums</a> |
 <a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/CppDbc
 
 " title="Read/write comments and feedback">Comments</a> |
@@ -698,9 +679,9 @@ public:
 </div>
 <div id="copyright">
 
-Copyright &copy; 1999-2012 by Digital Mars &reg;, All Rights Reserved
+Copyright &copy; 1999-2013 by Digital Mars &reg;, All Rights Reserved
  |
-Page generated by <a href="ddoc.html">Ddoc</a> on Mon Mar  5 00:18:17 2012
+Page generated by <a href="ddoc.html">Ddoc</a> on Fri Jan 11 21:27:48 2013
 
 </div>
 

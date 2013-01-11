@@ -3,7 +3,7 @@
 <html lang="en-US">
 
 <!--
-	Copyright (c) 1999-2012 by Digital Mars
+	Copyright (c) 1999-2013 by Digital Mars
 	All Rights Reserved Written by Walter Bright
 	http://digitalmars.com
   -->
@@ -13,11 +13,18 @@
 <meta name="keywords" content="D programming language" />
 <meta name="description" content="D Programming Language" />
 <title>Classes - D Programming Language</title>
+<link rel="stylesheet" href="/css/codemirror.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="/js/codemirror.js"></script>
+<script src="/js/run-main-website.js" type="text/javascript"></script>
+<script src="/js/d.js"></script>
+<script src="/js/run.js" type="text/javascript"></script>
+
 <link rel="shortcut icon" href="favicon.ico" />
 
-<script src="/js/hyphenate_selectively.js" type="text/javascript"></script>
+<script src="/js/hyphenate.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 function bodyLoad()
@@ -35,37 +42,6 @@ function bodyLoad()
 	}
 }
 </script>
-
-<script type="text/javascript">
-/*
-(C) www.dhtmlgoodies.com, September 2005
-
-This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.
-
-Terms of use:
-You are free to use this script as long as the copyright message is kept intact. However, you may not
-redistribute, sell or repost it without our permission.
-
-Thank you!
-
-www.dhtmlgoodies.com
-Alf Magne Kalleland
-
-*/
-function showHideAnswer(zis)
-{
-	var numericID = zis.id.replace(/[^\d]/g,'');
-	var obj = document.getElementById('a' + numericID);
-	if(obj.style.display=='block'){
-        zis.innerHTML = '<span class="nobr">See example.</span>';
-		obj.style.display='none';
-	}else{
-        zis.innerHTML = '<span class="nobr">Hide example.</span>';
-		obj.style.display='block';
-	}
-}
-</script>
-
 </head>
 
 <body onLoad='bodyLoad()'>
@@ -74,12 +50,12 @@ function showHideAnswer(zis)
 	<div id="search-box">
 		<form method="get" action="http://google.com/search">
 			<img src="/images/search-left.gif" width="11" height="22" /><input id="q" name="q" /><input type="image" id="search-submit" name="submit" src="/images/search-button.gif" />
-			<input type="hidden" id="domains" name="domains" value="d-programming-language.org" />
+			<input type="hidden" id="domains" name="domains" value="dlang.org" />
 			<input type="hidden" id="sourceid" name="sourceid" value="google-search" />
 			<div id="search-dropdown">
 				<select id="sitesearch" name="sitesearch" size="1">
-					<option value="d-programming-language.org">Entire D Site</option>
-					<option value="d-programming-language.org/phobos">Library Reference</option>
+					<option value="dlang.org">Entire D Site</option>
+					<option value="dlang.org/phobos">Library Reference</option>
 					<option value="digitalmars.com/d/archives">Newsgroup Archives</option>
 				</select>
 			</div>
@@ -107,8 +83,8 @@ function showHideAnswer(zis)
 
 	<li><a href="download.html" title="Download a D compiler">Downloads &amp; Tools</a></li>
 
-	<li><a href="changelog.html" title="History of changes to D">Changelog</a></li>
-	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug tracker</a></li>
+	<li><a href="changelog.html" title="History of changes to D">Change Log</a></li>
+	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug Tracker</a></li>
 	<li><a href="faq.html" title="Frequently Asked Questions">FAQ</a></li>
 
 	<li><a href="appendices.html">Appendices</a></li>
@@ -169,7 +145,7 @@ function showHideAnswer(zis)
 </div>
 </li>
 	<li><a href="phobos/index.html">Library Reference</a></li>
-	<li><a href="howtos.html" title="Helps for using D">Howtos</a></li>
+	<li><a href="howtos.html" title="Helps for using D">How-tos</a></li>
 
 	<li><a href="articles.html">Articles</a></li>
 </ul>
@@ -178,10 +154,10 @@ function showHideAnswer(zis)
 
 <div class="navblock">
 <h2>Community</h2>
-<ul>	<li><a href="http://digitalmars.com/NewsGroup.html" title="User forums">Forums</a></li>
-	<li><a href="http://github.com/D-Programming-Language" title="D on github">Github</a></li>
+<ul>	<li><a href="http://forum.dlang.org/" title="User forums">Forums</a></li>
+	<li><a href="http://github.com/D-Programming-Language" title="D on github">GitHub</a></li>
 	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?FrontPage" title="Wiki for the D Programming Language">Wiki</a></li>
-	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review queue</a></li>
+	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review Queue</a></li>
 	<li><a href="http://twitter.com/#search?q=%23d_lang" title="#d_lang on twitter.com">Twitter</a></li>
 	<li><a href="http://digitalmars.com/d/dlinks.html" title="External D related links">Links</a></li>
 	
@@ -207,9 +183,23 @@ function showHideAnswer(zis)
 <div id="content" class='hyphenate'>
   
 <div id="tools">
-	<!--span id="lastupdate">Last update Mon Mar  5 00:18:18 2012
+	<!--span id="lastupdate">Last update Fri Jan 11 21:27:48 2013
 </span-->
-	<span id="wiki"><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Class">Comment on this page</a></span>
+	<a href="https://github.com/D-Programming-Language/d-programming-language.org/edit/master/class.dd" class="tip button">
+		Improve this page
+		<span>
+	        Quickly fork, edit online, and submit a pull request for this page.
+			Requires a signed-in GitHub account. This works well for small changes.
+			If you'd like to make larger changes you may want to consider using
+			local clone.
+		</span>
+	</a>
+	<a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Class" class="tip button">
+		Page wiki
+		<span>
+	        View or edit the community-maintained wiki page associated with this page.
+		</span>
+	</a>
 </div>
 
   <h1>Classes</h1>
@@ -320,7 +310,7 @@ Foo var;
 	<p>Access to class members is controlled using <a href="attribute.html#ProtectionAttribute"><i>ProtectionAttribute</i></a>s.
 	The default protection attribute is <span class="notranslate"><span class="d_inlinecode">public</span></span>.
 	Access control does not affect visibility.
-	</p> 
+	</p>
 
 <h3>Fields</h3>
 
@@ -479,10 +469,9 @@ Foo var;
 
         This static initialization is done before any constructors are
         called.
-        <p>
 
-        Constructors are defined with a function name of <b>this</b>
-        and having no return value:
+        <p>Constructors are defined with a function name of <b>this</b>
+        and having no return value:</p>
 
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">class</span> Foo {
   <b><span class="d_keyword">this</span></b>(<span class="d_keyword">int</span> x)  <span class="d_comment">// declare constructor for Foo
@@ -529,10 +518,9 @@ Foo var;
         If no call to constructors via <b>this</b> or <b>super</b> appear
         in a constructor, and the base class has a constructor, a call
         to <b>super</b>() is inserted at the beginning of the constructor.
-        <p>
 
-        If there is no constructor for a class, but there is a constructor
-        for the base class, a default constructor of the form:
+        <p>If there is no constructor for a class, but there is a constructor
+        for the base class, a default constructor of the form:</p>
 
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">this</span>() { }
 </span></pre>
@@ -704,16 +692,15 @@ Foo var;
         a runtime error? Additional confusion comes from it not being obvious if
         an initializer is
         static or dynamic.
-        <p>
 
-        D makes this simple. All member initializations must be determinable by
+        <p>D makes this simple. All member initializations must be determinable by
         the compiler at
         compile time, hence there is no order-of-evaluation dependency for
         member
         initializations, and it is not possible to read a value that has not
         been initialized. Dynamic
         initialization is performed by a static constructor, defined with
-        a special syntax <span class="notranslate"><span class="d_inlinecode">static this()</span></span>.
+        a special syntax <span class="notranslate"><span class="d_inlinecode">static this()</span></span>.</p>
 
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">class</span> Foo {
   <span class="d_keyword">static</span> <span class="d_keyword">int</span> a;         <span class="d_comment">// default initialized to 0
@@ -828,84 +815,11 @@ Foo var;
 </span></pre>
 
     Class invariants are used to specify characteristics of a class that always
-    must be true (except while executing a member function). For example, a
-    class representing a date might have an invariant that the day must be 1..31
-    and the hour must be 0..23:
-
-<pre class="d_code"><span class="notranslate"><span class="d_keyword">class</span> Date {
-  <span class="d_keyword">int</span> day;
-  <span class="d_keyword">int</span> hour;
-
-  <b><span class="d_keyword">invariant</span>()</b> {
-    <span class="d_keyword">assert</span>(1 &lt;= day &amp;&amp; day &lt;= 31);
-    <span class="d_keyword">assert</span>(0 &lt;= hour &amp;&amp; hour &lt; 24);
-  }
-}
-</span></pre>
-
-        <p>The class invariant is a contract saying that the asserts must hold
-        true.
-        The invariant is checked when a class constructor completes,
-        at the start of the class destructor. For public or exported functions,
-	the order of execution is:
-        </p>
-
-	<ol>	<li>preconditions</li>
-	<li>invariant</li>
-	<li>body</li>
-	<li>invariant</li>
-	<li>postconditions</li>
-	</ol>
-
-        <p>The code in the invariant may not call any public non-static members
-        of the
-        class, either directly or indirectly.
-        Doing so will result in a stack overflow, as the invariant will wind
-        up being called in an infinitely recursive manner.
-        </p>
-
-	<p>Invariants are implicitly const.</p>
-
-        <p>Since the invariant is called at the start of public or
-        exported members, such members should not be called from
-        constructors.
-        </p>
-
-<pre class="d_code"><span class="notranslate"><span class="d_keyword">class</span> Foo {
-  <span class="d_keyword">public</span> <span class="d_keyword">void</span> f() { }
-  <span class="d_keyword">private</span> <span class="d_keyword">void</span> g() { }
-
-  <b><span class="d_keyword">invariant</span>()</b> {
-    f();  <span class="d_comment">// error, cannot call public member function from invariant
-</span>    g();  <span class="d_comment">// ok, g() is not public
-</span>  }
-}
-</span></pre>
-
-        The invariant
-        can be checked when a class object is the argument to an
-        <code>assert()</code> expression, as:
-
-<pre class="d_code"><span class="notranslate">Date mydate;
-...
-<span class="d_keyword">assert</span>(mydate);         <span class="d_comment">// check that class Date invariant holds
-</span></span></pre>
-
-        Invariants contain assert expressions, and so when they fail,
-        they throw a <span class="notranslate"><span class="d_inlinecode">AssertError</span></span>s.
-        Class invariants are inherited, that is,
-        any class invariant is implicitly anded with the invariants of its base
-        classes.
-        <p>
-
-        There can be only one <i>Invariant</i> per class.
-        <p>
-
-        When compiling for release, the invariant code is not generated, and the compiled program
-        runs at maximum speed.
+    must be true (except while executing a member function).
+    They are described in <a href="dbc.html#Invariants"><i>Invariants</i></a>.
 
 <h3><a name="allocators">Class Allocators</a></h3>
-
+<b>Note</b>: Class allocators are deprecated in D2.
 <pre class="bnf"><span class="notranslate"><a name="ClassAllocator"><i>ClassAllocator</i></a>:
     <b>new</b> <a href="declaration.html#Parameters"><i>Parameters</i></a> <a href="function.html#FunctionBody"><i>FunctionBody</i></a>
 </span></pre>
@@ -965,6 +879,16 @@ Foo var;
         </p>
 
 <h3><a name="deallocators">Class Deallocators</a></h3>
+<b>Note</b>: Class deallocators and the delete operator are deprecated in D2.
+Use the <b>destroy</b> function to finalize an object by calling its destructor.
+The memory of the object is <b>not</b> immediately deallocated, instead the GC
+will collect the memory of the object at an undetermined point after finalization:
+
+<pre class="d_code"><span class="notranslate"><span class="d_keyword">class</span> Foo { <span class="d_keyword">int</span> x; <span class="d_keyword">this</span>() { x = 1; } }
+Foo foo = <span class="d_keyword">new</span> Foo;
+destroy(foo);
+<span class="d_keyword">assert</span>(foo.x == <span class="d_keyword">int</span>.init);  <span class="d_comment">// object is still accessible
+</span></span></pre>
 
 <pre class="bnf"><span class="notranslate"><a name="ClassDeallocator"><i>ClassDeallocator</i></a>:
     <b>delete</b> <a href="declaration.html#Parameters"><i>Parameters</i></a> <a href="function.html#FunctionBody"><i>FunctionBody</i></a>
@@ -1084,6 +1008,7 @@ Foo var;
         and forwarded lookups, all <i>AliasThis</i> declarations are attempted;
         if more than one <i>AliasThis</i> is eligible, the ambiguity is
         disallowed by raising an error.
+        Note: Multiple <i>AliasThis</i> is currently unimplemented.
         </p>
 
 
@@ -1096,10 +1021,9 @@ Foo var;
 
         The scope characteristic is inherited, so if any classes derived
         from a scope class are also scope.
-        <p>
 
-        An scope class reference can only appear as a function local variable.
-        It must be declared as being <b>scope</b>:
+        <p>An scope class reference can only appear as a function local variable.
+        It must be declared as being <b>scope</b>:</p>
 
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">scope</span> <span class="d_keyword">class</span> Foo { ... }
 
@@ -1183,13 +1107,12 @@ Foo var;
         that is the frame pointer of the enclosing function if it is nested
         inside a function, or the <b>this</b> of the enclosing class's instance
         if it is nested inside a class.
-        <p>
 
-        When a non-static nested class is instantiated, the context pointer
+        <p>When a non-static nested class is instantiated, the context pointer
         is assigned before the class's constructor is called, therefore
         the constructor has full access to the enclosing variables.
         A non-static nested class can only be instantiated when the necessary
-        context pointer information is available:
+        context pointer information is available:</p>
 
 <pre class="d_code"><span class="notranslate"><span class="d_keyword">class</span> Outer {
   <span class="d_keyword">class</span> Inner { }
@@ -1287,14 +1210,13 @@ Foo var;
         nested class.
         </p>
 
-<h3><a name="ConstClass">Const Immutable and Shared Classes</a></h3>
+<h3><a name="ConstClass">Const, Immutable and Shared Classes</a></h3>
         <p>If a <i>ClassDeclaration</i> has a <span class="notranslate"><span class="d_inlinecode">const</span></span>, <span class="notranslate"><span class="d_inlinecode">immutable</span></span>
         or <span class="notranslate"><span class="d_inlinecode">shared</span></span> storage class, then it is as if each member of the class
         was declared with that storage class.
         If a base class is const, immutable or shared, then all classes derived
         from it are also const, immutable or shared.
         </p>
-
 
 
 
@@ -1321,7 +1243,7 @@ Foo var;
 
 
 <div id="footernav">
-<a href="http://digitalmars.com/NewsGroup.html" title="User Forums">Forums</a> |
+<a href="http://forum.dlang.org/" title="User Forums">Forums</a> |
 <a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Class" title="Read/write comments and feedback">Comments</a> |
 <a href="http://digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a> |
 <a href="download.html" title="Download D">Downloads</a> |
@@ -1329,9 +1251,9 @@ Foo var;
 </div>
 <div id="copyright">
 
-Copyright &copy; 1999-2012 by Digital Mars &reg;, All Rights Reserved
+Copyright &copy; 1999-2013 by Digital Mars &reg;, All Rights Reserved
  |
-Page generated by <a href="ddoc.html">Ddoc</a> on Mon Mar  5 00:18:18 2012
+Page generated by <a href="ddoc.html">Ddoc</a> on Fri Jan 11 21:27:48 2013
 
 </div>
 

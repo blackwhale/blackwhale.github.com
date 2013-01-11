@@ -3,7 +3,7 @@
 <html lang="en-US">
 
 <!--
-	Copyright (c) 1999-2012 by Digital Mars
+	Copyright (c) 1999-2013 by Digital Mars
 	All Rights Reserved Written by Walter Bright
 	http://digitalmars.com
   -->
@@ -13,11 +13,18 @@
 <meta name="keywords" content="D programming language" />
 <meta name="description" content="D Programming Language" />
 <title>Errors - D Programming Language</title>
+<link rel="stylesheet" href="/css/codemirror.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="/js/codemirror.js"></script>
+<script src="/js/run-main-website.js" type="text/javascript"></script>
+<script src="/js/d.js"></script>
+<script src="/js/run.js" type="text/javascript"></script>
+
 <link rel="shortcut icon" href="favicon.ico" />
 
-<script src="/js/hyphenate_selectively.js" type="text/javascript"></script>
+<script src="/js/hyphenate.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 function bodyLoad()
@@ -35,37 +42,6 @@ function bodyLoad()
 	}
 }
 </script>
-
-<script type="text/javascript">
-/*
-(C) www.dhtmlgoodies.com, September 2005
-
-This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.
-
-Terms of use:
-You are free to use this script as long as the copyright message is kept intact. However, you may not
-redistribute, sell or repost it without our permission.
-
-Thank you!
-
-www.dhtmlgoodies.com
-Alf Magne Kalleland
-
-*/
-function showHideAnswer(zis)
-{
-	var numericID = zis.id.replace(/[^\d]/g,'');
-	var obj = document.getElementById('a' + numericID);
-	if(obj.style.display=='block'){
-        zis.innerHTML = '<span class="nobr">See example.</span>';
-		obj.style.display='none';
-	}else{
-        zis.innerHTML = '<span class="nobr">Hide example.</span>';
-		obj.style.display='block';
-	}
-}
-</script>
-
 </head>
 
 <body onLoad='bodyLoad()'>
@@ -74,12 +50,12 @@ function showHideAnswer(zis)
 	<div id="search-box">
 		<form method="get" action="http://google.com/search">
 			<img src="/images/search-left.gif" width="11" height="22" /><input id="q" name="q" /><input type="image" id="search-submit" name="submit" src="/images/search-button.gif" />
-			<input type="hidden" id="domains" name="domains" value="d-programming-language.org" />
+			<input type="hidden" id="domains" name="domains" value="dlang.org" />
 			<input type="hidden" id="sourceid" name="sourceid" value="google-search" />
 			<div id="search-dropdown">
 				<select id="sitesearch" name="sitesearch" size="1">
-					<option value="d-programming-language.org">Entire D Site</option>
-					<option value="d-programming-language.org/phobos">Library Reference</option>
+					<option value="dlang.org">Entire D Site</option>
+					<option value="dlang.org/phobos">Library Reference</option>
 					<option value="digitalmars.com/d/archives">Newsgroup Archives</option>
 				</select>
 			</div>
@@ -107,8 +83,8 @@ function showHideAnswer(zis)
 
 	<li><a href="download.html" title="Download a D compiler">Downloads &amp; Tools</a></li>
 
-	<li><a href="changelog.html" title="History of changes to D">Changelog</a></li>
-	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug tracker</a></li>
+	<li><a href="changelog.html" title="History of changes to D">Change Log</a></li>
+	<li><a href="bugstats.php" title="D issue and bug tracking system">Bug Tracker</a></li>
 	<li><a href="faq.html" title="Frequently Asked Questions">FAQ</a></li>
 
 	<li><a href="appendices.html">Appendices</a></li>
@@ -170,7 +146,7 @@ function showHideAnswer(zis)
 
 </li>
 	<li><a href="phobos/index.html">Library Reference</a></li>
-	<li><a href="howtos.html" title="Helps for using D">Howtos</a></li>
+	<li><a href="howtos.html" title="Helps for using D">How-tos</a></li>
 
 	<li><a href="articles.html">Articles</a></li>
 </ul>
@@ -179,10 +155,10 @@ function showHideAnswer(zis)
 
 <div class="navblock">
 <h2>Community</h2>
-<ul>	<li><a href="http://digitalmars.com/NewsGroup.html" title="User forums">Forums</a></li>
-	<li><a href="http://github.com/D-Programming-Language" title="D on github">Github</a></li>
+<ul>	<li><a href="http://forum.dlang.org/" title="User forums">Forums</a></li>
+	<li><a href="http://github.com/D-Programming-Language" title="D on github">GitHub</a></li>
 	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?FrontPage" title="Wiki for the D Programming Language">Wiki</a></li>
-	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review queue</a></li>
+	<li><a href="http://prowiki.org/wiki4d/wiki.cgi?ReviewQueue" title="Queue of current and upcoming standard library additions">Review Queue</a></li>
 	<li><a href="http://twitter.com/#search?q=%23d_lang" title="#d_lang on twitter.com">Twitter</a></li>
 	<li><a href="http://digitalmars.com/d/dlinks.html" title="External D related links">Links</a></li>
 	
@@ -208,9 +184,23 @@ function showHideAnswer(zis)
 <div id="content" class='hyphenate'>
   
 <div id="tools">
-	<!--span id="lastupdate">Last update Mon Mar  5 00:18:19 2012
+	<!--span id="lastupdate">Last update Fri Jan 11 21:27:49 2013
 </span-->
-	<span id="wiki"><a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Errors">Comment on this page</a></span>
+	<a href="https://github.com/D-Programming-Language/d-programming-language.org/edit/master/errors.dd" class="tip button">
+		Improve this page
+		<span>
+	        Quickly fork, edit online, and submit a pull request for this page.
+			Requires a signed-in GitHub account. This works well for small changes.
+			If you'd like to make larger changes you may want to consider using
+			local clone.
+		</span>
+	</a>
+	<a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Errors" class="tip button">
+		Page wiki
+		<span>
+	        View or edit the community-maintained wiki page associated with this page.
+		</span>
+	</a>
 </div>
 
   <h1>Errors</h1>
@@ -223,8 +213,7 @@ All programs have to deal with errors. Errors are unexpected conditions that
 are not part of the normal operation of a program. Examples of common errors
 are:
 
-<ul>
-	<li>Out of memory.</li>
+<ul>	<li>Out of memory.</li>
 	<li>Out of disk space.</li>
 	<li>Invalid file name.</li>
 	<li>Attempting to write to a read-only file.</li>
@@ -237,8 +226,7 @@ are:
 The traditional C way of detecting and reporting errors is not traditional,
 it is ad-hoc and varies from function to function, including:
 
-<ul>
-	<li>Returning a NULL pointer.</li>
+<ul>	<li>Returning a NULL pointer.</li>
 	<li>Returning a 0 value.</li>
 	<li>Returning a non-zero error code.</li>
 	<li>Requiring errno to be checked.</li>
@@ -246,7 +234,7 @@ it is ad-hoc and varies from function to function, including:
 		function failed.</li>
 </ul>
 
-To deal with these possible errors, tedious error handling code must be added
+<p>To deal with these possible errors, tedious error handling code must be added
 to each function call. If an error happened, code must be written to recover
 from the error, and the error must be reported to the user in some user friendly
 fashion. If an error cannot be handled locally, it must be explicitly
@@ -255,28 +243,23 @@ The long list of errno values needs to be converted into appropriate
 text to be displayed. Adding all the code to do this can consume a large part
 of the time spent coding a project - and still, if a new errno value is added
 to the runtime system, the old code can not properly display a meaningful
-error message.
-<p>
+error message.</p>
 
-Good error handling code tends to clutter up what otherwise would be a neat
-and clean looking implementation.
-<p>
+<p>Good error handling code tends to clutter up what otherwise would be a neat
+and clean looking implementation.</p>
 
-Even worse, good error handling code is itself error prone, tends to be the
+<p>Even worse, good error handling code is itself error prone, tends to be the
 least tested (and therefore buggy) part of the project, and is frequently
 simply omitted. The end result is likely a "blue screen of death" as the
-program failed to deal with some unanticipated error.
-<p>
+program failed to deal with some unanticipated error.</p>
 
-Quick and dirty programs are not worth writing tedious error handling code
+<p>Quick and dirty programs are not worth writing tedious error handling code
 for, and so such utilities tend to be like using a table saw with no
-blade guards.
-<p>
+blade guards.</p>
 
 What's needed is an error handling philosophy and methodology such that:
 
-<ul>
-	<li>It is standardized - consistent usage makes it more useful.</li>
+<ul>	<li>It is standardized - consistent usage makes it more useful.</li>
 	<li>The result is reasonable even if the programmer fails
 	to check for errors.</li>
 	<li>Old code can be reused with new code without having
@@ -291,8 +274,7 @@ What's needed is an error handling philosophy and methodology such that:
 
 Let's first make some observations and assumptions about errors:
 
-<ul>
-	<li>Errors are not part of the normal flow of a program. Errors
+<ul>	<li>Errors are not part of the normal flow of a program. Errors
 	are exceptional, unusual, and unexpected.</li>
 	<li>Because errors are unusual, execution of error handling code
 	is not performance critical.</li>
@@ -304,89 +286,87 @@ Let's first make some observations and assumptions about errors:
 	than the code that must recover from the error.</li>
 </ul>
 
-The solution is to use exception handling to report errors. All errors are
+<p>The solution is to use exception handling to report errors. All errors are
 objects derived from abstract class Error. class Error has a pure virtual
 function called toString() which produces a char[] with a human readable
-description of the error.
-<p>
+description of the error.</p>
 
-If code detects an error like "out of memory," then an Error is thrown
+<p>If code detects an error like "out of memory," then an Error is thrown
 with a message saying "Out of memory". The function call stack is unwound,
 looking for a handler for the Error.
 <a href="statement.html#TryStatement">Finally blocks</a>
 are executed as the
 stack is unwound. If an error handler is found, execution resumes there. If
 not, the default Error handler is run, which displays the message and
-terminates the program.
-<p>
+terminates the program.</p>
 
-How does this meet our criteria?
+<p>How does this meet our criteria?</p>
 
 <dl>
-	<dt> It is standardized - consistent usage makes it more useful.
-	<dd> This is the D way, and is used consistently in the D
-	    runtime library and examples.
+	<dt>It is standardized - consistent usage makes it more useful.</dt>
+	<dd>This is the D way, and is used consistently in the D
+	    runtime library and examples.</dd>
 
-	<dt> The result is reasonable result even if the programmer fails
-	to check for errors.
-	<dd> If no catch handlers are there for the errors, then the
+	<dt>The result is reasonable result even if the programmer fails
+	to check for errors.</dt>
+	<dd>If no catch handlers are there for the errors, then the
 	program gracefully exits through the default error handler
-	with an appropriate message.
+	with an appropriate message.</dd>
 
-	<dt> Old code can be reused with new code without having
-	to modify the old code to be compatible with new error types.
-	<dd> Old code can decide to catch all errors, or only specific ones,
+	<dt>Old code can be reused with new code without having
+	to modify the old code to be compatible with new error types.</dt>
+	<dd>Old code can decide to catch all errors, or only specific ones,
 	propagating the rest upwards. In any case, there is no more
 	need to correlate error numbers with messages, the correct message
-	is always supplied.
+	is always supplied.</dd>
 
-	<dt> No errors get inadvertently ignored.
-	<dd> Error exceptions get handled one way or another. There is nothing
+	<dt>No errors get inadvertently ignored.</dt>
+	<dd>Error exceptions get handled one way or another. There is nothing
 	like a NULL pointer return indicating an error, followed by trying to
-	use that NULL pointer.
+	use that NULL pointer.</dd>
 
-	<dt> 'Quick and dirty' utilities can be written that still
-	correctly handle errors.
-	<dd> Quick and dirty code need not write any error handling code at
+	<dt>'Quick and dirty' utilities can be written that still
+	correctly handle errors.</dt>
+	<dd>Quick and dirty code need not write any error handling code at
 	all, and don't need to check for errors. The errors will be caught,
 	an appropriate message displayed, and the program gracefully shut down
-	all by default.
+	all by default.</dd>
 
-	<dt> It is easy to make the error handling source code look good.
-	<dd> The try/catch/finally statements look a lot nicer than endless
-	if (error) goto errorhandler; statements.
+	<dt>It is easy to make the error handling source code look good.</dt>
+	<dd>The try/catch/finally statements look a lot nicer than endless
+	if (error) goto errorhandler; statements.</dd>
 </dl>
 
 How does this meet our assumptions about errors?
 
 <dl>
-	<dt> Errors are not part of the normal flow of a program. Errors
-	are exceptional, unusual, and unexpected.
-	<dd> D exception handling fits right in with that.
+	<dt>Errors are not part of the normal flow of a program. Errors
+	are exceptional, unusual, and unexpected.</dt>
+	<dd>D exception handling fits right in with that.</dd>
 
-	<dt> Because errors are unusual, execution of error handling code
-	is not performance critical.
-	<dd> Exception handling stack unwinding is a relatively slow process.
+	<dt>Because errors are unusual, execution of error handling code
+	is not performance critical.</dt>
+	<dd>Exception handling stack unwinding is a relatively slow process.</dd>
 
-	<dt> The normal flow of program logic is performance critical.
-	<dd> Since the normal flow code does not have to check every
+	<dt>The normal flow of program logic is performance critical.</dt>
+	<dd>Since the normal flow code does not have to check every
 	function call for error returns, it can be realistically faster
-	to use exception handling for the errors.
+	to use exception handling for the errors.</dd>
 
-	<dt> All errors must be dealt with in some way, either by
+	<dt>All errors must be dealt with in some way, either by
 	code explicitly written to handle them, or by some system default
-	handling.
-	<dd> If there's no handler for a particular error, it is handled
+	handling.</dt>
+	<dd>If there's no handler for a particular error, it is handled
 	by the runtime library default handler. If an error is ignored,
 	it is because the programmer specifically added code to ignore
-	an error, which presumably means it was intentional.
+	an error, which presumably means it was intentional.</dd>
 
-	<dt> The code that detects an error knows more about the error
-	than the code that must recover from the error.
-	<dd> There is no more need to translate error codes into human
+	<dt>The code that detects an error knows more about the error
+	than the code that must recover from the error.</dt>
+	<dd>There is no more need to translate error codes into human
 	readable strings, the correct string is generated by the error
 	detection code, not the error recovery code. This also leads to
-	consistent error messages for the same error between applications.
+	consistent error messages for the same error between applications.</dd>
 </dl>
 
 Using exceptions to handle errors leads to another issue - how to write
@@ -417,7 +397,7 @@ exception safe programs. <a href="exception-safe.html">Here's how</a>.
 
 
 <div id="footernav">
-<a href="http://digitalmars.com/NewsGroup.html" title="User Forums">Forums</a> |
+<a href="http://forum.dlang.org/" title="User Forums">Forums</a> |
 <a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Errors" title="Read/write comments and feedback">Comments</a> |
 <a href="http://digitalmars.com/advancedsearch.html" title="Search Digital Mars web site">Search</a> |
 <a href="download.html" title="Download D">Downloads</a> |
@@ -425,9 +405,9 @@ exception safe programs. <a href="exception-safe.html">Here's how</a>.
 </div>
 <div id="copyright">
 
-Copyright &copy; 1999-2012 by Digital Mars &reg;, All Rights Reserved
+Copyright &copy; 1999-2013 by Digital Mars &reg;, All Rights Reserved
  |
-Page generated by <a href="ddoc.html">Ddoc</a> on Mon Mar  5 00:18:19 2012
+Page generated by <a href="ddoc.html">Ddoc</a> on Fri Jan 11 21:27:49 2013
 
 </div>
 
