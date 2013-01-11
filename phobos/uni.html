@@ -1,0 +1,1171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html lang='en'>
+
+<!--
+	Copyright (c) 1999-2010 by Digital Mars
+	All Rights Reserved Written by Walter Bright
+	http://www.digitalmars.com
+  -->
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" >
+<title>uni - D Programming Language - Digital Mars</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+
+<script type="text/javascript">
+function listanchors()
+{
+    if (typeof inhibitQuickIndex !== 'undefined') return;
+    var a = document.getElementById("quickindex");
+    if (!a) return;
+    var newText = "";
+    var hash = new Array;
+    var n = 0;
+    var values = new Array;
+    // List all anchors.
+    for (var i = 0; i < document.anchors.length; i++)
+    {
+        var a = document.anchors[i];
+        var text = a.name;
+        if (hash[text] > 0) continue;
+        hash[text] = 1;
+        values[n++] = a.name
+    }
+
+    values.sort();
+
+    for(var i = 0; i < values.length; i++) {
+        var a = values[i];
+        newText += ' \x3Ca href="\x23' + a +
+            '"\x3E\x3Cspan class="d_psymbol"\x3E' + a + '\x3C/span\x3E\x3C/a\x3E';
+    }
+    if (newText != "") newText = "\x3Cp\x3E\x3Cb\x3EJump to:\x3C/b\x3E" + newText + "\x3C/p\x3E";
+    var a = document.getElementById("quickindex");
+    a.innerHTML = newText;
+}
+</script>
+
+<script src="../js/hyphenate_selectively.js" type="text/javascript"></script>
+
+</head>
+
+<body onload="listanchors()" class='hyphenate'>
+
+<div id="top">
+	<div id="search-box">
+		<form method="get" action="http://google.com/search">
+			<img src="/images/search-left.gif" width="11" height="22" alt=""><input id="q" name="q"><input type="image" id="search-submit" name="submit" src="/images/search-button.gif">
+			<input type="hidden" id="domains" name="domains" value="d-programming-language.org">
+			<input type="hidden" id="sourceid" name="sourceid" value="google-search">
+			<div id="search-dropdown">
+				<select id="sitesearch" name="sitesearch" size="1">
+					<option value="d-programming-language.org">Entire D  Site</option>
+					<option value="d-programming-language.org/phobos">Library Reference</option>
+					<option value="www.digitalmars.com/d/archives">Newsgroup Archives</option>
+				</select>
+			</div>
+		</form>
+	</div>
+	<div id="header">
+		<a href="/"><img id="logo" width="125" height="95" border="0" alt="D Logo" src="/images/dlogo.png"></a>
+		<a id="d-language" href="/">D Programming Language </a>
+	</div>
+</div>
+
+<div id="navigation">
+    
+<div class="navblock">
+<form method="get" action="http://www.google.com/search">
+<div id="searchbox">
+<input name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
+<input type="hidden" name="domains" value="www.digitalmars.com">
+<input type="hidden" name="sitesearch" value="www.digitalmars.com/d/2.0/phobos">
+<input type="hidden" name="sourceid" value="google-search">
+<input type="submit" name="submit" value="Go">
+</div>
+</form>
+<div id="toctop">
+    <ul>	<li><a href="../index.html" title="D Programming Language">D</a></li>
+	<li><a href="../spec.html" title="D Language Specification">Language</a></li>
+	<li><a href="../phobos/index.html" title="D Runtime Library">Phobos</a></li>
+	<li><a href="../phobos-prerelease/index.html" title="D Runtime Library (prerelease)">Phobos (prerelease)</a></li>
+	<li><a href="../comparison.html" title="Language Comparisons">Comparisons</a></li>
+    </ul>
+</div>
+</div>
+
+    
+<div class="navblock">
+    <ul>	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    </ul>
+    <h2><a href="index.html#std" title="D standard modules">std</a></h2>
+    <ul>	<li><a href="std_algorithm.html" title="General-purpose algorithms">std.algorithm</a></li>
+	<li><a href="std_array.html" title="Array functions">std.array</a></li>
+	<li><a href="std_ascii.html" title="Functions which operate on ASCII characters">std.ascii</a></li>
+	<li><a href="std_base64.html" title="Encode/decode base64 format">std.base64</a></li>
+	<li><a href="std_bigint.html" title="Arbitrary-precision ('bignum') arithmetic">std.bigint</a></li>
+	<li><a href="std_bitmanip.html" title="Bit-level manipulation">std.bitmanip</a></li>
+	<li><a href="std_compiler.html" title="Information about the D compiler implementation">std.compiler</a></li>
+	<li><a href="std_complex.html" title="Complex numbers">std.complex</a></li>
+	<li><a href="std_concurrency.html" title="Message Passing">std.concurrency</a></li>
+	<li><a href="std_container.html" title="Containers">std.container</a></li>
+	<li><a href="std_contracts.html" title="Think assert">std.contracts</a></li>
+	<li><a href="std_conv.html" title="Conversion of strings to integers">std.conv</a></li>
+	<li><a href="std_cpuid.html" title="CPU identification">std.cpuid</a></li>
+	<li><a href="std_csv.html" title="CSV file parser">std.csv</a></li>
+	<li><a href="std_ctype.html" title="Simple character classification">std.ctype</a></li>
+	<li><a href="std_date.html" title="Date and time functions">std.date</a></li>
+	<li><a href="std_datetime.html" title="Date and time-related types and functions">std.datetime</a></li>
+	<li><a href="std_demangle.html" title="Demangle D names">std.demangle</a></li>
+	<li><a href="std_encoding.html" title="Character and string encoding">std.encoding</a></li>
+	<li><a href="std_exception.html" title="Exceptions and error handling">std.exception</a></li>
+	<li><a href="std_file.html" title="Basic file operations">std.file</a></li>
+	<li><a href="std_format.html" title="Formatted conversions of values to strings">std.format</a></li>
+	<li><a href="std_functional.html" title="functional">std.functional</a></li>
+	<li><a href="std_getopt.html" title="Command line options">std.getopt</a></li>
+	<li><a href="std_gregorian.html" title="Gregorian Calendar">std.gregorian</a></li>
+	<li><a href="std_json.html" title="JSON reader">std.json</a></li>
+	<li><a href="std_math.html" title="the usual math functions">std.math</a></li>
+	<li><a href="std_mathspecial.html" title="mathematical special functions">std.mathspecial</a></li>
+	<li><a href="std_md5.html" title="Compute MD5 digests">std.md5</a></li>
+	<li><a href="std_metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
+	<li><a href="std_mmfile.html" title="Memory mapped files">std.mmfile</a></li>
+	<li><a href="std_numeric.html" title="Numeric algorithms">std.numeric</a></li>
+	<li><a href="std_outbuffer.html" title="Assemble data into an array of bytes">std.outbuffer</a></li>
+	<li><a href="std_parallelism.html" title="High-level primitives for SMP parallelism">std.parallelism</a></li>
+	<li><a href="std_path.html" title="Manipulate file names, path names, etc.">std.path</a></li>
+	<li><a href="std_process.html" title="Create/destroy processes">std.process</a></li>
+	<li><a href="std_random.html" title="Random number generation">std.random</a></li>
+	<li><a href="std_range.html" title="Ranges">std.range</a></li>
+	<li><a href="std_regex.html" title="regular expressions">std.regex</a></li>
+	<li><a href="std_regexp.html" title="regular expressions (deprecated)">std.regexp</a></li>
+	<li><a href="std_signals.html" title="Signals">std.signals</a></li>
+	<li><a href="std_socket.html" title="Sockets">std.socket</a></li>
+	<li><a href="std_socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
+	<li><a href="std_stdint.html" title="Integral types for various purposes">std.stdint</a></li>
+	<li><a href="std_stdio.html" title="Standard I/O">std.stdio</a></li>
+	<li><a href="std_cstream.html" title="Stream I/O">std.cstream</a></li>
+	<li><a href="std_stream.html" title="Stream I/O">std.stream</a></li>
+	<li><a href="std_string.html" title="Basic string operations">std.string</a></li>
+	<li><a href="std_system.html" title="Inquire about the CPU, operating system">std.system</a></li>
+	<li><a href="std_traits.html" title="Type traits">std.traits</a></li>
+	<li><a href="std_typecons.html" title="Type constructors">std.typecons</a></li>
+	<li><a href="std_typetuple.html" title="Type tuples">std.typetuple</a></li>
+	<li><a href="std_uni.html" title="Unicode classification">std.uni</a></li>
+	<li><a href="std_uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
+	<li><a href="std_utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std_variant.html" title="Stores all types in a uniform, dynamically-checked representation">std.variant</a></li>
+	<li><a href="std_xml.html" title="XML file processing">std.xml</a></li>
+	<li><a href="std_zip.html" title="Read/write zip archives">std.zip</a></li>
+	<li><a href="std_zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
+	<li><a href="std_c_fenv.html" title="Floating point environment">std.c.fenv</a></li>
+	<li><a href="std_c_locale.html" title="Locale">std.c.locale</a></li>
+	<li><a href="std_c_math.html" title="Math">std.c.math</a></li>
+	<li><a href="std_c_process.html" title="Process">std.c.process</a></li>
+	<li><a href="std_c_stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
+	<li><a href="std_c_stddef.html" title="Standard definitions">std.c.stddef</a></li>
+	<li><a href="std_c_stdio.html" title="Standard I/O">std.c.stdio</a></li>
+	<li><a href="std_c_stdlib.html" title="Standard library">std.c.stdlib</a></li>
+	<li><a href="std_c_string.html" title="Strings">std.c.string</a></li>
+	<li><a href="std_c_time.html" title="Time">std.c.time</a></li>
+	<li><a href="std_c_wcharh.html" title="Wide characters">std.c.wcharh</a></li>
+	<li><a href="std_net_curl.html" title="High level curl wrapper">std.net.curl</a></li>
+	<li><a href="std_net_isemail.html" title="Validate e-mail addresses">std.net.isemail</a></li>
+	<li><a href="std_windows_charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
+	<li><a href="index.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
+	<li><a href="index.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
+	<li><a href="index.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
+	<li><a href="index.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
+    </ul>
+    <h2><a href="index.html#etc" title="D etc modules">etc</a></h2>
+    <ul>	<li><a href="etc_c_curl.html" title="Interface to libcurl library">etc.c.curl</a></li>
+	<li><a href="etc_c_sqlite3.html" title="Interface to sqlite3 library">etc.c.sqlite3</a></li>
+	<li><a href="etc_c_zlib.html" title="Interface to zlib library">etc.c.zlib</a></li>
+    </ul>
+    <h2><a href="index.html#core" title="D core modules">core</a></h2>
+    <ul>	<li><a href="core_atomic.html" title="Atomic operations">core.atomic</a></li>
+	<li><a href="core_bitop.html" title="Bitwise operations">core.bitop</a></li>
+	<li><a href="core_cpuid.html" title="CPU identification">core.cpuid</a></li>
+	<li><a href="core_exception.html" title="Root of exception hierarchy">core.exception</a></li>
+	<li><a href="core_memory.html" title="Interface to memory management">core.memory</a></li>
+	<li><a href="core_runtime.html" title="Interface to D runtime library internals">core.runtime</a></li>
+	<li><a href="core_thread.html" title="Thread management">core.thread</a></li>
+	<li><a href="core_time.html" title="Core time functionality">core.time</a></li>
+	<li><a href="core_vararg.html" title="Variable function arguments">core.vararg</a></li>
+	<li><a href="core_sync_barrier.html" title="Synchronizing progress of a group of threads">core.sync.barrier</a></li>
+	<li><a href="core_sync_condition.html" title="Synchronized condition checking">core.sync.condition</a></li>
+	<li><a href="core_sync_config.html" title="Stuff for core.sync">core.sync.config</a></li>
+	<li><a href="core_sync_exception.html" title="SyncException">core.sync.exception</a></li>
+	<li><a href="core_sync_mutex.html" title="Mutexes">core.sync.mutex</a></li>
+	<li><a href="core_sync_rwmutex.html" title="R/W mutually exclusive access">core.sync.rwmutex</a></li>
+	<li><a href="core_sync_semaphore.html" title="Semaphores">core.sync.semaphore</a></li>
+    </ul>
+</div>
+
+</div><!--/navigation-->
+<div id="content">
+    <h1>uni</h1>
+    <div id=quickindex class=quickindex></div>
+    <!-- Generated by Ddoc from uni.d -->
+Implementation of fundamental data structures and algorithms for Unicode.
+<p></p>
+<p>All functions in this module operate on Unicode codepoints and/or
+    sets of codepoints. For functions which operate on ASCII characters
+    and ignore Unicode codepoints, see <a href="std_ascii.html">std.ascii</a>.
+    </p>
+<p></p>
+
+
+    <p>The term 'character' (as visually perceived symbol) strictly
+    speaking applies to <a href="#Grapheme"><span class="d_inlinecode">Grapheme</span></a> cluster. However 'character' was in
+    widespread use prior to the advent of Unicode and thus it shall not be used
+    without explicit context (like ASCII character) to avoid confusion.
+    </p>
+<p></p>
+
+
+    <p>This module focuses on the core needs of developing Unicode-aware
+    applications. To that effect it provides the following optimized primitives:
+    </p>
+<p></p>
+
+
+    <li>codepoint classification by category and common properties
+        <a href="#isAlpha"><span class="d_inlinecode">isAlpha</span></a>, <a href="#isWhite"><span class="d_inlinecode">isWhite</span></a> and others.
+    </li>
+    <li>       Case-insensitive string comparison (<a href="#sicmp"><span class="d_inlinecode">sicmp</span></a>, <a href="#icmp"><span class="d_inlinecode">icmp</span></a>)
+    </li>
+    <li>       Converting text to any of the four normalization forms via <a href="#normalize"><span class="d_inlinecode">normalize</span></a>
+    </li>
+    <li>       Decoding (<a href="#decodeGrapheme"><span class="d_inlinecode">decodeGrapheme</span></a>)  and iteration (<a href="#graphemeStride"><span class="d_inlinecode">graphemeStride</span></a>)
+        on user-perceived character level that is by <a href="#Grapheme"><span class="d_inlinecode">Grapheme</span></a>s.
+    </li>
+    <li>       Decomposing and composing of individual codepoint(s) according to canonical
+        or compatibility rules, see <a href="#compose"><span class="d_inlinecode">compose</span></a> and <a href="#decompose"><span class="d_inlinecode">decompose</span></a>,
+        including the specific version for Hangul syllables <a href="#composeJamo"><span class="d_inlinecode">composeJamo</span></a>.
+    </li>
+<p></p>
+
+
+    <p>It's recognized that an application may need further enhancements
+    and extensions. It could be the need for less commonly known algorithms
+    or tailoring the existing ones for regional-specific needs. To help users
+    with building any extra functionality beyond the core primitives
+    the module provides:
+    </p>
+    <li>       A type for easy manipulation of sets of codepoints <a href="#CodepointSet"><span class="d_inlinecode">CodepointSet</span></a>.
+        Besides the typical set algebra it provides an unusual feature:
+        a D source code generator to detect the codepoint in this set.
+        This is a boon for meta-programming parser frameworks,
+        and is used internally to power classification in small
+        sets like <a href="#isWhite"><span class="d_inlinecode">isWhite</span></a>.
+    </li>
+    <li>       A way to construct optimal packed multi-stage tables also known as a
+        special case of <a href="http://google.com/search?btnI=I%27m+Feeling+Lucky&amp;ie=UTF-8&amp;oe=UTF-8&amp;q=Trie">Trie</a>.
+        <a href="#codepointTrie"><span class="d_inlinecode">codepointTrie</span></a>, <a href="#codepointSetTrie"><span class="d_inlinecode">codepointSetTrie</span></a> construct the mapping
+        of codepoints to values. The end result is fast and predictable <b><i>&Omicron;</i>(</b><span class="d_inlinecode">1</span><b><i>)</i></b>
+        lookup that powers functions like <a href="#isAlpha"><span class="d_inlinecode">isAlpha</span></a>, <a href="#combiningClass"><span class="d_inlinecode">combiningClass</span></a>
+        but for custom mapping.
+    </li>
+    <li>       Generally useful building blocks for customized normalization:
+        <a href="#combiningClass"><span class="d_inlinecode">combiningClass</span></a> for querying canonical combining class
+        and <a href="#allowedIn"><span class="d_inlinecode">allowedIn</span></a> for testing Quick_Check.YES
+        property of a given normalization form.
+    </li>
+    <li>       Access to the commonly used predefined sets of codepoints. The commonly
+        defined one can be observed in the CLDR utility, on page
+        <a href="http://www.unicode.org/cldr/utility/properties.jsp">property index</a>.
+        supported ones include Script, Block and General Category.
+        See <a href="#unicode"><span class="d_inlinecode">unicode</span></a> for easy and compile-time checked queries.
+    </li>
+
+<p></p>
+<b>Synopsis:</b><br>
+<pre class="d_code">    <span class="d_keyword">void</span> main()
+    {
+        <span class="d_comment">// initialize codepoint sets using regex notation
+</span>        <span class="d_comment">//<span class="d_inlinecode">set</span> contains codepoints from both scripts.
+</span>        <span class="d_keyword">auto</span> set = unicode(<span class="d_string">"Cyrillic"</span>) | unicode(<span class="d_string">"Armenian"</span>);
+        <span class="d_keyword">auto</span> ascii = unicode(<span class="d_string">"ASCII"</span>);
+        <span class="d_keyword">auto</span> currency = unicode(<span class="d_string">"Currency_Symbol"</span>);
+
+        <span class="d_comment">// easy set ops
+</span>        <span class="d_keyword">auto</span> a = set &amp; ascii;
+        <span class="d_keyword">assert</span>(a.empty); <span class="d_comment">// as it has no intersection with ascii
+</span>        a = set | ascii;
+        <span class="d_keyword">auto</span> b = currency - a; <span class="d_comment">// subtract all ASCII, Cyrillic and Armenian
+</span>
+        <span class="d_comment">// some properties of codepoint sets
+</span>        <span class="d_keyword">assert</span>(b.length &gt; 45); <span class="d_comment">// 46 items in Unicode 6.1, even more in 6.2
+</span>        <span class="d_comment">// testing presence of a codepoint in a set
+</span>        <span class="d_comment">// is just fine, it is O(logN)
+</span>        <span class="d_keyword">assert</span>(!b['$']);
+        <span class="d_keyword">assert</span>(!b['\u058F']); <span class="d_comment">// Armenian dram sign
+</span>        <span class="d_keyword">assert</span>(b['¥']);
+
+        <span class="d_comment">// building fast lookup tables, these guarantee O(1) complexity
+</span>        <span class="d_comment">// 1-level Trie lookup table
+</span>        <span class="d_keyword">auto</span> oneTrie = toTrie!1(b);
+        <span class="d_comment">// 2-level more compact but typically slightly slower
+</span>        <span class="d_keyword">auto</span> twoTrie = toTrie!2(b);
+        <span class="d_comment">// 3-level even smaller, and a bit slower yet
+</span>        <span class="d_keyword">auto</span> threeTrie = toTrie!3(b);
+        <span class="d_keyword">assert</span>(oneTrie['£']);
+        <span class="d_keyword">assert</span>(twoTrie['£']);
+        <span class="d_keyword">assert</span>(threeTrie['£']);
+
+        <span class="d_comment">// build the trie with the most sensible trie level
+</span>        <span class="d_comment">// and bind it as a functor
+</span>        <span class="d_keyword">auto</span> cyrilicOrArmenian = toDelegate(set);
+        <span class="d_keyword">auto</span> balance = find!(cyrilicOrArmenian)(<span class="d_string">"Hello ընկեր!"</span>);
+        <span class="d_keyword">assert</span>(balance == <span class="d_string">"ընկեր!"</span>);
+        <span class="d_comment">// compatible with bool delegate(dchar)
+</span>        <span class="d_keyword">bool</span> <span class="d_keyword">delegate</span>(<span class="d_keyword">dchar</span>) bindIt = cyrilicOrArmenian;
+
+        <span class="d_comment">// Normalization
+</span>        string s = <span class="d_string">"Plain ascii (and not only), is always normalized!"</span>;
+        <span class="d_keyword">assert</span>(s <span class="d_keyword">is</span> normalize(s));<span class="d_comment">// is the same string
+</span>
+        string nonS = <span class="d_string">"A\u0308ffin"</span>; <span class="d_comment">// A ligature
+</span>        <span class="d_keyword">auto</span> nS = normalize(nonS); <span class="d_comment">// to NFC, the W3C endorsed standard
+</span>        <span class="d_keyword">assert</span>(nS == <span class="d_string">"Äffin"</span>);
+        <span class="d_keyword">assert</span>(nS != nonS);
+        string composed = <span class="d_string">"Äffin"</span>;
+
+        <span class="d_keyword">assert</span>(normalize!NFD(composed) == <span class="d_string">"A\u0308ffin"</span>);
+        <span class="d_comment">// to NFKD, compatibility decomposition useful for fuzzy matching/searching
+</span>        <span class="d_keyword">assert</span>(normalize!NFKD(<span class="d_string">"2¹⁰"</span>) == <span class="d_string">"210"</span>);
+    }
+</pre>
+
+<p></p>
+<b>References:</b><br>
+<a href="http://www.digitalmars.com/d/ascii-table.html">ASCII Table</a>,
+        <a href="http://en.wikipedia.org/wiki/Unicode">Wikipedia</a>,
+        <a href="http://www.unicode.org">The Unicode Consortium</a>,
+        <a href="http://www.unicode.org/reports/tr15/">Unicode normalization forms</a>,
+        <a href="http://www.unicode.org/reports/tr29/">Unicode text segmentation</a>
+
+<p></p>
+<b>Trademarks:</b><br>
+Unicode(tm) is a trademark of Unicode, Inc.
+
+<p></p>
+<b>License:</b><br><a href="http://www.boost.org/LICENSE_1_0.txt">Boost License 1.0</a>.
+<p></p>
+<b>Authors:</b><br>Dmitry Olshansky
+<p></p>
+<b>Source:</b><br>
+<a href="https://github.com/D-Programming-Language/phobos/blob/master/std/uni.d">std/uni.d</a>
+<p></p>
+<b>Standards:</b><br><a href="http://www.unicode.org/versions/Unicode6.2.0/">Unicode v6.2</a><p></p>
+
+<dl><dt class="d_decl"><a name="lineSep"></a>dchar <a name="lineSep"></a><span class="ddoc_psymbol">lineSep</span>;
+</dt>
+<dd>UTF line separator<p></p>
+
+</dd>
+<dt class="d_decl"><a name="paraSep"></a>dchar <a name="paraSep"></a><span class="ddoc_psymbol">paraSep</span>;
+</dt>
+<dd>UTF paragraph separator<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isCodepointSet"></a>template <a name="isCodepointSet"></a><span class="ddoc_psymbol">isCodepointSet</span>(T)</dt>
+<dd>Checks if T is some kind a set of codepoints. Intended for template constraints.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isIntegralPair"></a>template <a name="isIntegralPair"></a><span class="ddoc_psymbol">isIntegralPair</span>(T, V = uint)</dt>
+<dd>Checks if <span class="d_inlinecode">T</span> is a pair of integers that implicitly convert to <span class="d_inlinecode">V</span>.
+    The following code must compile for any pair <span class="d_inlinecode">T</span>:
+<pre class="d_code">    (T x){ V a = x[0]; V b = x[1];}
+</pre>
+    The following must not compile:
+<pre class="d_code">    (T x){ V c = x[2];}
+</pre>
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="CodepointSet"></a>alias InversionList!(GcPolicy).InversionList <a name="CodepointSet"></a><span class="ddoc_psymbol">CodepointSet</span>;
+</dt>
+<dd>The recommended default type for set of codepoints.
+    For details, see the current implementation: <a href="#InversionList"><span class="d_inlinecode">InversionList</span></a>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="CodepointInterval"></a>alias std.typecons.Tuple!(uint, "a", uint, "b").Tuple <a name="CodepointInterval"></a><span class="ddoc_psymbol">CodepointInterval</span>;
+</dt>
+<dd>The recommended type of <a href="std_std.typecons.html#Tuple"><span class="d_inlinecode">std.std.typecons.Tuple</span></a>
+    to represent [a, b) intervals of codepoints.
+    Any interval type should pass <a href="#isIntegralPair"><span class="d_inlinecode">isIntegralPair</span></a> trait.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="InversionList"></a>struct <a name="InversionList"></a><span class="ddoc_psymbol">InversionList</span>(SP = GcPolicy);
+</dt>
+<dd><p><span class="d_inlinecode"><a name="InversionList"></a><span class="ddoc_psymbol">InversionList</span></span> is a packed interval-based data structure
+    that represents a set of codepoints.
+    </p>
+<p></p>
+<p>Sets are value types (just like <span class="d_inlinecode">int</span> is) thus they
+        are never aliased.
+    </p>
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_keyword">auto</span> a = CodepointSet('a', 'z'+1);
+        <span class="d_keyword">auto</span> b = CodepointSet('A', 'Z'+1);
+        <span class="d_keyword">auto</span> c = a;
+        a = a | b;
+        <span class="d_keyword">assert</span>(a == CodepointSet('A', 'Z'+1, 'a', 'z'+1));
+        <span class="d_keyword">assert</span>(a != c);
+</pre>
+    <p>See also <a href="#unicode"><span class="d_inlinecode">unicode</span></a> for simpler construction of sets
+        out of predefined ones.
+    </p>
+<p></p>
+
+
+    <p>Memory usage is 6 bytes per each contiguous interval in a set.
+    The value semantics are achieved by using COW technique
+    and thus it's <span style="color:red">not</span> safe to cast this type to shared.
+    </p>
+<p></p>
+
+
+    <p>Note: it's not recommended to rely on the template parameters
+    or the exact type of a codepoint set. They are going to change in the future.
+    Use <a href="#isCodepointSet"><span class="d_inlinecode">isCodepointSet</span></a> with templates or just stick with the default
+    alias <a href="#CodepointSet"><span class="d_inlinecode">CodepointSet</span></a> throughout the whole code base.
+    </p><p></p>
+
+<dl><dt class="d_decl"><a name="length"></a>size_t <a name="length"></a><span class="ddoc_psymbol">length</span>();
+</dt>
+<dd>Number of characters in this set<p></p>
+
+</dd>
+<dt class="d_decl"><a name="opBinary"></a>This <a name="opBinary"></a><span class="ddoc_psymbol">opBinary</span>(string op, U)(U <i>rhs</i>);
+</dt>
+<dd><p>Sets support natural syntax for set algebra, namely:</p>
+        <table cellspacing=0 cellpadding=5 class=book><caption>           <tr><th>Operator</th> <th>Math notation</th> <th>Description</th> </tr>
+            <tr><td valign=top>&amp;</td> <td valign=top>a ∩ b</td> <td valign=top>intersection</td> </tr>
+            <tr><td valign=top>|</td> <td valign=top>a ∪ b</td> <td valign=top>union</td> </tr>
+            <tr><td valign=top>-</td> <td valign=top>a ∖ b</td> <td valign=top>subtraction</td> </tr>
+            <tr><td valign=top>~</td> <td valign=top>a ~ b</td> <td valign=top>symmetric set difference i.e. (a ∪ b) \ (a ∩ b) </td></tr>
+        </caption>           <tr><th>Operator</th> <th>Math notation</th> <th>Description</th> </tr>
+            <tr><td valign=top>&amp;</td> <td valign=top>a ∩ b</td> <td valign=top>intersection</td> </tr>
+            <tr><td valign=top>|</td> <td valign=top>a ∪ b</td> <td valign=top>union</td> </tr>
+            <tr><td valign=top>-</td> <td valign=top>a ∖ b</td> <td valign=top>subtraction</td> </tr>
+            <tr><td valign=top>~</td> <td valign=top>a ~ b</td> <td valign=top>symmetric set difference i.e. (a ∪ b) \ (a ∩ b) </td></tr>
+        </table><p></p>
+
+</dd>
+<dt class="d_decl"><a name="opOpAssign"></a>This <a name="opOpAssign"></a><span class="ddoc_psymbol">opOpAssign</span>(string op, U)(U <i>rhs</i>);
+</dt>
+<dd>The 'op=' versions of the above overloaded operators.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="byChar"></a>@property auto <a name="byChar"></a><span class="ddoc_psymbol">byChar</span>();
+</dt>
+<dd>Range that spans each codepoint in this set.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="toString"></a>void <a name="toString"></a><span class="ddoc_psymbol">toString</span>(scope void delegate(const(char)[]) <i>sink</i>);
+</dt>
+<dd><p>Obtain textual representation of this set in from of [a..b</p> intervals
+        and feed it to <span class="d_inlinecode"><i>sink</i></span>. )
+        <p>Used by various standard formatting facilities such as
+         <a href="std_std.format.html#formattedWrite"><span class="d_inlinecode">std.std.format.formattedWrite</span></a>, <span class="d_inlinecode">write</span>, <span class="d_inlinecode">writef</span>,
+         <a href="std_std.conv.html#to"><span class="d_inlinecode">std.std.conv.to</span></a> and others.
+        </p><p></p>
+
+</dd>
+<dt class="d_decl"><a name="add"></a>ref auto <a name="add"></a><span class="ddoc_psymbol">add</span>()(uint <i>a</i>, uint <i>b</i>);
+</dt>
+<dd>Add an interval [a, b) to this set.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="invert"></a>ref auto <a name="invert"></a><span class="ddoc_psymbol">invert</span>();
+</dt>
+<dd>Do an in-place inversion of set.  See also '!' unary operator.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="toSourceCode"></a>string <a name="toSourceCode"></a><span class="ddoc_psymbol">toSourceCode</span>(string <i>funcName</i> = "");
+</dt>
+<dd>Generates string with D source code of function that tests if the codepoint
+        belongs to this set or not. The result is to be used with string mixin.
+        The intended usage area is aggressive optimization via meta programming
+        in parser generators and the like.
+<p></p>
+<b>Note:</b><br>
+to be used with care for relatively small or regular sets. It
+        could be end up being slower then just using multi-staged tables.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_keyword">import</span> std.stdio;
+
+        <span class="d_comment">//construct set directly from [a, b) intervals
+</span>        <span class="d_keyword">auto</span> set = CodepointSet(10, 12, 45, 65, 100, 200);
+        writeln(set);
+        writeln(set.<span class="d_psymbol">toSourceCode</span>(<span class="d_string">"func"</span>));
+</pre>
+<p></p>
+
+
+        The above outputs something along the lines of:
+<pre class="d_code">        <span class="d_keyword">bool</span> func(<span class="d_keyword">dchar</span> ch)
+        {
+            <span class="d_keyword">if</span>(ch &lt; 45)
+            {
+                <span class="d_keyword">if</span>(ch == 10 || ch == 11) <span class="d_keyword">return</span> <span class="d_keyword">true</span>;
+                <span class="d_keyword">return</span> <span class="d_keyword">false</span>;
+            }
+            <span class="d_keyword">else</span> <span class="d_keyword">if</span> (ch &lt; 65) <span class="d_keyword">return</span> <span class="d_keyword">true</span>;
+            <span class="d_keyword">else</span>
+            {
+                <span class="d_keyword">if</span>(ch &lt; 100) <span class="d_keyword">return</span> <span class="d_keyword">false</span>;
+                <span class="d_keyword">if</span>(ch &lt; 200) <span class="d_keyword">return</span> <span class="d_keyword">true</span>;
+                <span class="d_keyword">return</span> <span class="d_keyword">false</span>;
+            }
+        }
+</pre>
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="empty"></a>const bool <a name="empty"></a><span class="ddoc_psymbol">empty</span>();
+</dt>
+<dd>True if this set doesn't contain any codepoints.<p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl"><a name="mapTrieIndex"></a>template <a name="mapTrieIndex"></a><span class="ddoc_psymbol">mapTrieIndex</span>(Prefix...)</dt>
+<dd>Maps (D Key to a suitable integer index (within the bounds of <span class="d_inlinecode">size_t</span>.
+    The mapping is constructed by applying predicates from <span class="d_inlinecode">Prefix</span> left to right
+    and concatenating the resulting bits.
+<p></p>
+The first (leftmost) predicate defines the most significant bits of
+    the resulting index.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="TrieBuilder"></a>struct <a name="TrieBuilder"></a><span class="ddoc_psymbol">TrieBuilder</span>(Value, Key, Args...) if (isBitPackableType!(Value) &amp;&amp; isValidArgsForTrie!(Key, Args));
+</dt>
+<dd><p></p>
+
+<dl><dt class="d_decl"><a name="this"></a> this(Value <i>filler</i>);
+</dt>
+<dd>Construct a builder, where <span class="d_inlinecode"><i>filler</i></span> is a value
+        to indicate empty slots (or "not found" condition).<p></p>
+
+</dd>
+<dt class="d_decl"><a name="putRange"></a>void <a name="putRange"></a><span class="ddoc_psymbol">putRange</span>(Key <i>a</i>, Key <i>b</i>, Value <i>v</i>);
+</dt>
+<dd>Puts <p></p>
+
+</dd>
+<dt class="d_decl"><a name="putValue"></a>void <a name="putValue"></a><span class="ddoc_psymbol">putValue</span>(Key <i>key</i>, Value <i>v</i>);
+</dt>
+<dd>Puts <p></p>
+
+</dd>
+<dt class="d_decl"><a name="build"></a>auto <a name="build"></a><span class="ddoc_psymbol">build</span>();
+</dt>
+<dd>Finishes construction of Trie, yielding an immutable Trie instance.<p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl"><a name="Trie"></a>struct <a name="Trie"></a><span class="ddoc_psymbol">Trie</span>(Value, Key, Args...) if (isValidPrefixForTrie!(Key, Args) || isValidPrefixForTrie!(Key, Args[1 .. __dollar]) &amp;&amp; is(typeof(Args[0]) : size_t));
+</dt>
+<dd><p>A generic <a name="Trie"></a><span class="ddoc_psymbol">Trie</span> data-structure for a fixed number of stages.
+    The design goal is optimal speed with smallest footprint size.
+    </p>
+    <p>It's intentionally read-only and doesn't provide constructors.
+     To construct one use a special builder,
+     see <a href="#TrieBuilder"><span class="d_inlinecode">TrieBuilder</span></a> and <a href="#buildTrie"><span class="d_inlinecode">buildTrie</span></a>.
+    </p>
+<p></p>
+
+<dl><dt class="d_decl"><a name="opIndex"></a>inout inout(TypeOfBitPacked!(Value)) <a name="opIndex"></a><span class="ddoc_psymbol">opIndex</span>(Key <i>key</i>);
+</dt>
+<dd>Lookup the <span class="d_inlinecode"><i>key</i></span> in this trie.<p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl"><a name="isValidPrefixForTrie"></a>template <a name="isValidPrefixForTrie"></a><span class="ddoc_psymbol">isValidPrefixForTrie</span>(Key, Prefix...)</dt>
+<dd>Check if <span class="d_inlinecode">Prefix</span> is a valid set of predicates
+    for <span class="d_inlinecode">Trie</span> template having <span class="d_inlinecode">Key</span> as the type of keys.
+    This requires all predicates to be callable, take
+    single argument of type <span class="d_inlinecode">Key</span> and return unsigned value.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isValidArgsForTrie"></a>template <a name="isValidArgsForTrie"></a><span class="ddoc_psymbol">isValidArgsForTrie</span>(Key, Args...)</dt>
+<dd>Check if <span class="d_inlinecode">Args</span> is a set of maximum key value followed by valid predicates
+    for <span class="d_inlinecode">Trie</span> template having <span class="d_inlinecode">Key</span> as the type of keys.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="codepointSetTrie"></a>template <a name="codepointSetTrie"></a><span class="ddoc_psymbol">codepointSetTrie</span>(sizes...) if (sumOfIntegerTuple!(sizes) == 21)</dt>
+<dd>A shorthand for creating a custom multi-level Trie from a <span class="d_inlinecode">CodepointSet</span>.
+    <span class="d_inlinecode">sizes</span> are numbers of bits used per level,
+    the most significant bits used first.
+<p></p>
+<b>Note:</b><br>
+the sum of <span class="d_inlinecode">sizes</span> must be equal 21.
+<p></p>
+
+
+    See also even simpler <a href="#toTrie"><span class="d_inlinecode">toTrie</span></a>.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">    {
+        <span class="d_keyword">import</span> std.stdio;
+        <span class="d_keyword">auto</span> set = unicode(<span class="d_string">"Number"</span>);
+        <span class="d_keyword">auto</span> trie = <span class="d_psymbol">codepointSetTrie</span>!(8, 5, 8)(set);
+        writeln(<span class="d_string">"Input characters to test:"</span>);
+        <span class="d_keyword">foreach</span>(line; stdin.byLine)
+        {
+            <span class="d_keyword">int</span> count=0;
+            <span class="d_keyword">foreach</span>(<span class="d_keyword">dchar</span> ch; line)
+                <span class="d_keyword">if</span>(trie[ch])<span class="d_comment">// is number
+</span>                    count++;
+            writefln(<span class="d_string">"Contains %d number characters."</span>, count);
+        }
+    }
+</pre>
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="CodepointSetTrie"></a>template <a name="CodepointSetTrie"></a><span class="ddoc_psymbol">CodepointSetTrie</span>(sizes...) if (sumOfIntegerTuple!(sizes) == 21)</dt>
+<dd>Type of Trie generated by codepointSetTrie function.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="codepointTrie"></a>template <a name="codepointTrie"></a><span class="ddoc_psymbol">codepointTrie</span>(T, sizes...) if (sumOfIntegerTuple!(sizes) == 21)</dt>
+<dd>A slightly more general tool for building fixed-stage <span class="d_inlinecode">Trie</span>
+    for unicode data without having to use <span class="d_inlinecode">TrieBuilder</span> directly.
+<p></p>
+Specifically unlike <span class="d_inlinecode">codepointSetTrie</span> it's allows creating mappings of <span class="d_inlinecode">dchar</span>
+    to an arbitrary type <span class="d_inlinecode">T</span>.
+
+<p></p>
+<b>Note:</b><br>
+overload taking <span class="d_inlinecode">CodepointSet</span>s will naturally convert
+    only to bool mapping <span class="d_inlinecode">Trie</span>s.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="CodepointTrie"></a>template <a name="CodepointTrie"></a><span class="ddoc_psymbol">CodepointTrie</span>(T, sizes...) if (sumOfIntegerTuple!(sizes) == 21)</dt>
+<dd>Type of Trie generated by codepointTrie function.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="buildTrie"></a>template <a name="buildTrie"></a><span class="ddoc_psymbol">buildTrie</span>(Value, Key, Args...) if (isValidArgsForTrie!(Key, Args))</dt>
+<dd>The most general utility for construction of <span class="d_inlinecode">Trie</span>s
+    short of using <span class="d_inlinecode">TrieBuilder</span> directly.
+<p></p>
+Provides a number of convenience overloads.
+    <span class="d_inlinecode">Args</span> is tuple of maximum key value followed by
+    predicates to construct index from key.
+<p></p>
+
+
+    Alternatively if the first argument is not a value convertible to <span class="d_inlinecode">Key</span>
+    then whole tuple of <span class="d_inlinecode">Args</span> is treated as predicates
+    and the maximum Key is deduced from predicates.<p></p>
+
+<dl><dt class="d_decl"><a name="buildTrie"></a>auto <a name="buildTrie"></a><span class="ddoc_psymbol">buildTrie</span>(Range)(Range <i>range</i>, Value <i>filler</i> = Value.init);
+</dt>
+<dd>Build <span class="d_inlinecode">Trie</span> from a range of a Key-Value pairs,
+        assuming it is sorted by Key as defined by the following lambda:
+<pre class="d_code">        (a, b) =&gt; mapTrieIndex!(Prefix)(a) &lt; mapTrieIndex!(Prefix)(b)
+</pre>
+        Exception is thrown if it's detected that the above order doesn't hold.
+<p></p>
+See also: std.algorithm.sort, std.range.SortedRange, std.algorithm.setUnion.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="buildTrie"></a>auto <a name="buildTrie"></a><span class="ddoc_psymbol">buildTrie</span>(Range)(Range <i>range</i>, Value <i>filler</i> = Value.init);
+</dt>
+<dd>If <span class="d_inlinecode">Value</span> is bool (or BitPacked!(bool, x)) then it's possible
+        to build <span class="d_inlinecode">Trie</span> from a range of open-right intervals of ($D Key)s.
+        The requirement  on the ordering of keys (and the behavior on the
+        violation of it) is the same as for Key-Value range overload.
+<p></p>
+Intervals denote ranges of !<span class="d_inlinecode">filler</span> i.e. the opposite of filler.
+        If no filler provided keys inside of the intervals map to <b>true</b>,
+        and <span class="d_inlinecode">filler</span> is <b>false</b>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="buildTrie"></a>auto <a name="buildTrie"></a><span class="ddoc_psymbol">buildTrie</span>(Range)(Range <i>range</i>, Value <i>filler</i> = Value.init);
+</dt>
+<dd>If <span class="d_inlinecode">Value</span> is bool (or BitPacked!(bool, x)) then it's possible
+        to build <span class="d_inlinecode">Trie</span> simply from an input range of <span class="d_inlinecode">Key</span>s.
+        The requirement  on the ordering of keys (and the behavior on the
+        violation of it) is the same as for Key-Value range overload.
+<p></p>
+Keys found in range denote !<span class="d_inlinecode">filler</span> i.e. the opposite of filler.
+        If no filler provided keys map to <b>true</b>, and <span class="d_inlinecode">filler</span> is <b>false</b>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="buildTrie"></a>auto <a name="buildTrie"></a><span class="ddoc_psymbol">buildTrie</span>()(Value[] <i>array</i>, Value <i>filler</i> = Value.init);
+</dt>
+<dd>If <span class="d_inlinecode">Key</span> is unsigned integer <span class="d_inlinecode">Trie</span> could be constructed from array
+        of values where array index serves as key.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="buildTrie"></a>auto <a name="buildTrie"></a><span class="ddoc_psymbol">buildTrie</span>(Key, Value)(Value[Key] <i>map</i>, Value <i>filler</i>);
+</dt>
+<dd>Builds <span class="d_inlinecode">Trie</span> from associative array.<p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl"><a name="toTrie"></a>auto <a name="toTrie"></a><span class="ddoc_psymbol">toTrie</span>(size_t level, Set)(Set <i>set</i>);
+</dt>
+<dd>Convenience function to construct optimal configurations for CodepointTrie
+    of 1, 2, 3 or 4 levels.
+<p></p>
+Level 1 indicates a plain bitset and uses the most space.
+    Level 2 &amp; 3 add 1 or 2 levels of indices that greately save on required
+    space but typically a bit slower to lookup.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="toDelegate"></a>auto <a name="toDelegate"></a><span class="ddoc_psymbol">toDelegate</span>(Set)(Set <i>set</i>);
+</dt>
+<dd>Builds <span class="d_inlinecode">Trie</span> with typically optimal space-time trade-offs
+    and wraps into a delegate of the form:
+    delegate bool (dchar ch);
+<p></p>
+Effectively this creates a 'tester' object suitable for algorithms like
+    std.algorithm.find that take unary predicates.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="BitPacked"></a>struct <a name="BitPacked"></a><span class="ddoc_psymbol">BitPacked</span>(T, size_t sz) if (isIntegral!(T) || is(T : dchar));
+</dt>
+<dd>Indicates this the value is confined to the range of [0, 2^^sz).
+    With this knowledge it can be packed more tightly when stored
+    in certain data-structures like <a href="#Trie"><span class="d_inlinecode">Trie</span></a>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isBitPacked"></a>template <a name="isBitPacked"></a><span class="ddoc_psymbol">isBitPacked</span>(T)</dt>
+<dd>Tests if <span class="d_inlinecode">T</span> is some instantiation of <a href="#BitPacked"><span class="d_inlinecode">BitPacked</span></a>!(U, x)
+    and thus suitable for packing into x bits.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="TypeOfBitPacked"></a>template <a name="TypeOfBitPacked"></a><span class="ddoc_psymbol">TypeOfBitPacked</span>(T)</dt>
+<dd>Gives the type <span class="d_inlinecode">U</span> from <a href="#BitPacked"><span class="d_inlinecode">BitPacked</span></a>!(U, x)
+    or <span class="d_inlinecode">T</span> itself for every other type.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="assumeSize"></a>struct <a name="assumeSize"></a><span class="ddoc_psymbol">assumeSize</span>(alias Fn, size_t bits);
+</dt>
+<dd>Wrapper, used in definition of custom data structures from <span class="d_inlinecode">Trie</span> template.
+    Applying it to a unary lambda function indicates that the returned value always
+    fits within <span class="d_inlinecode">bits</span> of bits.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="sliceBits"></a>template <a name="sliceBits"></a><span class="ddoc_psymbol">sliceBits</span>(size_t from, size_t to)</dt>
+<dd>A helper for defining lambda function that yields a slice
+    of certain bits from an unsigned integral value.
+    The resulting lambda is wrapped in assumeSize and can be used directly
+    with <span class="d_inlinecode">Trie</span> template.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="decompressIntervals"></a>@system auto <a name="decompressIntervals"></a><span class="ddoc_psymbol">decompressIntervals</span>(const(ubyte)[] <i>data</i>);
+</dt>
+<dd>Creates a range of <span class="d_inlinecode">CodepointInterval</span> that lazily decodes compressed <i>data</i>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="unicode"></a>struct <a name="unicode"></a><span class="ddoc_psymbol">unicode</span>;
+</dt>
+<dd>A single entry point to lookup Unicode codepoint sets by name or alias of
+    block, script or general category.
+<p></p>
+It uses well defined standard rules of property name lookup.
+    This includes matching of names, e.g.
+    White_Space, white-SpAce and whitespace are all considered equals
+    and yield the same set of white space characters.<p></p>
+
+<dl><dt class="d_decl"><a name="unicode.opDispatch"></a>static auto <a name="opDispatch"></a><span class="ddoc_psymbol">opDispatch</span>(string name)();
+</dt>
+<dd>Performs the lookup with compile-time correctness checking.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_keyword">auto</span> ascii = unicode.ASCII;
+        <span class="d_keyword">assert</span>(ascii['A']);
+        <span class="d_keyword">assert</span>(ascii['~']);
+        <span class="d_keyword">assert</span>(!ascii['\u00e0']);
+        <span class="d_keyword">auto</span> ascii = unicode.ascii; <span class="d_comment">//also works
+</span></pre>
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="unicode.opCall"></a>static auto <a name="opCall"></a><span class="ddoc_psymbol">opCall</span>(C)(in C[] <i>name</i>);
+</dt>
+<dd>The same lookup but performed at run-time suitable for cases
+        where <span class="d_inlinecode">name</span> is not known beforehand.<p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl"><a name="graphemeStride"></a>size_t <a name="graphemeStride"></a><span class="ddoc_psymbol">graphemeStride</span>(C)(in C[] <i>input</i>, size_t <i>index</i>);
+</dt>
+<dd>Returns the length of grapheme cluster starting at <span class="d_inlinecode">index</span>.
+    Both resulting length and <span class="d_inlinecode">index</span> are measured in codeunits.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="decodeGrapheme"></a>Grapheme <a name="decodeGrapheme"></a><span class="ddoc_psymbol">decodeGrapheme</span>(Input)(ref Input <i>inp</i>);
+</dt>
+<dd>Read and return one full grapheme cluster from an input range of dchar <span class="d_inlinecode">inp</span>.
+<p></p>
+<b>Note:</b><br>
+this function modifies <span class="d_inlinecode">inp</span> and thus <span class="d_inlinecode">inp</span>
+    must be an L-value.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="Grapheme"></a>struct <a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span>;
+</dt>
+<dd>A structure designed to effectively pack codepoints of a grapheme cluster.
+    <span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span> has value smemantics so 2 copies of <span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span>
+    always refer to distinct objects. In most actual scenarios (D <a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span>)
+    fits on stack and avoids memory allocation overhead for all but very long clusters.<p></p>
+
+<dl><dt class="d_decl"><a name="Grapheme.opIndex"></a>const @trusted dchar <a name="opIndex"></a><span class="ddoc_psymbol">opIndex</span>(size_t <i>index</i>);
+</dt>
+<dd>Get codepoint at given <i>index</i> in this cluster.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="Grapheme.opIndexAssign"></a>@trusted void <a name="opIndexAssign"></a><span class="ddoc_psymbol">opIndexAssign</span>(dchar <i>ch</i>, size_t <i>index</i>);
+</dt>
+<dd>Write codepoint at given <i>index</i> of this cluster.
+<p></p>
+<b>Warning:</b><br>
+use of this facility may invalidate grapheme cluster, see also <span class="d_inlinecode">valid</span>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="Grapheme.opSlice"></a>@trusted auto <a name="opSlice"></a><span class="ddoc_psymbol">opSlice</span>(size_t <i>a</i>, size_t <i>b</i>);
+<br><a name="Grapheme.opSlice"></a>@trusted auto <a name="opSlice"></a><span class="ddoc_psymbol">opSlice</span>();
+</dt>
+<dd>Random-access range over Grapheme's codepoints.
+<p></p>
+<b>Warning:</b><br>
+Invalidates when this Grapheme leaves the scope.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="Grapheme.length"></a>const @property @trusted size_t <a name="length"></a><span class="ddoc_psymbol">length</span>();
+</dt>
+<dd>Grapheme cluster <a name="length"></a><span class="ddoc_psymbol">length</span> in codepoints.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="Grapheme.opOpAssign"></a>ref auto <a name="opOpAssign"></a><span class="ddoc_psymbol">opOpAssign</span>(string op)(dchar <i>ch</i>);
+</dt>
+<dd>Append <span class="d_inlinecode">ch</span> to this grapheme.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="Grapheme.opOpAssign"></a>ref auto <a name="opOpAssign"></a><span class="ddoc_psymbol">opOpAssign</span>(string op, Input)(Input <i>inp</i>);
+</dt>
+<dd>Append all of codepoints from the input range <span class="d_inlinecode">inp</span> to this Grapheme.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="Grapheme.valid"></a>@property @trusted bool <a name="valid"></a><span class="ddoc_psymbol">valid</span>();
+</dt>
+<dd>True if this object contains <a name="valid"></a><span class="ddoc_psymbol">valid</span> extended grapheme cluster.
+        Decoding primitives of this module always return <a name="valid"></a><span class="ddoc_psymbol">valid</span> <span class="d_inlinecode">Grapheme</span>.
+<p></p>
+Appending to and direct manipulation of grapheme's codepoints may
+        render it no longer <a name="valid"></a><span class="ddoc_psymbol">valid</span>. Certain applications may chose to use
+        Grapheme as a "small string" of codepoints and ignore this property
+        entierly.<p></p>
+
+</dd>
+</dl>
+</dd>
+<dt class="d_decl"><a name="sicmp"></a>int <a name="sicmp"></a><span class="ddoc_psymbol">sicmp</span>(C1, C2)(in C1[] <i>str1</i>, in C2[] <i>str2</i>);
+</dt>
+<dd>Does basic case-insensitive comparison of strings <span class="d_inlinecode">str1</span> and <span class="d_inlinecode">str2</span>.
+<p></p>
+<b>Warning:</b><br>
+this function only handles 1:1 codepoint mapping
+    and thus is not sufficent for certain alphabets
+    like German, Greek and few others.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="icmp"></a>int <a name="icmp"></a><span class="ddoc_psymbol">icmp</span>(C1, C2)(inout(C1)[] <i>str1</i>, inout(C2)[] <i>str2</i>);
+</dt>
+<dd>Does case insensitive comparison of <span class="d_inlinecode">str1</span> and <span class="d_inlinecode">str2</span>.
+    Follows rules of full casefolding mapping.
+    This includes matching as equal german ß with "ss" and
+    other 1:M codepoints relations unlike <span class="d_inlinecode">sicmp</span>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="combiningClass"></a>@trusted ubyte <a name="combiningClass"></a><span class="ddoc_psymbol">combiningClass</span>(dchar <i>ch</i>);
+</dt>
+<dd>Returns the canonical combining class of <span class="d_inlinecode"><i>ch</i></span>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="compose"></a>@trusted dchar <a name="compose"></a><span class="ddoc_psymbol">compose</span>(dchar <i>first</i>, dchar <i>second</i>);
+</dt>
+<dd>Try to canonically <a name="compose"></a><span class="ddoc_psymbol">compose</span> 2 codepoints.
+    Returns the composed codepoint if they do <a name="compose"></a><span class="ddoc_psymbol">compose</span> and D.init otherwise.
+<p></p>
+The assumption is that <span class="d_inlinecode"><i>first</i></span> comes before <span class="d_inlinecode"><i>second</i></span> in the original text,
+    usually meaning that the <i>first</i> is a starter.
+
+<p></p>
+<b>Note:</b><br>
+Hangul syllables are not covered by this function.
+    See <span class="d_inlinecode">composeJamo</span> below.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="composeJamo"></a>@trusted dchar <a name="composeJamo"></a><span class="ddoc_psymbol">composeJamo</span>(dchar <i>lead</i>, dchar <i>vowel</i>, dchar <i>trailing</i> = (dchar).init);
+</dt>
+<dd>Try to compose hangul syllable out of a leading consonant (<span class="d_inlinecode"><i>lead</i></span>),
+    a <span class="d_inlinecode"><i>vowel</i></span> and optional <span class="d_inlinecode"><i>trailing</i></span> consonant jamos.
+<p></p>
+On success returns the composed LV or LVT hangul syllable.
+<p></p>
+
+
+    If any of <span class="d_inlinecode"><i>lead</i></span> and <span class="d_inlinecode"><i>vowel</i></span> are not a valid hangul jamo
+    of the respective character class returns dchar.init.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="decompose"></a>Grapheme <a name="decompose"></a><span class="ddoc_psymbol">decompose</span>(UnicodeDecomposition decompType = Canonical)(dchar <i>ch</i>);
+</dt>
+<dd>Returns a full Canonical (by default) or Compatibility decomposition of codepoint
+    <span class="d_inlinecode">ch</span>. If no decomposition is available returns Grapheme with the <span class="d_inlinecode">ch</span> itself.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="NormalizationForm"></a>enum <a name="NormalizationForm"></a><span class="ddoc_psymbol">NormalizationForm</span>;
+</dt>
+<dd>Enumeration type for normalization forms,
+    passed as template parameter for functions like <a href="#normalize"><span class="d_inlinecode">normalize</span></a>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="normalize"></a>inout(C)[] <a name="normalize"></a><span class="ddoc_psymbol">normalize</span>(NormalizationForm norm = NFC, C)(inout(C)[] <i>input</i>);
+</dt>
+<dd>Returns input string normalized to the chosen form. Form C is used by default.
+    In case where the string in question is already normalized,
+    it is returned unmodified and no memory allocation happens.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="allowedIn"></a>bool <a name="allowedIn"></a><span class="ddoc_psymbol">allowedIn</span>(NormalizationForm norm)(dchar <i>ch</i>);
+</dt>
+<dd>Checks if dchar <span class="d_inlinecode">ch</span> is always allowed (Quick_Check=YES) in normalization form <span class="d_inlinecode">norm</span>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isWhite"></a>@system bool <a name="isWhite"></a><span class="ddoc_psymbol">isWhite</span>(dchar <i>c</i>);
+</dt>
+<dd>Whether or not <span class="d_inlinecode"><i>c</i></span> is a Unicode whitespace character.
+    (general Unicode category: Part of C0(tab, vertical tab, form feed,
+    carriage return, and linefeed characters), Zs, Zl, Zp, and NEL(U+0085))<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isUniLower"></a>deprecated @system bool <a name="isUniLower"></a><span class="ddoc_psymbol">isUniLower</span>(dchar <i>c</i>);
+</dt>
+<dd><span style="color:red">Deprecated. It will be removed in August 2012. Please use
+   <span class="d_inlinecode">isLower</span> instead.</span>
+<p></p>
+Return whether <span class="d_inlinecode"><i>c</i></span> is a Unicode lowercase character.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isLower"></a>@system bool <a name="isLower"></a><span class="ddoc_psymbol">isLower</span>(dchar <i>c</i>);
+</dt>
+<dd>Return whether <span class="d_inlinecode"><i>c</i></span> is a Unicode lowercase character.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isUniUpper"></a>deprecated @system bool <a name="isUniUpper"></a><span class="ddoc_psymbol">isUniUpper</span>(dchar <i>c</i>);
+</dt>
+<dd><span style="color:red">Deprecated. It will be removed in August 2012. Please use
+   <span class="d_inlinecode">isUpper</span> instead.</span>
+<p></p>
+Return whether <span class="d_inlinecode"><i>c</i></span> is a Unicode uppercase character.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isUpper"></a>@system bool <a name="isUpper"></a><span class="ddoc_psymbol">isUpper</span>(dchar <i>c</i>);
+</dt>
+<dd>Return whether <span class="d_inlinecode"><i>c</i></span> is a Unicode uppercase character.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="toUniLower"></a>deprecated @system dchar <a name="toUniLower"></a><span class="ddoc_psymbol">toUniLower</span>(dchar <i>c</i>);
+</dt>
+<dd><span style="color:red">Deprecated. It will be removed in August 2012. Please use
+   <span class="d_inlinecode">toLower</span> instead.</span>
+<p></p>
+If <span class="d_inlinecode"><i>c</i></span> is a Unicode uppercase character, then its lowercase equivalent
+    is returned. Otherwise <span class="d_inlinecode"><i>c</i></span> is returned.
+
+<p></p>
+<b>Warning:</b><br>
+certain alphabets like German, Greek have no 1:1
+    upper-lower mapping. Use overload of toLower which takes full string instead.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="toLower"></a>@system dchar <a name="toLower"></a><span class="ddoc_psymbol">toLower</span>(dchar <i>c</i>);
+</dt>
+<dd>If <span class="d_inlinecode"><i>c</i></span> is a Unicode uppercase character, then its lowercase equivalent
+    is returned. Otherwise <span class="d_inlinecode"><i>c</i></span> is returned.
+<p></p>
+<b>Warning:</b><br>
+certain alphabets like German, Greek have no 1:1
+    upper-lower mapping. Use overload of <a name="toLower"></a><span class="ddoc_psymbol">toLower</span> which takes full string instead.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="toUniUpper"></a>deprecated @system dchar <a name="toUniUpper"></a><span class="ddoc_psymbol">toUniUpper</span>(dchar <i>c</i>);
+</dt>
+<dd><span style="color:red">Deprecated. It will be removed in August 2012. Please use
+   <span class="d_inlinecode">toUpper</span> instead.</span>
+<p></p>
+If <span class="d_inlinecode"><i>c</i></span> is a Unicode lowercase character, then its uppercase equivalent
+    is returned. Otherwise <span class="d_inlinecode"><i>c</i></span> is returned.
+
+<p></p>
+<b>Warning:</b><br>
+certain alphabets like German, Greek have no 1:1
+    upper-lower mapping. Use overload of toUpper which takes full string instead.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="toUpper"></a>@system dchar <a name="toUpper"></a><span class="ddoc_psymbol">toUpper</span>(dchar <i>c</i>);
+</dt>
+<dd>If <span class="d_inlinecode"><i>c</i></span> is a Unicode lowercase character, then its uppercase equivalent
+    is returned. Otherwise <span class="d_inlinecode"><i>c</i></span> is returned.
+<p></p>
+<b>Warning:</b><br>
+certain alphabets like German, Greek have no 1:1
+    upper-lower mapping. Use overload of <a name="toUpper"></a><span class="ddoc_psymbol">toUpper</span> which takes full string instead.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isUniAlpha"></a>deprecated @system bool <a name="isUniAlpha"></a><span class="ddoc_psymbol">isUniAlpha</span>(dchar <i>c</i>);
+</dt>
+<dd><span style="color:red">Deprecated. It will be removed in August 2012. Please use
+   <span class="d_inlinecode">isAlpha</span> instead.</span>
+<p></p>
+Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode alphabetic character
+    (general Unicode category: Alphabetic).<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isAlpha"></a>@system bool <a name="isAlpha"></a><span class="ddoc_psymbol">isAlpha</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode alphabetic character
+    (general Unicode category: Alphabetic).
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isMark"></a>@trusted bool <a name="isMark"></a><span class="ddoc_psymbol">isMark</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode mark
+    (general Unicode category: Mn, Me, Mc).
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isNumber"></a>@system bool <a name="isNumber"></a><span class="ddoc_psymbol">isNumber</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode numerical character
+    (general Unicode category: Nd, Nl, No).
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isPunctuation"></a>@system bool <a name="isPunctuation"></a><span class="ddoc_psymbol">isPunctuation</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode punctuation character
+    (general Unicode category: Pd, Ps, Pe, Pc, Po, Pi, Pf).
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isSymbol"></a>@system bool <a name="isSymbol"></a><span class="ddoc_psymbol">isSymbol</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode symbol character
+    (general Unicode category: Sm, Sc, Sk, So)
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isSpace"></a>@system bool <a name="isSpace"></a><span class="ddoc_psymbol">isSpace</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode space character
+    (general Unicode category: Zs)
+<p></p>
+<b>Note:</b><br>
+that this doesn't include '\n', '\r', \t' and other non-space characters.
+    For commonly used less strict semantics see <a href="#isWhite"><span class="d_inlinecode">isWhite</span></a>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isGraphical"></a>@system bool <a name="isGraphical"></a><span class="ddoc_psymbol">isGraphical</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode graphical character
+    (general Unicode category: L, M, N, P, S, Zs).
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isControl"></a>@system bool <a name="isControl"></a><span class="ddoc_psymbol">isControl</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode control character
+    (general Unicode category: Cc)
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isFormat"></a>@system bool <a name="isFormat"></a><span class="ddoc_psymbol">isFormat</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode formatting character
+    (general Unicode category: Cf)
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isPrivateUse"></a>@system bool <a name="isPrivateUse"></a><span class="ddoc_psymbol">isPrivateUse</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode Private Use character
+    (general Unicode category: Co)
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isSurrogate"></a>@system bool <a name="isSurrogate"></a><span class="ddoc_psymbol">isSurrogate</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode surrogate character
+    (general Unicode category: Cs)
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isSurrogateHi"></a>pure nothrow @system bool <a name="isSurrogateHi"></a><span class="ddoc_psymbol">isSurrogateHi</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode high surrogate (lead surrogate).
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isSurrogateLo"></a>pure nothrow @system bool <a name="isSurrogateLo"></a><span class="ddoc_psymbol">isSurrogateLo</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode low surrogate (trail surrogate).
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="isNonCharacter"></a>@system bool <a name="isNonCharacter"></a><span class="ddoc_psymbol">isNonCharacter</span>(dchar <i>c</i>);
+</dt>
+<dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode non-character
+    (general Unicode category: Cn)
+<p></p>
+
+</dd>
+</dl>
+
+    
+<br><br>
+<br><br>
+<!-- Google ad -->
+<script type="text/javascript"><!--
+/**/google_ad_client = "pub-5628673096434613";
+/**/google_ad_width = 728;
+/**/google_ad_height = 90;
+/**/google_ad_format = "728x90_as";
+/**/google_ad_channel ="6203743411";
+/**/google_page_url = document.location;
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+</div><!--/content-->
+
+
+<div id="copyright">
+Copyright 2013 -
+ |
+Page generated by <a href="http://www.digitalmars.com/d/2.0/ddoc.html">Ddoc</a>.
+</div>
+
+</body>
+</html>
+
