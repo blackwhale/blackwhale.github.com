@@ -243,7 +243,8 @@ Implementation of fundamental data structures and algorithms for Unicode.
     </li>
     <li>       Decomposing and composing of individual codepoint(s) according to canonical
         or compatibility rules, see <a href="#compose"><span class="d_inlinecode">compose</span></a> and <a href="#decompose"><span class="d_inlinecode">decompose</span></a>,
-        including the specific version for Hangul syllables <a href="#composeJamo"><span class="d_inlinecode">composeJamo</span></a>.
+        including the specific version for Hangul syllables <a href="#composeJamo"><span class="d_inlinecode">composeJamo</span></a>
+        and <a href="#hangulDecompose"><span class="d_inlinecode">hangulDecompose</span></a>.
     </li>
 <p></p>
 
@@ -285,7 +286,7 @@ Implementation of fundamental data structures and algorithms for Unicode.
 <pre class="d_code">    <span class="d_keyword">void</span> main()
     {
         <span class="d_comment">// initialize codepoint sets using regex notation
-</span>        <span class="d_comment">//<span class="d_inlinecode">set</span> contains codepoints from both scripts.
+</span>        <span class="d_comment">// set contains codepoints from both scripts.
 </span>        <span class="d_keyword">auto</span> set = unicode(<span class="d_string">"Cyrillic"</span>) | unicode(<span class="d_string">"Armenian"</span>);
         <span class="d_keyword">auto</span> ascii = unicode(<span class="d_string">"ASCII"</span>);
         <span class="d_keyword">auto</span> currency = unicode(<span class="d_string">"Currency_Symbol"</span>);
@@ -305,9 +306,9 @@ Implementation of fundamental data structures and algorithms for Unicode.
 </span>        <span class="d_keyword">assert</span>(b['¥']);
 
         <span class="d_comment">// building fast lookup tables, these guarantee O(1) complexity
-</span>        <span class="d_comment">// 1-level Trie lookup table
+</span>        <span class="d_comment">// 1-level Trie lookup table essentially a huge bit-set ~262Kb
 </span>        <span class="d_keyword">auto</span> oneTrie = toTrie!1(b);
-        <span class="d_comment">// 2-level more compact but typically slightly slower
+        <span class="d_comment">// 2-level far more compact but typically slightly slower
 </span>        <span class="d_keyword">auto</span> twoTrie = toTrie!2(b);
         <span class="d_comment">// 3-level even smaller, and a bit slower yet
 </span>        <span class="d_keyword">auto</span> threeTrie = toTrie!3(b);
@@ -394,7 +395,7 @@ Unicode(tm) is a trademark of Unicode, Inc.
 </dd>
 <dt class="d_decl"><a name="CodepointInterval"></a>alias std.typecons.Tuple!(uint, "a", uint, "b").Tuple <a name="CodepointInterval"></a><span class="ddoc_psymbol">CodepointInterval</span>;
 </dt>
-<dd>The recommended type of <a href="std_std.typecons.html#Tuple"><span class="d_inlinecode">std.std.typecons.Tuple</span></a>
+<dd>The recommended type of <a href="std_typecons.html#Tuple"><span class="d_inlinecode">std.typecons.Tuple</span></a>
     to represent [a, b) intervals of codepoints.
     Any interval type should pass <a href="#isIntegralPair"><span class="d_inlinecode">isIntegralPair</span></a> trait.<p></p>
 
@@ -443,17 +444,17 @@ Unicode(tm) is a trademark of Unicode, Inc.
 </dd>
 <dt class="d_decl"><a name="opBinary"></a>This <a name="opBinary"></a><span class="ddoc_psymbol">opBinary</span>(string op, U)(U <i>rhs</i>);
 </dt>
-<dd><p>Sets support natural syntax for set algebra, namely:</p>
+<dd><p>Sets support natural syntax for set algebra, namely: </p>
         <table cellspacing=0 cellpadding=5 class=book><caption>           <tr><th>Operator</th> <th>Math notation</th> <th>Description</th> </tr>
             <tr><td valign=top>&amp;</td> <td valign=top>a ∩ b</td> <td valign=top>intersection</td> </tr>
             <tr><td valign=top>|</td> <td valign=top>a ∪ b</td> <td valign=top>union</td> </tr>
             <tr><td valign=top>-</td> <td valign=top>a ∖ b</td> <td valign=top>subtraction</td> </tr>
-            <tr><td valign=top>~</td> <td valign=top>a ~ b</td> <td valign=top>symmetric set difference i.e. (a ∪ b) \ (a ∩ b) </td></tr>
+            <tr><td valign=top>~</td> <td valign=top>a ~ b</td> <td valign=top>symmetric set difference i.e. (a ∪ b) \ (a ∩ b)</td> </tr>
         </caption>           <tr><th>Operator</th> <th>Math notation</th> <th>Description</th> </tr>
             <tr><td valign=top>&amp;</td> <td valign=top>a ∩ b</td> <td valign=top>intersection</td> </tr>
             <tr><td valign=top>|</td> <td valign=top>a ∪ b</td> <td valign=top>union</td> </tr>
             <tr><td valign=top>-</td> <td valign=top>a ∖ b</td> <td valign=top>subtraction</td> </tr>
-            <tr><td valign=top>~</td> <td valign=top>a ~ b</td> <td valign=top>symmetric set difference i.e. (a ∪ b) \ (a ∩ b) </td></tr>
+            <tr><td valign=top>~</td> <td valign=top>a ~ b</td> <td valign=top>symmetric set difference i.e. (a ∪ b) \ (a ∩ b)</td> </tr>
         </table><p></p>
 
 </dd>
@@ -469,11 +470,12 @@ Unicode(tm) is a trademark of Unicode, Inc.
 </dd>
 <dt class="d_decl"><a name="toString"></a>void <a name="toString"></a><span class="ddoc_psymbol">toString</span>(scope void delegate(const(char)[]) <i>sink</i>);
 </dt>
-<dd><p>Obtain textual representation of this set in from of [a..b</p> intervals
-        and feed it to <span class="d_inlinecode"><i>sink</i></span>. )
+<dd><p>Obtain textual representation of this set in from of
+        open-right intervals and feed it to <span class="d_inlinecode"><i>sink</i></span>.
+        </p>
         <p>Used by various standard formatting facilities such as
-         <a href="std_std.format.html#formattedWrite"><span class="d_inlinecode">std.std.format.formattedWrite</span></a>, <span class="d_inlinecode">write</span>, <span class="d_inlinecode">writef</span>,
-         <a href="std_std.conv.html#to"><span class="d_inlinecode">std.std.conv.to</span></a> and others.
+         <a href="std_format.html#formattedWrite"><span class="d_inlinecode">std.format.formattedWrite</span></a>, <a href="std_stdio.html#write"><span class="d_inlinecode">std.stdio.write</span></a>,
+         <a href="std_stdio.html#writef"><span class="d_inlinecode">std.stdio.writef</span></a>, <a href="std_conv.html#to"><span class="d_inlinecode">std.conv.to</span></a> and others.
         </p><p></p>
 
 </dd>
@@ -768,11 +770,6 @@ Effectively this creates a 'tester' object suitable for algorithms like
     with <span class="d_inlinecode">Trie</span> template.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="decompressIntervals"></a>@system auto <a name="decompressIntervals"></a><span class="ddoc_psymbol">decompressIntervals</span>(const(ubyte)[] <i>data</i>);
-</dt>
-<dd>Creates a range of <span class="d_inlinecode">CodepointInterval</span> that lazily decodes compressed <i>data</i>.<p></p>
-
-</dd>
 <dt class="d_decl"><a name="unicode"></a>struct <a name="unicode"></a><span class="ddoc_psymbol">unicode</span>;
 </dt>
 <dd>A single entry point to lookup Unicode codepoint sets by name or alias of
@@ -799,7 +796,7 @@ It uses well defined standard rules of property name lookup.
 </dd>
 <dt class="d_decl"><a name="unicode.opCall"></a>static auto <a name="opCall"></a><span class="ddoc_psymbol">opCall</span>(C)(in C[] <i>name</i>);
 </dt>
-<dd>The same lookup but performed at run-time suitable for cases
+<dd>The same lookup but performed at run-time, provided for cases
         where <span class="d_inlinecode">name</span> is not known beforehand.<p></p>
 
 </dd>
@@ -824,8 +821,8 @@ this function modifies <span class="d_inlinecode">inp</span> and thus <span clas
 </dt>
 <dd>A structure designed to effectively pack codepoints of a grapheme cluster.
     <span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span> has value smemantics so 2 copies of <span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span>
-    always refer to distinct objects. In most actual scenarios (D <a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span>)
-    fits on stack and avoids memory allocation overhead for all but very long clusters.<p></p>
+    always refer to distinct objects. In most actual scenarios <span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span>
+    fits on stack and avoids memory allocation overhead for all but quite long clusters.<p></p>
 
 <dl><dt class="d_decl"><a name="Grapheme.opIndex"></a>const @trusted dchar <a name="opIndex"></a><span class="ddoc_psymbol">opIndex</span>(size_t <i>index</i>);
 </dt>
@@ -933,10 +930,20 @@ On success returns the composed LV or LVT hangul syllable.
     <span class="d_inlinecode">ch</span>. If no decomposition is available returns Grapheme with the <span class="d_inlinecode">ch</span> itself.<p></p>
 
 </dd>
+<dt class="d_decl"><a name="hangulDecompose"></a>@trusted Grapheme <a name="hangulDecompose"></a><span class="ddoc_psymbol">hangulDecompose</span>(dchar <i>ch</i>);
+</dt>
+<dd>Decomposes a Hangul syllable. If ($D <i>ch</i>) is not a composed syllable
+    then this function returns <a href="#Grapheme"><span class="d_inlinecode">Grapheme</span></a> containing only <span class="d_inlinecode"><i>ch</i></span> as is.<p></p>
+
+</dd>
 <dt class="d_decl"><a name="NormalizationForm"></a>enum <a name="NormalizationForm"></a><span class="ddoc_psymbol">NormalizationForm</span>;
 </dt>
 <dd>Enumeration type for normalization forms,
     passed as template parameter for functions like <a href="#normalize"><span class="d_inlinecode">normalize</span></a>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="NFC"></a><a name="NFC"></a><span class="ddoc_psymbol">NFC</span><br><a name="NFD"></a><a name="NFD"></a><span class="ddoc_psymbol">NFD</span><br><a name="NFKC"></a><a name="NFKC"></a><span class="ddoc_psymbol">NFKC</span><br><a name="NFKD"></a><a name="NFKD"></a><span class="ddoc_psymbol">NFKD</span></dt>
+<dd>Shorthand aliases from values indicating normalization forms.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="normalize"></a>inout(C)[] <a name="normalize"></a><span class="ddoc_psymbol">normalize</span>(NormalizationForm norm = NFC, C)(inout(C)[] <i>input</i>);
