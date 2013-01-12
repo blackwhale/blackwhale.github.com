@@ -984,14 +984,6 @@ On success returns the composed LV or LVT hangul syllable.
     carriage return, and linefeed characters), Zs, Zl, Zp, and NEL(U+0085))<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isUniLower"></a>deprecated @system bool <a name="isUniLower"></a><span class="ddoc_psymbol">isUniLower</span>(dchar <i>c</i>);
-</dt>
-<dd><span style="color:red">Deprecated. It will be removed in August 2012. Please use
-   <span class="d_inlinecode">isLower</span> instead.</span>
-<p></p>
-Return whether <span class="d_inlinecode"><i>c</i></span> is a Unicode lowercase character.<p></p>
-
-</dd>
 <dt class="d_decl"><a name="isLower"></a>@system bool <a name="isLower"></a><span class="ddoc_psymbol">isLower</span>(dchar <i>c</i>);
 </dt>
 <dd>Return whether <span class="d_inlinecode"><i>c</i></span> is a Unicode lowercase character.<p></p>
@@ -1058,48 +1050,34 @@ certain alphabets like German, Greek have no 1:1
     upper-lower mapping. Use overload of <a name="toUpper"></a><span class="ddoc_psymbol">toUpper</span> which takes full string instead.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isUniAlpha"></a>deprecated @system bool <a name="isUniAlpha"></a><span class="ddoc_psymbol">isUniAlpha</span>(dchar <i>c</i>);
-</dt>
-<dd><span style="color:red">Deprecated. It will be removed in August 2012. Please use
-   <span class="d_inlinecode">isAlpha</span> instead.</span>
-<p></p>
-Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode alphabetic character
-    (general Unicode category: Alphabetic).<p></p>
-
-</dd>
 <dt class="d_decl"><a name="isAlpha"></a>@system bool <a name="isAlpha"></a><span class="ddoc_psymbol">isAlpha</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode alphabetic character
-    (general Unicode category: Alphabetic).
-<p></p>
+    (general Unicode category: Alphabetic).<p></p>
 
 </dd>
 <dt class="d_decl"><a name="isMark"></a>@trusted bool <a name="isMark"></a><span class="ddoc_psymbol">isMark</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode mark
-    (general Unicode category: Mn, Me, Mc).
-<p></p>
+    (general Unicode category: Mn, Me, Mc).<p></p>
 
 </dd>
 <dt class="d_decl"><a name="isNumber"></a>@system bool <a name="isNumber"></a><span class="ddoc_psymbol">isNumber</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode numerical character
-    (general Unicode category: Nd, Nl, No).
-<p></p>
+    (general Unicode category: Nd, Nl, No).<p></p>
 
 </dd>
 <dt class="d_decl"><a name="isPunctuation"></a>@system bool <a name="isPunctuation"></a><span class="ddoc_psymbol">isPunctuation</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode punctuation character
-    (general Unicode category: Pd, Ps, Pe, Pc, Po, Pi, Pf).
-<p></p>
+    (general Unicode category: Pd, Ps, Pe, Pc, Po, Pi, Pf).<p></p>
 
 </dd>
 <dt class="d_decl"><a name="isSymbol"></a>@system bool <a name="isSymbol"></a><span class="ddoc_psymbol">isSymbol</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode symbol character
-    (general Unicode category: Sm, Sc, Sk, So)
-<p></p>
+    (general Unicode category: Sm, Sc, Sk, So)<p></p>
 
 </dd>
 <dt class="d_decl"><a name="isSpace"></a>@system bool <a name="isSpace"></a><span class="ddoc_psymbol">isSpace</span>(dchar <i>c</i>);
