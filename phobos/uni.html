@@ -891,20 +891,24 @@ Appending to and direct manipulation of grapheme's codepoints may
 </dd>
 <dt class="d_decl"><a name="sicmp"></a>int <a name="sicmp"></a><span class="ddoc_psymbol">sicmp</span>(C1, C2)(const(C1)[] <i>str1</i>, const(C2)[] <i>str2</i>);
 </dt>
-<dd>Does basic case-insensitive comparison of strings <span class="d_inlinecode">str1</span> and <span class="d_inlinecode">str2</span>.
+<dd><p>Does basic case-insensitive comparison of strings <span class="d_inlinecode">str1</span> and <span class="d_inlinecode">str2</span>.
+    This function uses simpler comparison rule thus achieving better performance
+    then <a href="#icmp"><span class="d_inlinecode">icmp</span></a>. However keep in mind the warning below.</p>
 <p></p>
 <b>Warning:</b><br>
-this function only handles 1:1 codepoint mapping
-    and thus is not sufficent for certain alphabets
+This function only handles 1:1 codepoint mapping
+    and thus is not sufficient for certain alphabets
     like German, Greek and few others.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="icmp"></a>int <a name="icmp"></a><span class="ddoc_psymbol">icmp</span>(C1, C2)(const(C1)[] <i>str1</i>, const(C2)[] <i>str2</i>);
 </dt>
-<dd>Does case insensitive comparison of <span class="d_inlinecode">str1</span> and <span class="d_inlinecode">str2</span>.
-    Follows rules of full casefolding mapping.
+<dd><p>Does case insensitive comparison of <span class="d_inlinecode">str1</span> and <span class="d_inlinecode">str2</span>.
+    Follows the rules of full casefolding mapping.
     This includes matching as equal german ß with "ss" and
-    other 1:M codepoints relations unlike <span class="d_inlinecode">sicmp</span>.<p></p>
+    other 1:M codepoints relations unlike <a href="#sicmp"><span class="d_inlinecode">sicmp</span></a>
+    at the cost of being slightly slower.
+    </p><p></p>
 
 </dd>
 <dt class="d_decl"><a name="combiningClass"></a>@trusted ubyte <a name="combiningClass"></a><span class="ddoc_psymbol">combiningClass</span>(dchar <i>ch</i>);
