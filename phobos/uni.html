@@ -353,10 +353,11 @@ function listanchors()
     8-bit code units in the UTF-8 (($D char)),
     16-bit code units in the UTF-16 (<span class="d_inlinecode">wchar</span>),
     and 32-bit code units in the UTF-32 (<span class="d_inlinecode">dchar</span>).
-    <i>Note that UTF-32 code unit (<span class="d_inlinecode">dchar</span>) holds the actual code point value.</i>
+    <i>Note that in UTF-32, a code unit is a code point
+    and is represented by the D <span class="d_inlinecode">dchar</span> type.</i>
     </p>
     <p><i>Abstract character.</i> A unit of information used for the organization,
-    control, or representation of textual data. Also known as simply <i>character</i>.
+    control, or representation of textual data.
     Note that:
         <ul>       <li>When representing data, the nature of that data
         is generally symbolic as opposed to some other
@@ -1120,7 +1121,7 @@ This doesn't include '\n', '\r', \t' and other non-space characters.
 <p></p>
 
 </dd>
-<dt class="d_decl"><a name="isControl"></a>@system bool <a name="isControl"></a><span class="ddoc_psymbol">isControl</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isControl"></a>pure nothrow @system bool <a name="isControl"></a><span class="ddoc_psymbol">isControl</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode control character
     (general Unicode category: Cc).<p></p>
