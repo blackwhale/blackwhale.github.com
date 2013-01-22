@@ -86,7 +86,7 @@ function listanchors()
 </div>
 </form>
 <div id="toctop">
-    <ul>	<li><a href="../index.html" title="D Programming Language">D</a></li>
+    <ul><li><a href="../index.html" title="D Programming Language">D</a></li>
 	<li><a href="../spec.html" title="D Language Specification">Language</a></li>
 	<li><a href="../phobos/index.html" title="D Runtime Library">Phobos</a></li>
 	<li><a href="../phobos-prerelease/index.html" title="D Runtime Library (prerelease)">Phobos (prerelease)</a></li>
@@ -94,13 +94,12 @@ function listanchors()
     </ul>
 </div>
 </div>
-
     
 <div class="navblock">
-    <ul>	<li><a href="object.html" title="root of object hierarchy">object</a></li>
+    <ul><li><a href="object.html" title="root of object hierarchy">object</a></li>
     </ul>
     <h2><a href="index.html#std" title="D standard modules">std</a></h2>
-    <ul>	<li><a href="std_algorithm.html" title="General-purpose algorithms">std.algorithm</a></li>
+    <ul><li><a href="std_algorithm.html" title="General-purpose algorithms">std.algorithm</a></li>
 	<li><a href="std_array.html" title="Array functions">std.array</a></li>
 	<li><a href="std_ascii.html" title="Functions which operate on ASCII characters">std.ascii</a></li>
 	<li><a href="std_base64.html" title="Encode/decode base64 format">std.base64</a></li>
@@ -179,12 +178,12 @@ function listanchors()
 	<li><a href="index.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
     </ul>
     <h2><a href="index.html#etc" title="D etc modules">etc</a></h2>
-    <ul>	<li><a href="etc_c_curl.html" title="Interface to libcurl library">etc.c.curl</a></li>
+    <ul><li><a href="etc_c_curl.html" title="Interface to libcurl library">etc.c.curl</a></li>
 	<li><a href="etc_c_sqlite3.html" title="Interface to sqlite3 library">etc.c.sqlite3</a></li>
 	<li><a href="etc_c_zlib.html" title="Interface to zlib library">etc.c.zlib</a></li>
     </ul>
     <h2><a href="index.html#core" title="D core modules">core</a></h2>
-    <ul>	<li><a href="core_atomic.html" title="Atomic operations">core.atomic</a></li>
+    <ul><li><a href="core_atomic.html" title="Atomic operations">core.atomic</a></li>
 	<li><a href="core_bitop.html" title="Bitwise operations">core.bitop</a></li>
 	<li><a href="core_cpuid.html" title="CPU identification">core.cpuid</a></li>
 	<li><a href="core_exception.html" title="Root of exception hierarchy">core.exception</a></li>
@@ -202,7 +201,6 @@ function listanchors()
 	<li><a href="core_sync_semaphore.html" title="Semaphores">core.sync.semaphore</a></li>
     </ul>
 </div>
-
 </div><!--/navigation-->
 <div id="content">
     <h1>uni</h1>
@@ -214,7 +212,6 @@ function listanchors()
     of fundamental Unicode algorithms and data structures.</p>
 <p></p>
 
-
     <p>All primitives listed operate on Unicode character and
     sets of characters. For functions which operate on ASCII characters
     and ignore Unicode <a href="#Character">character</a>, see <a href="std_ascii.html">std.ascii</a>.
@@ -223,7 +220,6 @@ function listanchors()
     below.
     </p>
 <p></p>
-
 
     <p>The focus of this module is the core needs of developing Unicode-aware
     applications. To that effect it provides the following optimized primitives:
@@ -344,7 +340,6 @@ function listanchors()
     specifically the 3rd chapter.</p>
 <p></p>
 
-
     <p><div><a id="Code point"><i>Code point</i></a></div> Any value in the Unicode codespace;
     that is, the range of integers from 0 to 10FFFF (hex).
     Not all code points are assigned to encoded characters.
@@ -366,10 +361,8 @@ function listanchors()
         kind of data (for example, visual).</li>
 
 
-
         <li>An abstract character has no concrete form
         and should not be confused with a <i>glyph</i>.</li>
-
 
 
         <li>An abstract character does not necessarily
@@ -377,17 +370,14 @@ function listanchors()
          and should not be confused with a <a href="#Grapheme"><span class="d_inlinecode">Grapheme</span></a>.</li>
 
 
-
         <li>The abstract characters encoded (see Encoded character)
         are known as Unicode abstract characters.</li>
-
 
 
         <li>Abstract characters not directly
         encoded by the Unicode Standard can often be
         represented by the use of combining character sequences.</li>
         </ul>
-
 
 
     </p>
@@ -402,10 +392,8 @@ function listanchors()
     (a symbolic meaning).</p>
 <p></p>
 
-
     <h3><a id="Construction of lookup tables">Construction of lookup tables</a></h3>
 <p></p>
-
 
     <p>The Unicode standard describes a set of algorithms that
     depend on having the ability to quickly look up various properties
@@ -414,14 +402,12 @@ function listanchors()
     the multitude of properties.</p>
 <p></p>
 
-
     <p>Common approaches such as hash-tables or binary search over
      sorted code point intervals (as in <a href="#InversionList"><span class="d_inlinecode">InversionList</span></a>) are insufficient.
      Hash-tables have enormous memory footprint and binary search
      over intervals is not fast enough for some heavy-duty algorithms.
      </p>
 <p></p>
-
 
     <p>The recommended solution (see Unicode Implementation Guidelines)
     is using multi-stage tables that is an instance of
@@ -433,7 +419,6 @@ function listanchors()
     </p>
 <p></p>
 
-
     <p>Taking 2-level Trie as an example the principle of operation is as follows.
         Split the number of bits in a key (code point, 21 bits) into 2 components
         (e.g. 15 and 8).  The first is the number of bits in the index of the trie
@@ -443,14 +428,12 @@ function listanchors()
     </p>
 <p></p>
 
-
     <p>The number of pages is variable (but no less then 1)
         unlike the number of entries in the index. The slots of the index
         all have to contain a number of a page that is present. The lookup is then
         just a couple of operations - slice the upper bits,
         lookup an index for these, take a page at this index and use
         the lower bits as an offset within this page.
-
 
 
         Assuming that pages are laid out consequently
@@ -467,7 +450,6 @@ function listanchors()
     </p>
 <p></p>
 
-
     <p>For completeness a level 1 trie is simply an array.
     The current implementation takes advantage of bit-packing values
     when the range is known to be limited in advance (such as <span class="d_inlinecode">bool</span>).
@@ -476,7 +458,6 @@ function listanchors()
     that multiple <b>identical pages on every level are merged</b> by construction.
     </p>
 <p></p>
-
 
     <p>The process of construction of a trie is more involved and is hidden from
     the user in a form of convenience functions: <a href="#codepointTrie"><span class="d_inlinecode">codepointTrie</span></a>,
@@ -493,7 +474,7 @@ function listanchors()
         <a href="http://www.unicode.org">The Unicode Consortium</a>,
         <a href="http://www.unicode.org/reports/tr15/">Unicode normalization forms</a>,
         <a href="http://www.unicode.org/reports/tr29/">Unicode text segmentation</a>
-        <a href="http://http://www.unicode.org/uni2book/ch05.pdf">            Unicode Implementation Guidelines</a>
+        <a href="http://www.unicode.org/uni2book/ch05.pdf">            Unicode Implementation Guidelines</a>
 <p></p>
 <b>Trademarks:</b><br>
 Unicode(tm) is a trademark of Unicode, Inc.
@@ -585,7 +566,6 @@ Unicode(tm) is a trademark of Unicode, Inc.
         out of predefined ones.
     </p>
 <p></p>
-
 
     <p>Memory usage is 6 bytes per each contiguous interval in a set.
     The value semantics are achieved by using COW technique
@@ -681,7 +661,6 @@ To be used with care for relatively small or regular sets. It
 </pre>
 <p></p>
 
-
         The above outputs something along the lines of:
 <pre class="d_code">        <span class="d_keyword">bool</span> func(<span class="d_keyword">dchar</span> ch)
         {
@@ -726,7 +705,6 @@ The first (leftmost) predicate defines the most significant bits of
 <b>Note:</b><br>
 The sum of <span class="d_inlinecode">sizes</span> must be equal 21.
 <p></p>
-
 
     See also even simpler <a href="#toTrie"><span class="d_inlinecode">toTrie</span></a>.
 
@@ -780,7 +758,6 @@ The parameter <span class="d_inlinecode">level</span> indicates the number of tr
     allowed values are: 1, 2, 3 or 4. Levels represent different trade-offs
     speed-size wise.
 <p></p>
-
 
     <p>Level 1 is fastest and the most memory hungry (a bit array). </p>
     <p>Level 4 is the slowest and has the smallest footprint. </p>
@@ -889,36 +866,42 @@ This function modifies <span class="d_inlinecode">inp</span> and thus <span clas
     fits on stack and avoids memory allocation overhead for all but quite
     long clusters. </p><p></p>
 
-<dl><dt class="d_decl"><a name="Grapheme.opIndex"></a>const @trusted dchar <a name="opIndex"></a><span class="ddoc_psymbol">opIndex</span>(size_t <i>index</i>);
+<dl><dt class="d_decl"><a name="Grapheme.opIndex"></a>const pure nothrow @trusted dchar <a name="opIndex"></a><span class="ddoc_psymbol">opIndex</span>(size_t <i>index</i>);
 </dt>
 <dd>Gets a <a href="#Code point">code point</a> at the given <i>index</i> in this cluster.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="Grapheme.opIndexAssign"></a>@trusted void <a name="opIndexAssign"></a><span class="ddoc_psymbol">opIndexAssign</span>(dchar <i>ch</i>, size_t <i>index</i>);
+<dt class="d_decl"><a name="Grapheme.opIndexAssign"></a>pure nothrow @trusted void <a name="opIndexAssign"></a><span class="ddoc_psymbol">opIndexAssign</span>(dchar <i>ch</i>, size_t <i>index</i>);
 </dt>
-<dd>Write <a href="#Code point">code point</a> at given <i>index</i> of this cluster.
+<dd>Write <a href="#Code point">code point</a> <span class="d_inlinecode"><i>ch</i></span> at given <i>index</i> of this cluster.
 <p></p>
 <b>Warning:</b><br>
-use of this facility may invalidate grapheme cluster, see also <span class="d_inlinecode">valid</span>.<p></p>
+Use of this facility may invalidate grapheme cluster,
+        see also <span class="d_inlinecode">valid</span>.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="Grapheme.opSlice"></a>@trusted auto <a name="opSlice"></a><span class="ddoc_psymbol">opSlice</span>(size_t <i>a</i>, size_t <i>b</i>);
-<br><a name="Grapheme.opSlice"></a>@trusted auto <a name="opSlice"></a><span class="ddoc_psymbol">opSlice</span>();
+<dt class="d_decl"><a name="Grapheme.opSlice"></a>pure nothrow @trusted auto <a name="opSlice"></a><span class="ddoc_psymbol">opSlice</span>(size_t <i>a</i>, size_t <i>b</i>);
+<br><a name="Grapheme.opSlice"></a>pure nothrow @trusted auto <a name="opSlice"></a><span class="ddoc_psymbol">opSlice</span>();
 </dt>
-<dd>Random-access range over Grapheme's <a href="#Code point">code points</a>.
+<dd>Random-access range over Grapheme's <a href="#Character">characters</a>.
 <p></p>
 <b>Warning:</b><br>
-Invalidates when this Grapheme leaves the scope.<p></p>
+Invalidates when this Grapheme leaves the scope,
+        attempts to use it would lead.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="Grapheme.length"></a>const @property @trusted size_t <a name="length"></a><span class="ddoc_psymbol">length</span>();
+<dt class="d_decl"><a name="Grapheme.length"></a>const pure nothrow @property @trusted size_t <a name="length"></a><span class="ddoc_psymbol">length</span>();
 </dt>
 <dd>Grapheme cluster <a name="length"></a><span class="ddoc_psymbol">length</span> in <a href="#Code point">code points</a>.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="Grapheme.opOpAssign"></a>ref auto <a name="opOpAssign"></a><span class="ddoc_psymbol">opOpAssign</span>(string op)(dchar <i>ch</i>);
 </dt>
-<dd>Append <span class="d_inlinecode">ch</span> to this grapheme.<p></p>
+<dd>Append <a href="#Code point">code point</a> <span class="d_inlinecode">ch</span> to this grapheme.
+<p></p>
+<b>Warning:</b><br>
+Use of this facility may invalidate grapheme cluster,
+        see also <span class="d_inlinecode">valid</span>.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="Grapheme.opOpAssign"></a>ref auto <a name="opOpAssign"></a><span class="ddoc_psymbol">opOpAssign</span>(string op, Input)(Input <i>inp</i>);
@@ -926,7 +909,7 @@ Invalidates when this Grapheme leaves the scope.<p></p>
 <dd>Append all of <a href="#Code point">code points</a> from the input range <span class="d_inlinecode">inp</span> to this Grapheme.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="Grapheme.valid"></a>@property @trusted bool <a name="valid"></a><span class="ddoc_psymbol">valid</span>();
+<dt class="d_decl"><a name="Grapheme.valid"></a>bool <a name="valid"></a><span class="ddoc_psymbol">valid</span>()();
 </dt>
 <dd>True if this object contains <a name="valid"></a><span class="ddoc_psymbol">valid</span> extended grapheme cluster.
         Decoding primitives of this module always return <a name="valid"></a><span class="ddoc_psymbol">valid</span> <span class="d_inlinecode">Grapheme</span>.
@@ -972,7 +955,6 @@ This function only handles 1:1 <a href="#Code point">code point</a> mapping
     which are not. </p>
 <p></p>
 
-
     <p>Canonical equivalence is the criterion used to determine whether two
     <a href="#Code point">code point</a> sequences are considered identical for interpretation. </p><p></p>
 
@@ -998,7 +980,6 @@ Hangul syllables are not covered by this function.
 <p></p>
 On success returns the composed LV or LVT hangul syllable.
 <p></p>
-
 
     If any of <span class="d_inlinecode"><i>lead</i></span> and <span class="d_inlinecode"><i>vowel</i></span> are not a valid hangul jamo
     of the respective <a href="#Character">character</a> class returns dchar.init.<p></p>
@@ -1038,24 +1019,24 @@ On success returns the composed LV or LVT hangul syllable.
 <dd>Tests if dchar <span class="d_inlinecode">ch</span> is always allowed (Quick_Check=YES) in normalization form <span class="d_inlinecode">norm</span>.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isWhite"></a>pure nothrow @system bool <a name="isWhite"></a><span class="ddoc_psymbol">isWhite</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isWhite"></a>pure nothrow @safe bool <a name="isWhite"></a><span class="ddoc_psymbol">isWhite</span>(dchar <i>c</i>);
 </dt>
 <dd>Whether or not <span class="d_inlinecode"><i>c</i></span> is a Unicode whitespace <a href="#Character">character</a>.
     (general Unicode category: Part of C0(tab, vertical tab, form feed,
     carriage return, and linefeed characters), Zs, Zl, Zp, and NEL(U+0085))<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isLower"></a>pure nothrow @system bool <a name="isLower"></a><span class="ddoc_psymbol">isLower</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isLower"></a>pure nothrow @safe bool <a name="isLower"></a><span class="ddoc_psymbol">isLower</span>(dchar <i>c</i>);
 </dt>
 <dd>Return whether <span class="d_inlinecode"><i>c</i></span> is a Unicode lowercase <a href="#Character">character</a>.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isUpper"></a>pure nothrow @system bool <a name="isUpper"></a><span class="ddoc_psymbol">isUpper</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isUpper"></a>pure nothrow @safe bool <a name="isUpper"></a><span class="ddoc_psymbol">isUpper</span>(dchar <i>c</i>);
 </dt>
 <dd>Return whether <span class="d_inlinecode"><i>c</i></span> is a Unicode uppercase <a href="#Character">character</a>.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="toLower"></a>pure nothrow @system dchar <a name="toLower"></a><span class="ddoc_psymbol">toLower</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="toLower"></a>pure nothrow @safe dchar <a name="toLower"></a><span class="ddoc_psymbol">toLower</span>(dchar <i>c</i>);
 </dt>
 <dd>If <span class="d_inlinecode"><i>c</i></span> is a Unicode uppercase <a href="#Character">character</a>, then its lowercase equivalent
     is returned. Otherwise <span class="d_inlinecode"><i>c</i></span> is returned.
@@ -1065,7 +1046,7 @@ certain alphabets like German, Greek have no 1:1
     upper-lower mapping. Use overload of <a name="toLower"></a><span class="ddoc_psymbol">toLower</span> which takes full string instead.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="toUpper"></a>pure nothrow @system dchar <a name="toUpper"></a><span class="ddoc_psymbol">toUpper</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="toUpper"></a>pure nothrow @safe dchar <a name="toUpper"></a><span class="ddoc_psymbol">toUpper</span>(dchar <i>c</i>);
 </dt>
 <dd>If <span class="d_inlinecode"><i>c</i></span> is a Unicode lowercase <a href="#Character">character</a>, then its uppercase equivalent
     is returned. Otherwise <span class="d_inlinecode"><i>c</i></span> is returned.
@@ -1075,37 +1056,37 @@ Certain alphabets like German, Greek have no 1:1
     upper-lower mapping. Use overload of <a name="toUpper"></a><span class="ddoc_psymbol">toUpper</span> which takes full string instead.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isAlpha"></a>pure nothrow @system bool <a name="isAlpha"></a><span class="ddoc_psymbol">isAlpha</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isAlpha"></a>pure nothrow @safe bool <a name="isAlpha"></a><span class="ddoc_psymbol">isAlpha</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode alphabetic <a href="#Character">character</a>
     (general Unicode category: Alphabetic).<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isMark"></a>pure nothrow @trusted bool <a name="isMark"></a><span class="ddoc_psymbol">isMark</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isMark"></a>pure nothrow @safe bool <a name="isMark"></a><span class="ddoc_psymbol">isMark</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode mark
     (general Unicode category: Mn, Me, Mc).<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isNumber"></a>pure nothrow @system bool <a name="isNumber"></a><span class="ddoc_psymbol">isNumber</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isNumber"></a>pure nothrow @safe bool <a name="isNumber"></a><span class="ddoc_psymbol">isNumber</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode numerical <a href="#Character">character</a>
     (general Unicode category: Nd, Nl, No).<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isPunctuation"></a>pure nothrow @system bool <a name="isPunctuation"></a><span class="ddoc_psymbol">isPunctuation</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isPunctuation"></a>pure nothrow @safe bool <a name="isPunctuation"></a><span class="ddoc_psymbol">isPunctuation</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode punctuation <a href="#Character">character</a>
     (general Unicode category: Pd, Ps, Pe, Pc, Po, Pi, Pf).<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isSymbol"></a>pure nothrow @system bool <a name="isSymbol"></a><span class="ddoc_psymbol">isSymbol</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isSymbol"></a>pure nothrow @safe bool <a name="isSymbol"></a><span class="ddoc_psymbol">isSymbol</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode symbol <a href="#Character">character</a>
     (general Unicode category: Sm, Sc, Sk, So).<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isSpace"></a>pure nothrow @system bool <a name="isSpace"></a><span class="ddoc_psymbol">isSpace</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isSpace"></a>pure nothrow @safe bool <a name="isSpace"></a><span class="ddoc_psymbol">isSpace</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode space <a href="#Character">character</a>
     (general Unicode category: Zs)
@@ -1115,48 +1096,48 @@ This doesn't include '\n', '\r', \t' and other non-space <a href="#Character">ch
     For commonly used less strict semantics see <a href="#isWhite"><span class="d_inlinecode">isWhite</span></a>.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isGraphical"></a>pure nothrow @system bool <a name="isGraphical"></a><span class="ddoc_psymbol">isGraphical</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isGraphical"></a>pure nothrow @safe bool <a name="isGraphical"></a><span class="ddoc_psymbol">isGraphical</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode graphical <a href="#Character">character</a>
     (general Unicode category: L, M, N, P, S, Zs).
 <p></p>
 
 </dd>
-<dt class="d_decl"><a name="isControl"></a>pure nothrow @system bool <a name="isControl"></a><span class="ddoc_psymbol">isControl</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isControl"></a>pure nothrow @safe bool <a name="isControl"></a><span class="ddoc_psymbol">isControl</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode control <a href="#Character">character</a>
     (general Unicode category: Cc).<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isFormat"></a>pure nothrow @system bool <a name="isFormat"></a><span class="ddoc_psymbol">isFormat</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isFormat"></a>pure nothrow @safe bool <a name="isFormat"></a><span class="ddoc_psymbol">isFormat</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode formatting <a href="#Character">character</a>
     (general Unicode category: Cf).<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isPrivateUse"></a>pure nothrow @system bool <a name="isPrivateUse"></a><span class="ddoc_psymbol">isPrivateUse</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isPrivateUse"></a>pure nothrow @safe bool <a name="isPrivateUse"></a><span class="ddoc_psymbol">isPrivateUse</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode Private Use <a href="#Code point">code point</a>
     (general Unicode category: Co).<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isSurrogate"></a>pure nothrow @system bool <a name="isSurrogate"></a><span class="ddoc_psymbol">isSurrogate</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isSurrogate"></a>pure nothrow @safe bool <a name="isSurrogate"></a><span class="ddoc_psymbol">isSurrogate</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode surrogate <a href="#Code point">code point</a>
     (general Unicode category: Cs).<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isSurrogateHi"></a>pure nothrow @system bool <a name="isSurrogateHi"></a><span class="ddoc_psymbol">isSurrogateHi</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isSurrogateHi"></a>pure nothrow @safe bool <a name="isSurrogateHi"></a><span class="ddoc_psymbol">isSurrogateHi</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode high surrogate (lead surrogate).<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isSurrogateLo"></a>pure nothrow @system bool <a name="isSurrogateLo"></a><span class="ddoc_psymbol">isSurrogateLo</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isSurrogateLo"></a>pure nothrow @safe bool <a name="isSurrogateLo"></a><span class="ddoc_psymbol">isSurrogateLo</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode low surrogate (trail surrogate).<p></p>
 
 </dd>
-<dt class="d_decl"><a name="isNonCharacter"></a>pure nothrow @system bool <a name="isNonCharacter"></a><span class="ddoc_psymbol">isNonCharacter</span>(dchar <i>c</i>);
+<dt class="d_decl"><a name="isNonCharacter"></a>pure nothrow @safe bool <a name="isNonCharacter"></a><span class="ddoc_psymbol">isNonCharacter</span>(dchar <i>c</i>);
 </dt>
 <dd>Returns whether <span class="d_inlinecode"><i>c</i></span> is a Unicode non-character i.e.
     a <a href="#Code point">code point</a> with no assigned abstract character.
@@ -1179,7 +1160,6 @@ This doesn't include '\n', '\r', \t' and other non-space <a href="#Character">ch
 //--></script>
 <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
-
 </div><!--/content-->
 
 
@@ -1191,4 +1171,3 @@ Page generated by <a href="http://www.digitalmars.com/d/2.0/ddoc.html">Ddoc</a>.
 
 </body>
 </html>
-
