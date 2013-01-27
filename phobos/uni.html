@@ -382,14 +382,63 @@ function listanchors()
 
     </p>
     <p><div><a id="Glyph"><i>Glyph</i></a></div> The actual, concrete image of a glyph representation
-    having been rasterized or otherwise imaged onto some display surface.</p>
+    having been rasterized or otherwise imaged onto some display surface.
+    </p>
     <p><div><a id="Encoded character"><i>Encoded character</i></a></div> An association (or mapping)
-    between an abstract character and a code point.</p>
+    between an abstract character and a code point.
+    </p>
     <p><div><a id="Character"><i>Character</i></a></div> Typically differs by context.
-    For the purpose of this documentation
-    the term <i>character</i> implies <i>encoded character</i>,
-    that is a code point having an assigned abstract character
-    (a symbolic meaning).</p>
+    For the purpose of this documentation the term <i>character</i>
+    implies <i>encoded character</i>, that is a code point having
+    an assigned abstract character (a symbolic meaning).
+    </p>
+    <p><div><a id="Grapheme cluster"><i>Grapheme cluster</i></a></div> Defined as the text between
+        grapheme boundaries  as specified by Unicode Standard Annex #29,
+        <a href="http://www.unicode.org/reports/tr29/">Unicode text segmentation</a>.
+        Important general properties of a grapheme:
+        <ul>           <li>The grapheme cluster represents a horizontally segmentable
+            unit of text, consisting of some grapheme base (which may
+            consist of a Korean syllable) together with any number of
+            nonspacing marks applied to it.
+            </li>
+            <li>A grapheme cluster typically starts with a grapheme base
+            and then extends across any subsequent sequence of nonspacing marks.
+            A grapheme cluster is most directly relevant to text rendering and
+            processes such as cursor placement and text selection in editing,
+            but may also be relevant to comparison and searching.
+            </li>
+            <li>For many processes, a grapheme cluster behaves as if it was a
+            single character with the same properties as its grapheme base.
+            Effectively, nonspacing marks apply <i>graphically</i> to the base,
+            but do not change its properties.
+            </li>
+        </ul>
+        <p>This module defines a number of primitives that work with graphemes:
+        <a href="#Grapheme"><span class="d_inlinecode">Grapheme</span></a>, <a href="#decodeGrapheme"><span class="d_inlinecode">decodeGrapheme</span></a> and <a href="#graphemeStride"><span class="d_inlinecode">graphemeStride</span></a>.
+        All of them are using <i>extended grapheme</i> boundaries
+        as defined in the aforementioned standard annex.
+        </p>
+    </p>
+    <p><div><a id="Grapheme base"><i>Grapheme base</i></a></div> A character with the property
+     Grapheme_Base, or any standard Korean syllable block.
+    </p>
+    <p><div><a id="Combining character"><i>Combining character</i></a></div> A character with the General Category
+     of Combining Mark(M).
+        <ul>           <li>All characters with non-zero canonical combining class
+            are combining characters, but the reverse is not the case:
+            there are combining characters with a zero combining class.
+            </li>
+            <li>These characters are not normally used in isolation
+            unless they are being described. They include such characters
+            as accents, diacritics, Hebrew points, Arabic vowel signs,
+            and Indic matras.
+            </li>
+        </ul>
+    </p>
+    <p><div><a id="Nonspacing mark"><i>Nonspacing mark</i></a></div> A combining character with the
+        General Category of Nonspacing Mark (Mn) or Enclosing Mark (Me).
+    </p>
+    <p><div><a id="Spacing mark"><i>Spacing mark</i></a></div> A combining character that is not a nonspacing mark.</p>
 <p></p>
 
     <h3><a id="Construction of lookup tables">Construction of lookup tables</a></h3>
@@ -536,18 +585,20 @@ Unicode(tm) is a trademark of Unicode, Inc.
     intervals (see <a href="#CodepointInterval"><span class="d_inlinecode">CodepointInterval</span></a> above).
     The name comes from the way the representation reads left to right.
     For instance a set of all values [10, 50), [80, 90),
-    plus a singular 60 looks like this:
+    plus a singular value 60 looks like this:
     </p>
 <pre class="d_code">    10, 50, 60, 61, 80, 90
 </pre>
     <p>   The way to read this is: start with negative meaning that all numbers
     smaller the next one are not present in this set (and positive the contrary).
     Then switch positive/negative after each number passed from left to right.
-    This way negative spans until 10, then positive until 50, then negative until 60,
-    then positive until 61, and so on.
+    </p>
+    <p>This way negative spans until 10, then positive until 50,
+    then negative until 60, then positive until 61, and so on.
     As seen this provides a space-efficient storage of highly redundant data
-    that comes in long runs.
-    A description which Unicode <a href="#Code point">code point</a> properties fit nicely.
+    that comes in long runs. A description which Unicode <a href="#Character">character</a>
+    properties fit nicely. The technique itself could be seen as a variation
+    on <a href="http://google.com/search?btnI=I%27m+Feeling+Lucky&amp;ie=UTF-8&amp;oe=UTF-8&amp;q=RLE encoding">RLE encoding</a>.
     </p>
 <p></p>
 <p>Sets are value types (just like <span class="d_inlinecode">int</span> is) thus they
@@ -859,12 +910,34 @@ This function modifies <span class="d_inlinecode">inp</span> and thus <span clas
 </dd>
 <dt class="d_decl"><a name="Grapheme"></a>struct <a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span>;
 </dt>
-<dd><p>A structure designed to effectively pack <a href="#Code point">code points</a> of a grapheme cluster.</p>
+<dd><p>A structure designed to effectively pack <a href="#Character">characters</a>
+    of a <a href="#Grapheme cluster">grapheme cluster</a>.
+    </p>
 <p></p>
-<p><span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span> has value semantics so 2 copies of <span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span>
-    always refer to distinct objects. In the most actual scenarios <span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span>
+<p><span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span> has value semantics so 2 copies of a <span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span>
+    always refer to distinct objects. In the most actual scenarios a <span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span>
     fits on stack and avoids memory allocation overhead for all but quite
-    long clusters. </p><p></p>
+    long clusters.
+    </p>
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">    <span class="d_keyword">import</span> std.algorithm;
+    string bold = <span class="d_string">"ku\u0308hn"</span>;
+
+    <span class="d_comment">// note that decodeGrapheme takes parameter by ref
+</span>    <span class="d_comment">// slicing a grapheme yields a range of dchar
+</span>    <span class="d_keyword">assert</span>(decodeGrapheme(bold)[].equal(<span class="d_string">"k"</span>));
+
+    <span class="d_comment">// the next grapheme is 2 characters long
+</span>    <span class="d_keyword">auto</span> wideOne = decodeGrapheme(bold);
+    <span class="d_keyword">assert</span>(wideOne.length == 2);
+    <span class="d_keyword">assert</span>(wideOne[].equal(<span class="d_string">"u\u0308"</span>));
+
+    <span class="d_comment">// the usual range manipulation is possible
+</span>    <span class="d_keyword">assert</span>(wideOne[].filter!isMark.equal(<span class="d_string">"\u0308"</span>));
+</pre>
+    <p>See also <a href="#decodeGrapheme"><span class="d_inlinecode">decodeGrapheme</span></a>, <a href="#graphemeStride"><span class="d_inlinecode">graphemeStride</span></a>. </p><p></p>
 
 <dl><dt class="d_decl"><a name="Grapheme.opIndex"></a>const pure nothrow @trusted dchar <a name="opIndex"></a><span class="ddoc_psymbol">opIndex</span>(size_t <i>index</i>);
 </dt>
@@ -877,7 +950,30 @@ This function modifies <span class="d_inlinecode">inp</span> and thus <span clas
 <p></p>
 <b>Warning:</b><br>
 Use of this facility may invalidate grapheme cluster,
-        see also <span class="d_inlinecode">valid</span>.<p></p>
+        see also <span class="d_inlinecode">valid</span>.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_keyword">import</span> std.algorithm;
+        string bold = <span class="d_string">"ku\u0308hn"</span>;
+
+        <span class="d_comment">// note that decodeGrapheme takes parameter by ref
+</span>        <span class="d_keyword">auto</span> first = decodeGrapheme(bold);
+
+        <span class="d_keyword">assert</span>(first.length == 1);
+        <span class="d_keyword">assert</span>(first[0] == 'k');
+
+        <span class="d_comment">// the next grapheme is 2 characters long
+</span>        <span class="d_keyword">auto</span> wideOne = decodeGrapheme(bold);
+        <span class="d_comment">// slicing a grapheme yields a random-access range of dchar
+</span>        <span class="d_keyword">assert</span>(wideOne[].equal(<span class="d_string">"u\u0308"</span>));
+        <span class="d_keyword">assert</span>(wideOne.length == 2);
+        <span class="d_keyword">static</span> <span class="d_keyword">assert</span>(isRandomAccessRange!(<span class="d_keyword">typeof</span>(wideOne[])));
+
+        <span class="d_comment">// all of the usual range manipulation is possible
+</span>        <span class="d_keyword">assert</span>(wideOne[].filter!isMark.equal(<span class="d_string">"\u0308"</span>));
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="Grapheme.opSlice"></a>pure nothrow @trusted auto <a name="opSlice"></a><span class="ddoc_psymbol">opSlice</span>(size_t <i>a</i>, size_t <i>b</i>);
@@ -897,16 +993,32 @@ Invalidates when this Grapheme leaves the scope,
 </dd>
 <dt class="d_decl"><a name="Grapheme.opOpAssign"></a>ref auto <a name="opOpAssign"></a><span class="ddoc_psymbol">opOpAssign</span>(string op)(dchar <i>ch</i>);
 </dt>
-<dd>Append <a href="#Code point">code point</a> <span class="d_inlinecode">ch</span> to this grapheme.
+<dd>Append <a href="#Character">character</a> <span class="d_inlinecode">ch</span> to this grapheme.
 <p></p>
 <b>Warning:</b><br>
 Use of this facility may invalidate grapheme cluster,
-        see also <span class="d_inlinecode">valid</span>.<p></p>
+        see also <span class="d_inlinecode">valid</span>.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_keyword">import</span> std.algorithm;
+        <span class="d_keyword">auto</span> g = Grapheme(<span class="d_string">"A"</span>);
+        <span class="d_keyword">assert</span>(g.valid);
+        g ~= '\u0301';
+        <span class="d_keyword">assert</span>(g[].equal(<span class="d_string">"A\u0301"</span>));
+        <span class="d_keyword">assert</span>(g.valid);
+        g ~= <span class="d_string">"B"</span>;
+        <span class="d_comment">// not a valid grapheme cluster anymore
+</span>        <span class="d_keyword">assert</span>(!g.valid);
+        <span class="d_comment">// still could be useful though
+</span>        <span class="d_keyword">assert</span>(g[].equal(<span class="d_string">"A\u0301B"</span>));
+</pre>
+        See also <a href="#Grapheme.valid"><span class="d_inlinecode">Grapheme.valid</span></a> below.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="Grapheme.opOpAssign"></a>ref auto <a name="opOpAssign"></a><span class="ddoc_psymbol">opOpAssign</span>(string op, Input)(Input <i>inp</i>);
 </dt>
-<dd>Append all of <a href="#Code point">code points</a> from the input range <span class="d_inlinecode">inp</span> to this Grapheme.<p></p>
+<dd>Append all of <a href="#Character">characters</a> from the input range <span class="d_inlinecode">inp</span> to this Grapheme.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="Grapheme.valid"></a>bool <a name="valid"></a><span class="ddoc_psymbol">valid</span>()();
@@ -914,7 +1026,7 @@ Use of this facility may invalidate grapheme cluster,
 <dd>True if this object contains <a name="valid"></a><span class="ddoc_psymbol">valid</span> extended grapheme cluster.
         Decoding primitives of this module always return <a name="valid"></a><span class="ddoc_psymbol">valid</span> <span class="d_inlinecode">Grapheme</span>.
 <p></p>
-Appending to and direct manipulation of grapheme's <a href="#Code point">code points</a> may
+Appending to and direct manipulation of grapheme's <a href="#Character">characters</a> may
         render it no longer <a name="valid"></a><span class="ddoc_psymbol">valid</span>. Certain applications may chose to use
         Grapheme as a "small string" of <a href="#Code point">code points</a> and ignore this property
         entirely.<p></p>
@@ -931,7 +1043,22 @@ Appending to and direct manipulation of grapheme's <a href="#Code point">code po
 <b>Warning:</b><br>
 This function only handles 1:1 <a href="#Code point">code point</a> mapping
     and thus is not sufficient for certain alphabets
-    like German, Greek and few others.<p></p>
+    like German, Greek and few others.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">    <span class="d_keyword">assert</span>(<span class="d_psymbol">sicmp</span>(<span class="d_string">"Август"</span>, <span class="d_string">"авгусТ"</span>) == 0);
+    <span class="d_comment">// Greek also works as if there is no 1:M mapping in sight
+</span>    <span class="d_keyword">assert</span>(<span class="d_psymbol">sicmp</span>(<span class="d_string">"ΌΎ"</span>, <span class="d_string">"όύ"</span>) == 0);
+    <span class="d_comment">// things like the following won't get matched as equal
+</span>    <span class="d_comment">// Greek small letter iota with dialytika and tonos
+</span>    <span class="d_keyword">assert</span>(<span class="d_psymbol">sicmp</span>(<span class="d_string">"ΐ"</span>, <span class="d_string">"\u03B9\u0308\u0301"</span> != 0);
+
+    <span class="d_comment">// while icmp has no problem with that
+</span>    <span class="d_keyword">assert</span>(icmp(<span class="d_string">"ΐ"</span>, <span class="d_string">"\u03B9\u0308\u0301"</span> == 0);
+    <span class="d_keyword">assert</span>(icmp(<span class="d_string">"ΌΎ"</span>, <span class="d_string">"όύ"</span>) == 0);
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="icmp"></a>int <a name="icmp"></a><span class="ddoc_psymbol">icmp</span>(C1, C2)(const(C1)[] <i>str1</i>, const(C2)[] <i>str2</i>);
@@ -942,7 +1069,13 @@ This function only handles 1:1 <a href="#Code point">code point</a> mapping
     other 1:M <a href="#Code point">code point</a> mappings unlike <a href="#sicmp"><span class="d_inlinecode">sicmp</span></a>.
     The cost of <span class="d_inlinecode"><a name="icmp"></a><span class="ddoc_psymbol">icmp</span></span> being pedantically correct is
     slightly worse performance.
-    </p><p></p>
+    </p>
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">    <span class="d_keyword">assert</span>(<span class="d_psymbol">icmp</span>(<span class="d_string">"Rußland"</span>, <span class="d_string">"Russland"</span>) == 0);
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">icmp</span>(<span class="d_string">"ᾩ -&gt; \u1F70\u03B9"</span>, <span class="d_string">"\u1F61\u03B9 -&gt; ᾲ"</span>) == 0);
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="combiningClass"></a>@trusted ubyte <a name="combiningClass"></a><span class="ddoc_psymbol">combiningClass</span>(dchar <i>ch</i>);
@@ -956,7 +1089,26 @@ This function only handles 1:1 <a href="#Code point">code point</a> mapping
 <p></p>
 
     <p>Canonical equivalence is the criterion used to determine whether two
-    <a href="#Code point">code point</a> sequences are considered identical for interpretation. </p><p></p>
+    <a href="#Code point">code point</a> sequences are considered identical for interpretation. </p>
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">    <span class="d_comment">//shorten the code
+</span>    <span class="d_keyword">alias</span> CC = <span class="d_psymbol">combiningClass</span>;
+
+    <span class="d_comment">// combining tilda
+</span>    <span class="d_keyword">assert</span>(CC('\u0303') == 230);
+    <span class="d_comment">// combining ring below
+</span>    <span class="d_keyword">assert</span>(CC('\u0325') == 220);
+    <span class="d_comment">// the simple consequence is that  "tilda" should be
+</span>    <span class="d_comment">// placed after a "ring below" in a sequence
+</span></pre>
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="UnicodeDecomposition"></a>enum <a name="UnicodeDecomposition"></a><span class="ddoc_psymbol">UnicodeDecomposition</span>;
+</dt>
+<dd>Unicode character decomposition type.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="compose"></a>@trusted dchar <a name="compose"></a><span class="ddoc_psymbol">compose</span>(dchar <i>first</i>, dchar <i>second</i>);
@@ -970,7 +1122,52 @@ The assumption is that <span class="d_inlinecode"><i>first</i></span> comes befo
 <p></p>
 <b>Note:</b><br>
 Hangul syllables are not covered by this function.
-    See <span class="d_inlinecode">composeJamo</span> below.<p></p>
+    See <span class="d_inlinecode">composeJamo</span> below.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">    <span class="d_keyword">assert</span>(<span class="d_psymbol">compose</span>('A','\u0308') == '\u00C4');
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">compose</span>('A', 'B') == <span class="d_keyword">dchar</span>.init);
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">compose</span>('C', '\u0301') == '\u0106');
+    <span class="d_comment">// note that the starter is the first one
+</span>    <span class="d_comment">// thus the following doesn't compose
+</span>    <span class="d_keyword">assert</span>(<span class="d_psymbol">compose</span>('\u0308', 'A') == <span class="d_keyword">dchar</span>.init);
+</pre>
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="decompose"></a>Grapheme <a name="decompose"></a><span class="ddoc_psymbol">decompose</span>(UnicodeDecomposition decompType = Canonical)(dchar <i>ch</i>);
+</dt>
+<dd>Returns a full Canonical (by default) or Compatibility decomposition
+    of <a href="#Character">character</a> <span class="d_inlinecode">ch</span>. If no decomposition is available returns
+    Grapheme with the <span class="d_inlinecode">ch</span> itself.
+<p></p>
+Note that this function also decomposes hangul syllables.
+    See also <a href="#decomposeHangul"><span class="d_inlinecode">decomposeHangul</span></a> for a restricted version
+    that takes into account only hangul syllables  but
+    no other decompositions.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">    <span class="d_keyword">import</span> std.algorithm;
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">decompose</span>('Ĉ')[].equal(<span class="d_string">"C\u0302"</span>));
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">decompose</span>('D')[].equal(<span class="d_string">"D"</span>));
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">decompose</span>('\uD4DC')[].equal(<span class="d_string">"\u1111\u1171\u11B7"</span>));
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">decompose</span>!Compatibility('¹').equal(<span class="d_string">"1"</span>));
+</pre>
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="decomposeHangul"></a>@trusted Grapheme <a name="decomposeHangul"></a><span class="ddoc_psymbol">decomposeHangul</span>(dchar <i>ch</i>);
+</dt>
+<dd>Decomposes a Hangul syllable. If ($D <i>ch</i>) is not a composed syllable
+    then this function returns <a href="#Grapheme"><span class="d_inlinecode">Grapheme</span></a> containing only <span class="d_inlinecode"><i>ch</i></span> as is.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">    <span class="d_keyword">import</span> std.algorithm;
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">decomposeHangul</span>('\uD4DB')[].equal(<span class="d_string">"\u1111\u1171\u11B6"</span>));
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="composeJamo"></a>@trusted dchar <a name="composeJamo"></a><span class="ddoc_psymbol">composeJamo</span>(dchar <i>lead</i>, dchar <i>vowel</i>, dchar <i>trailing</i> = (dchar).init);
@@ -982,19 +1179,19 @@ On success returns the composed LV or LVT hangul syllable.
 <p></p>
 
     If any of <span class="d_inlinecode"><i>lead</i></span> and <span class="d_inlinecode"><i>vowel</i></span> are not a valid hangul jamo
-    of the respective <a href="#Character">character</a> class returns dchar.init.<p></p>
+    of the respective <a href="#Character">character</a> class returns dchar.init.
 
-</dd>
-<dt class="d_decl"><a name="decompose"></a>Grapheme <a name="decompose"></a><span class="ddoc_psymbol">decompose</span>(UnicodeDecomposition decompType = Canonical)(dchar <i>ch</i>);
-</dt>
-<dd>Returns a full Canonical (by default) or Compatibility decomposition of <a href="#Character">character</a>
-    <span class="d_inlinecode">ch</span>. If no decomposition is available returns Grapheme with the <span class="d_inlinecode">ch</span> itself.<p></p>
-
-</dd>
-<dt class="d_decl"><a name="hangulDecompose"></a>@trusted Grapheme <a name="hangulDecompose"></a><span class="ddoc_psymbol">hangulDecompose</span>(dchar <i>ch</i>);
-</dt>
-<dd>Decomposes a Hangul syllable. If ($D <i>ch</i>) is not a composed syllable
-    then this function returns <a href="#Grapheme"><span class="d_inlinecode">Grapheme</span></a> containing only <span class="d_inlinecode"><i>ch</i></span> as is.<p></p>
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">    <span class="d_keyword">assert</span>(<span class="d_psymbol">composeJamo</span>('\u1111', '\u1171', '\u11B6') == '\uD4DB');
+    <span class="d_comment">// leaving out T-vowel, or passing any codepoint
+</span>    <span class="d_comment">// that is not trailing consonant composes an LV-syllable
+</span>    <span class="d_keyword">assert</span>(<span class="d_psymbol">composeJamo</span>('\u1111', '\u1171') == '\uD4CC');
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">composeJamo</span>('\u1111', '\u1171', ' ') == '\uD4CC');
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">composeJamo</span>('\u1111', 'A') == <span class="d_keyword">dchar</span>.init);
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">composeJamo</span>('A', '\u1171') == <span class="d_keyword">dchar</span>.init);
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="NormalizationForm"></a>enum <a name="NormalizationForm"></a><span class="ddoc_psymbol">NormalizationForm</span>;
@@ -1016,7 +1213,16 @@ On success returns the composed LV or LVT hangul syllable.
 </dd>
 <dt class="d_decl"><a name="allowedIn"></a>bool <a name="allowedIn"></a><span class="ddoc_psymbol">allowedIn</span>(NormalizationForm norm)(dchar <i>ch</i>);
 </dt>
-<dd>Tests if dchar <span class="d_inlinecode">ch</span> is always allowed (Quick_Check=YES) in normalization form <span class="d_inlinecode">norm</span>.<p></p>
+<dd>Tests if dchar <span class="d_inlinecode">ch</span> is always allowed (Quick_Check=YES) in normalization
+    form <span class="d_inlinecode">norm</span>.
+<pre class="d_code">    <span class="d_comment">//e.g. Cyrillic is always allowed, so is ASCII
+</span>    <span class="d_keyword">assert</span>(<span class="d_psymbol">allowedIn</span>!NFC('я'));
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">allowedIn</span>!NFD('я'));
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">allowedIn</span>!NFKC('я'));
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">allowedIn</span>!NFKD('я'));
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">allowedIn</span>!NFC('Z'));
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="isWhite"></a>pure nothrow @safe bool <a name="isWhite"></a><span class="ddoc_psymbol">isWhite</span>(dchar <i>c</i>);
