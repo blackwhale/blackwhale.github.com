@@ -232,7 +232,7 @@ function listanchors()
     <li>       Converting text to any of the four normalization forms via <a href="#normalize"><span class="d_inlinecode">normalize</span></a>.
     </li>
     <li>       Decoding (<a href="#decodeGrapheme"><span class="d_inlinecode">decodeGrapheme</span></a>)  and iteration (<a href="#graphemeStride"><span class="d_inlinecode">graphemeStride</span></a>)
-        on user-perceived character level that is by <a href="#Grapheme"><span class="d_inlinecode">Grapheme</span></a>s.
+        by user-perceived characters, that is by <a href="#Grapheme"><span class="d_inlinecode">Grapheme</span></a> clusters.
     </li>
     <li>       Decomposing and composing of individual character(s) according to canonical
         or compatibility rules, see <a href="#compose"><span class="d_inlinecode">compose</span></a> and <a href="#decompose"><span class="d_inlinecode">decompose</span></a>,
@@ -278,7 +278,7 @@ function listanchors()
     <span class="d_keyword">void</span> main()
     {
         <span class="d_comment">// initialize code point sets using script/block or property name
-</span>        <span class="d_comment">// set contains code points from both scripts.
+</span>        <span class="d_comment">// now 'set' contains code points from both scripts.
 </span>        <span class="d_keyword">auto</span> set = unicode(<span class="d_string">"Cyrillic"</span>) | unicode(<span class="d_string">"Armenian"</span>);
         <span class="d_comment">//same thing but simpler and checked at compile-time
 </span>        <span class="d_keyword">auto</span> ascii = unicode.ASCII;
@@ -441,6 +441,92 @@ function listanchors()
     <p><div><a id="Spacing mark"><i>Spacing mark</i></a></div> A combining character that is not a nonspacing mark.</p>
 <p></p>
 
+    <p><div><a id="Canonical decomposition"><i>Canonical decomposition</i></a></div>
+    The decomposition of a character or character sequence
+    that results from recursively applying the canonical
+    mappings found in the Unicode Character Database
+    and these described in Conjoining Jamo Behavior
+    (section 12 of
+    <a href="http://www.unicode.org/uni2book/ch03.pdf">Unicode Conformance</a>).
+    </p>
+<p></p>
+
+    <p><div><a id="Compatibility decomposition"><i>Compatibility decomposition</i></a></div>
+    The decomposition of a character or character sequence that results
+    from recursively applying both the compatibility mappings and
+    the canonical mappings found in the Unicode Character Database, and those
+    described in Conjoining Jamo Behavior no characters
+    can be further decomposed.
+    </p>
+<p></p>
+
+    <p><div><a id="Canonical equivalent"><i>Canonical equivalent</i></a></div>
+    Two character sequences are said to be canonical equivalents if
+    their full canonical decompositions are identical.
+    </p>
+<p></p>
+
+    <p><div><a id="Compatibility equivalent"><i>Compatibility equivalent</i></a></div>
+    Two character sequences are said to be compatibility
+    equivalents if their full compatibility decompositions are identical.
+    </p>
+<p></p>
+
+    <p><div><a id="Canonical composition"><i>Canonical composition</i></a></div>
+    The precise definition of the Canonical composition
+    is the algorithm as specified in <a href="http://www.unicode.org/uni2book/ch03.pdf">    Unicode Conformance</a> section 11.
+    Informally it's the process that does the reverse of the canonical
+    decomposition with the addition of certain rules
+    that e.g. prevent legacy characters from appearing in the composed result.
+    </p>
+<p></p>
+
+    <h3><a id="Normalization">Normalization</a></h3>
+<p></p>
+
+    <p>The concepts of <a href="#Canonical equivalent">canonical equivalent</a>
+     or <a href="#Compatibility equivalent">compatibility equivalent</a>
+    characters in the Unicode Standard make it necessary to have a full, formal
+    definition of equivalence for Unicode strings.
+    String equivalence is determined by a process called normalization,
+    whereby strings are converted into forms which are compared
+    directly for identity. This is the primary goal of the normalization process,
+    see the function <a href="#normalize"><span class="d_inlinecode">normalize</span></a> to convert into any of
+    the four defined forms.
+    </p>
+<p></p>
+
+    <p>A very important attribute of the Unicode Normalization Forms
+    is that they must remain stable between versions of the Unicode Standard.
+    A Unicode string normalized to a particular Unicode Normalization Form
+    in one version of the standard is guaranteed to remain in that Normalization
+    Form for implementations of future versions of the standard.
+    </p>
+<p></p>
+
+    <p>The Unicode Standard specifies four normalization forms.
+    Informally, two of these forms are defined by maximal decomposition
+    of equivalent sequences, and two of these forms are defined
+    by maximal <i>composition</i> of equivalent sequences.
+        <ul>       <li>Normalization Form D (NFD): The <a href="#Canonical decomposition">            canonical decomposition</a> of a character sequence.</li>
+        <li>Normalization Form KD (NFKD): The <a href="#Compatibility decomposition">            compatibility decomposition</a> of a character sequence.</li>
+        <li>Normalization Form C (NFC): The canonical composition of the
+            <a href="#Canonical decomposition">canonical decomposition</a>
+            of a coded character sequence.</li>
+        <li>Normalization Form KC (NFKC): The canonical composition
+        of the <a href="#Compatibility decomposition">            compatibility decomposition</a> of a character sequence</li>
+        </ul>
+    </p>
+<p></p>
+
+    <p>The choice of the normalization form depends on the particular use case.
+    NFC is the best form for general text, since it's more compatible with
+    strings converted from legacy encodings. NFKC is the preferred form for
+    identifiers, especially where there are security concerns. NFD and NFKD
+    are the most useful for internal processing.
+    </p>
+<p></p>
+
     <h3><a id="Construction of lookup tables">Construction of lookup tables</a></h3>
 <p></p>
 
@@ -524,6 +610,7 @@ function listanchors()
         <a href="http://www.unicode.org/reports/tr15/">Unicode normalization forms</a>,
         <a href="http://www.unicode.org/reports/tr29/">Unicode text segmentation</a>
         <a href="http://www.unicode.org/uni2book/ch05.pdf">            Unicode Implementation Guidelines</a>
+        <a href="http://www.unicode.org/uni2book/ch03.pdf">            Unicode Conformance</a>
 <p></p>
 <b>Trademarks:</b><br>
 Unicode(tm) is a trademark of Unicode, Inc.
@@ -590,8 +677,9 @@ Unicode(tm) is a trademark of Unicode, Inc.
 <pre class="d_code">    10, 50, 60, 61, 80, 90
 </pre>
     <p>   The way to read this is: start with negative meaning that all numbers
-    smaller the next one are not present in this set (and positive the contrary).
-    Then switch positive/negative after each number passed from left to right.
+    smaller then the next one are not present in this set (and positive
+    - the contrary). Then switch positive/negative after each
+    number passed from left to right.
     </p>
     <p>This way negative spans until 10, then positive until 50,
     then negative until 60, then positive until 61, and so on.
@@ -633,9 +721,55 @@ Unicode(tm) is a trademark of Unicode, Inc.
     alias <a href="#CodepointSet"><span class="d_inlinecode">CodepointSet</span></a> throughout the whole code base.
     </p><p></p>
 
-<dl><dt class="d_decl"><a name="byInterval"></a>@property auto <a name="byInterval"></a><span class="ddoc_psymbol">byInterval</span>();
+<dl><dt class="d_decl"><a name="this"></a> this(Set)(Set <i>set</i>);
 </dt>
-<dd>Get range that spans all of the <a href="#Code point">code point</a> intervals in this <a href="#InversionList"><span class="d_inlinecode">InversionList</span></a>.<p></p>
+<dd>Construct from another code point set of any type.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="this"></a> this(Range)(Range <i>intervals</i>);
+</dt>
+<dd>Construct a set from a range of sorted code point intervals.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="this"></a> this()(uint[] <i>intervals</i>...);
+</dt>
+<dd>Construct a set from plain values of sorted code point intervals.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_keyword">auto</span> set = CodepointSet('a', 'z'+1, 'а', 'я'+1);
+        <span class="d_keyword">foreach</span>(v; 'a'..'z'+1)
+            <span class="d_keyword">assert</span>(set[v]);
+        <span class="d_comment">//Cyrillic lowercase interval
+</span>        <span class="d_keyword">foreach</span>(v; 'а'..'я'+1)
+            <span class="d_keyword">assert</span>(set[v]);
+</pre>
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="byInterval"></a>@property auto <a name="byInterval"></a><span class="ddoc_psymbol">byInterval</span>();
+</dt>
+<dd>Get range that spans all of the <a href="#Code point">code point</a> intervals in this <a href="#InversionList"><span class="d_inlinecode">InversionList</span></a>.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_keyword">import</span> std.algorithm, std.typecons;
+        <span class="d_keyword">auto</span> set = CodepointSet('A', 'D'+1, 'a', 'd'+1);
+        set.<span class="d_psymbol">byInterval</span>.equal([tuple('A', 'E'), tuple('a', 'e')]);
+</pre>
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="opIndex"></a>const bool <a name="opIndex"></a><span class="ddoc_psymbol">opIndex</span>(uint <i>val</i>);
+</dt>
+<dd>Tests the presence of code point <span class="d_inlinecode"><i>val</i></span> in this set.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_keyword">auto</span> gothic = unicode.Gothic;
+        <span class="d_comment">//Gothic letter ahsa
+</span>        <span class="d_keyword">assert</span>(gothic['\U00010330']);
+        <span class="d_comment">// no ascii in Gothic obviously
+</span>        <span class="d_keyword">assert</span>(!gothic['$']);
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="length"></a>size_t <a name="length"></a><span class="ddoc_psymbol">length</span>();
@@ -651,7 +785,30 @@ Unicode(tm) is a trademark of Unicode, Inc.
             <tr><td valign=top>|</td> <td valign=top>a ∪ b</td> <td valign=top>union</td> </tr>
             <tr><td valign=top>-</td> <td valign=top>a ∖ b</td> <td valign=top>subtraction</td> </tr>
             <tr><td valign=top>~</td> <td valign=top>a ~ b</td> <td valign=top>symmetric set difference i.e. (a ∪ b) \ (a ∩ b)</td> </tr>
-        </table><p></p>
+        </table>
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_keyword">auto</span> lower = unicode.LowerCase;
+        <span class="d_keyword">auto</span> upper = unicode.UpperCase;
+        <span class="d_keyword">auto</span> ascii = unicode.ASCII;
+
+        <span class="d_keyword">assert</span>((lower &amp; upper).empty); <span class="d_comment">//no intersection
+</span>        <span class="d_keyword">auto</span> lowerASCII = lower &amp; ascii;
+        <span class="d_keyword">assert</span>(lowerASCII.byCodepoint.equal(iota('a', 'z'+1)));
+        <span class="d_comment">//throw away all of the lowercase ASCII
+</span>        <span class="d_keyword">assert</span>((ascii - lower).length == 128 - 26);
+
+        <span class="d_keyword">auto</span> onlyOneOf = lower ~ ascii;
+        <span class="d_keyword">assert</span>(!onlyOneOf['Δ']); <span class="d_comment">//not ASCII and not lowercase
+</span>        <span class="d_keyword">assert</span>(onlyOneOf['$']); <span class="d_comment">//ASCII and not lowercase
+</span>        <span class="d_keyword">assert</span>(!onlyOneOf['a']); <span class="d_comment">//ASCII and lowercase
+</span>        <span class="d_keyword">assert</span>(onlyOneOf['я']); <span class="d_comment">//not ASCII but lowercase
+</span>
+        <span class="d_comment">//throw away all cased letters from ASCII
+</span>        <span class="d_keyword">auto</span> noLetters = ascii - (lower | upper);
+        <span class="d_keyword">assert</span>(noLetters.length == 128 - 26*2);
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="opOpAssign"></a>This <a name="opOpAssign"></a><span class="ddoc_psymbol">opOpAssign</span>(string op, U)(U <i>rhs</i>);
@@ -659,9 +816,27 @@ Unicode(tm) is a trademark of Unicode, Inc.
 <dd>The 'op=' versions of the above overloaded operators.<p></p>
 
 </dd>
+<dt class="d_decl"><a name="opBinaryRight"></a>bool <a name="opBinaryRight"></a><span class="ddoc_psymbol">opBinaryRight</span>(string op : "in", U)(U <i>ch</i>);
+</dt>
+<dd>Tests the presence of codepoint <span class="d_inlinecode">ch</span> in this set,
+        the same as <a href="#opIndex"><span class="d_inlinecode">opIndex</span></a>.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="opUnary"></a>auto <a name="opUnary"></a><span class="ddoc_psymbol">opUnary</span>(string op : "!")();
+</dt>
+<dd>Obtains a set that is the inversion of this set. See also <a href="#inverted"><span class="d_inlinecode">inverted</span></a>.<p></p>
+
+</dd>
 <dt class="d_decl"><a name="byCodepoint"></a>@property auto <a name="byCodepoint"></a><span class="ddoc_psymbol">byCodepoint</span>();
 </dt>
-<dd>Range that spans each <a href="#Code point">code point</a> in this set.<p></p>
+<dd>A range that spans each <a href="#Code point">code point</a> in this set.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_keyword">import</span> std.algorithm;
+        <span class="d_keyword">auto</span> set = unicode.ASCII;
+        set.<span class="d_psymbol">byCodepoint</span>.equal(iota(0, 0x80));
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="toString"></a>void <a name="toString"></a><span class="ddoc_psymbol">toString</span>(scope void delegate(const(char)[]) <i>sink</i>);
@@ -672,17 +847,46 @@ Unicode(tm) is a trademark of Unicode, Inc.
         <p>Used by various standard formatting facilities such as
          <a href="std_format.html#formattedWrite"><span class="d_inlinecode">std.format.formattedWrite</span></a>, <a href="std_stdio.html#write"><span class="d_inlinecode">std.stdio.write</span></a>,
          <a href="std_stdio.html#writef"><span class="d_inlinecode">std.stdio.writef</span></a>, <a href="std_conv.html#to"><span class="d_inlinecode">std.conv.to</span></a> and others.
-        </p><p></p>
+        </p>
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_keyword">import</span> std.conv;
+        <span class="d_keyword">assert</span>(unicode.ASCII.to!string == <span class="d_string">"[0..128)"</span>);
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="add"></a>ref auto <a name="add"></a><span class="ddoc_psymbol">add</span>()(uint <i>a</i>, uint <i>b</i>);
 </dt>
-<dd>Add an interval [a, b) to this set.<p></p>
+<dd>Add an interval [a, b) to this set.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        CodepointSet someSet;
+        someSet.<span class="d_psymbol">add</span>('0', '5').<span class="d_psymbol">add</span>('A','Z'+1);
+        someSet.<span class="d_psymbol">add</span>('5', '9'+1);
+        <span class="d_keyword">assert</span>(someSet['0']);
+        <span class="d_keyword">assert</span>(someSet['5']);
+        <span class="d_keyword">assert</span>(someSet['9']);
+        <span class="d_keyword">assert</span>(someSet['Z']);
+</pre>
+<p></p>
 
 </dd>
-<dt class="d_decl"><a name="invert"></a>ref auto <a name="invert"></a><span class="ddoc_psymbol">invert</span>();
+<dt class="d_decl"><a name="inverted"></a>auto <a name="inverted"></a><span class="ddoc_psymbol">inverted</span>();
 </dt>
-<dd>Do an in-place inversion of set.  See also '!' unary operator.<p></p>
+<dd>Obtains a set that is the inversion of this set.
+<p></p>
+See the '!' <a href="#opUnary"><span class="d_inlinecode">opUnary</span></a> for the same but using operators.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        set = unicode.ASCII;
+        <span class="d_comment">//union with the inverse gets all of the code points in the Unicode
+</span>        <span class="d_keyword">assert</span>((set | set.<span class="d_psymbol">inverted</span>).length == 0x110000);
+        <span class="d_comment">//no intersection with the inverse
+</span>        <span class="d_keyword">assert</span>((set &amp; set.<span class="d_psymbol">inverted</span>).empty);
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="toSourceCode"></a>string <a name="toSourceCode"></a><span class="ddoc_psymbol">toSourceCode</span>(string <i>funcName</i> = "");
@@ -734,13 +938,20 @@ To be used with care for relatively small or regular sets. It
 </dd>
 <dt class="d_decl"><a name="empty"></a>const bool <a name="empty"></a><span class="ddoc_psymbol">empty</span>();
 </dt>
-<dd>True if this set doesn't contain any <a href="#Code point">code points</a>.<p></p>
+<dd>True if this set doesn't contain any <a href="#Code point">code points</a>.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        CodepointSet emptySet;
+        <span class="d_keyword">assert</span>(emptySet.length == 0);
+        <span class="d_keyword">assert</span>(emptySet.<span class="d_psymbol">empty</span>);
+</pre>
+<p></p>
 
 </dd>
 </dl>
 </dd>
 <dt class="d_decl"><a name="mapTrieIndex"></a>template <a name="mapTrieIndex"></a><span class="ddoc_psymbol">mapTrieIndex</span>(Prefix...)</dt>
-<dd>Maps (D Key to a suitable integer index (within the bounds of <span class="d_inlinecode">size_t</span>.
+<dd>Maps <span class="d_inlinecode">Key</span> to a suitable integer index within the range of <span class="d_inlinecode">size_t</span>.
     The mapping is constructed by applying predicates from <span class="d_inlinecode">Prefix</span> left to right
     and concatenating the resulting bits.
 <p></p>
@@ -793,7 +1004,56 @@ Specifically unlike <span class="d_inlinecode">codepointSetTrie</span> it's allo
 <p></p>
 <b>Note:</b><br>
 Overload taking <span class="d_inlinecode">CodepointSet</span>s will naturally convert
-    only to bool mapping <span class="d_inlinecode">Trie</span>s.<p></p>
+    only to bool mapping <span class="d_inlinecode">Trie</span>s.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">    <span class="d_comment">// pick characters from the Greek script
+</span>    <span class="d_keyword">auto</span> set = unicode.Greek;
+
+    <span class="d_comment">// a user-defined property (or an expensive function)
+</span>    <span class="d_comment">// that we want to look up
+</span>    <span class="d_keyword">static</span> <span class="d_keyword">uint</span> luckFactor(<span class="d_keyword">dchar</span> ch)
+    {
+        <span class="d_comment">// here we consider a character lucky
+</span>        <span class="d_comment">// if its code point has a lot of identical hex-digits
+</span>        <span class="d_comment">// e.g. arabic letter DDAL (\u0688) has a "luck factor" of 2
+</span>        <span class="d_keyword">ubyte</span>[6] nibbles; <span class="d_comment">//6 4-bit chunks of code point
+</span>        <span class="d_keyword">uint</span> value = ch;
+        <span class="d_keyword">foreach</span>(i; 0..6)
+        {
+            nibbles[i] = value &amp; 0xF;
+            value &gt;&gt;= 4;
+        }
+        <span class="d_keyword">uint</span> luck;
+        <span class="d_keyword">foreach</span>(n; nibbles)
+            luck = max(luck, count(nibbles[], n));
+        <span class="d_keyword">return</span> luck;
+    }
+
+    <span class="d_comment">// only unsigned built-ins are supported at the moment
+</span>    <span class="d_keyword">alias</span> LuckFactor = BitPacked!(<span class="d_keyword">uint</span>, 3);
+
+    <span class="d_comment">// create a temporary associative array (AA)
+</span>    LuckFactor[<span class="d_keyword">dchar</span>] map;
+    <span class="d_keyword">foreach</span>(ch; set.byCodepoint)
+        map[ch] = luckFactor(ch);
+
+    <span class="d_comment">// bits per stage are chosen randomly, fell free to optimize
+</span>    <span class="d_keyword">auto</span> trie = <span class="d_psymbol">codepointTrie</span>!(LuckFactor, 8, 5, 8)(map);
+
+    <span class="d_comment">// from now on the AA is not needed
+</span>    <span class="d_keyword">foreach</span>(ch; set.byCodepoint)
+        <span class="d_keyword">assert</span>(trie[ch] == luckFactor(ch)); <span class="d_comment">//verify
+</span>    <span class="d_comment">// CJK is not Greek, thus it has the default value
+</span>    <span class="d_keyword">assert</span>(trie['\u4444'] == 0);
+    <span class="d_comment">// and here is a couple of quite lucky Greek characters:
+</span>    <span class="d_comment">// Greek small letter epsilon with dasia
+</span>    <span class="d_keyword">assert</span>(trie['\u1F11'] == 3);
+    <span class="d_comment">// Ancient Greek metretes sign
+</span>    <span class="d_keyword">assert</span>(trie['\U00010181'] == 3);
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="CodepointTrie"></a>template <a name="CodepointTrie"></a><span class="ddoc_psymbol">CodepointTrie</span>(T, sizes...) if (sumOfIntegerTuple!(sizes) == 21)</dt>
@@ -812,6 +1072,9 @@ The parameter <span class="d_inlinecode">level</span> indicates the number of tr
 
     <p>Level 1 is fastest and the most memory hungry (a bit array). </p>
     <p>Level 4 is the slowest and has the smallest footprint. </p>
+<p></p>
+
+    See the <a href="#Synopsis">Synopsis</a> section for example.
 
 <p></p>
 <b>Note:</b><br>
@@ -827,12 +1090,9 @@ Level 4 stays very practical (being faster and more predictable)
 <p></p>
 <p>Effectively this creates a 'tester' lambda suitable
     for algorithms like std.algorithm.find that take unary predicates. </p>
+<p></p>
 
-<p></p>
-<b>Example:</b><br>
-<pre class="d_code">
-</pre>
-<p></p>
+    See the <a href="#Synopsis">Synopsis</a> section for example.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="BitPacked"></a>struct <a name="BitPacked"></a><span class="ddoc_psymbol">BitPacked</span>(T, size_t sz) if (isIntegral!(T) || is(T : dchar));
@@ -867,28 +1127,112 @@ Level 4 stays very practical (being faster and more predictable)
     block, script or general category.
 <p></p>
 It uses well defined standard rules of property name lookup.
-    This includes matching of names, e.g.
-    White_Space, white-SpAce and whitespace are all considered equals
+    This includes fuzzy matching of names, so that
+    'White_Space', 'white-SpAce' and 'whitespace' are all considered equal
     and yield the same set of white space <a href="#Character">characters</a>.<p></p>
 
 <dl><dt class="d_decl"><a name="unicode.opDispatch"></a>static auto <a name="opDispatch"></a><span class="ddoc_psymbol">opDispatch</span>(string name)();
 </dt>
-<dd>Performs the lookup with compile-time correctness checking.
+<dd>Performs the lookup of set of <a href="#Code point">code points</a>
+        with compile-time correctness checking.
+        This short-cut version combines 3 searches:
+        across blocks, scripts and common binary properties.
+<p></p>
+Note that since scripts and blocks overlap the
+        usual trick to disambiguate is used - to get a block use
+        <span class="d_inlinecode">unicode.InBlockName</span>, to search a script
+        use <span class="d_inlinecode">unicode.ScriptName</span>.
+<p></p>
+
+        See also <a href="#block"><span class="d_inlinecode">block</span></a>, <a href="#script"><span class="d_inlinecode">script</span></a>
+        and not included in this search <a href="#hangulSyllableType"><span class="d_inlinecode">hangulSyllableType</span></a>.
+
 <p></p>
 <b>Example:</b><br>
 <pre class="d_code">        <span class="d_keyword">auto</span> ascii = unicode.ASCII;
         <span class="d_keyword">assert</span>(ascii['A']);
         <span class="d_keyword">assert</span>(ascii['~']);
         <span class="d_keyword">assert</span>(!ascii['\u00e0']);
-        <span class="d_keyword">auto</span> ascii = unicode.ascii; <span class="d_comment">//also works
-</span></pre>
+        <span class="d_comment">//matching is case-insensitive
+</span>        <span class="d_keyword">assert</span>(ascii == unicode.ascII);
+        <span class="d_keyword">assert</span>(!ascii['à']);
+        <span class="d_comment">//underscores, '-' and whitespace in names are ignored too
+</span>        <span class="d_keyword">auto</span> latin = unicode.in_latin1_Supplement;
+        <span class="d_keyword">assert</span>(latin['à']);
+        <span class="d_keyword">assert</span>(!latin['$']);
+        <span class="d_comment">//BTW Latin 1 Supplement is a block, hence "In" prefix
+</span>        <span class="d_keyword">assert</span>(latin == unicode(<span class="d_string">"In Latin 1 Supplement"</span>));
+        <span class="d_keyword">import</span> std.exception;
+        <span class="d_comment">// run-time look up throws if no such set is found
+</span>        <span class="d_keyword">assert</span>(collectException(unicode(<span class="d_string">"InCyrilliac"</span>)));
+</pre>
 <p></p>
 
 </dd>
 <dt class="d_decl"><a name="unicode.opCall"></a>static auto <a name="opCall"></a><span class="ddoc_psymbol">opCall</span>(C)(in C[] <i>name</i>);
 </dt>
-<dd>The same lookup but performed at run-time, provided for cases
-        where <span class="d_inlinecode">name</span> is not known beforehand.<p></p>
+<dd>The same lookup across blocks, scripts or binary property
+        but performed at run-time.
+        This version is provided for cases where <span class="d_inlinecode">name</span>
+        is not known beforehand otherwise compile-time
+        checked <a href="#opDispatch"><span class="d_inlinecode">opDispatch</span></a> is typically a better choice.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="unicode.block"></a>struct <a name="block"></a><span class="ddoc_psymbol">block</span>;
+</dt>
+<dd>Narrows down the search for sets of <a href="#Code point">code points</a> to all Unicode blocks.
+<p></p>
+<b>Note:</b><br>
+Here <a name="block"></a><span class="ddoc_psymbol">block</span> names are unambiguous as no scripts are searched
+        and thus to search use simply <span class="d_inlinecode">unicode.<a name="block"></a><span class="ddoc_psymbol">block</span>.BlockName</span> notation.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_comment">// use .block for explicitness
+</span>        <span class="d_keyword">assert</span>(unicode.<span class="d_psymbol">block</span>.Greek_and_Coptic == unicode.InGreek_and_Coptic);
+</pre>
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="unicode.script"></a>struct <a name="script"></a><span class="ddoc_psymbol">script</span>;
+</dt>
+<dd>Narrows down the search for sets of <a href="#Code point">code points</a> to all Unicode scripts.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_keyword">auto</span> arabicScript = unicode.<span class="d_psymbol">script</span>.arabic;
+        <span class="d_keyword">auto</span> arabicBlock = unicode.block.arabic;
+        <span class="d_comment">// there is an intersection between script and block
+</span>        <span class="d_keyword">assert</span>(arabicBlock['؁']);
+        <span class="d_keyword">assert</span>(arabicScript['؁']);
+        <span class="d_comment">// but they are different
+</span>        <span class="d_keyword">assert</span>(arabicBlock != arabicScript);
+        <span class="d_keyword">assert</span>(arabicBlock == unicode.inArabic);
+        <span class="d_keyword">assert</span>(arabicScript == unicode.arabic);
+</pre>
+<p></p>
+
+</dd>
+<dt class="d_decl"><a name="unicode.hangulSyllableType"></a>struct <a name="hangulSyllableType"></a><span class="ddoc_psymbol">hangulSyllableType</span>;
+</dt>
+<dd>Fetch a set of <a href="#Code point">code points</a> that have the given hangul syllable type.
+<p></p>
+Other non-binary properties (once supported) are following the same
+<p></p>
+<b>notation:</b><br>
+<span class="d_inlinecode">unicode.propertyName.propertyValue</span> for compile-time
+        checked access and <span class="d_inlinecode">unicode.propertyName(propertyValue)</span>
+        for run-time checked one.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">        <span class="d_comment">// L here is syllable type not Letter as in unicode.L short-cut
+</span>        <span class="d_keyword">auto</span> leadingVowel = unicode.<span class="d_psymbol">hangulSyllableType</span>(<span class="d_string">"L"</span>);
+        <span class="d_comment">//check that some leading vowels are present
+</span>        <span class="d_keyword">foreach</span>(vowel; '\u1110'..'\u115F')
+            <span class="d_keyword">assert</span>(leadingVowel[vowel]);
+        <span class="d_keyword">assert</span>(leadingVowel == unicode.<span class="d_psymbol">hangulSyllableType</span>.L);
+</pre>
+<p></p>
 
 </dd>
 </dl>
@@ -896,12 +1240,28 @@ It uses well defined standard rules of property name lookup.
 <dt class="d_decl"><a name="graphemeStride"></a>size_t <a name="graphemeStride"></a><span class="ddoc_psymbol">graphemeStride</span>(C)(in C[] <i>input</i>, size_t <i>index</i>);
 </dt>
 <dd>Returns the length of grapheme cluster starting at <span class="d_inlinecode">index</span>.
-    Both the resulting length and the <span class="d_inlinecode">index</span> are measured in code units.<p></p>
+    Both the resulting length and the <span class="d_inlinecode">index</span> are measured
+    in <a href="#Code unit">code units</a>.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">    <span class="d_comment">//ASCII as usual is 1 code unit, 1 code point etc.
+</span>    <span class="d_keyword">assert</span>(<span class="d_psymbol">graphemeStride</span>(<span class="d_string">"  "</span>, 1) == 1);
+    <span class="d_comment">//A + combing ring above
+</span>    string city = <span class="d_string">"A\u030Arhus"</span>;
+    size_t first = <span class="d_psymbol">graphemeStride</span>(city, 0);
+    <span class="d_keyword">assert</span>(first == 3); <span class="d_comment">//\u030A has 2 UTF-8 code units
+</span>    <span class="d_keyword">assert</span>(city[0..first] == <span class="d_string">"A\u030A"</span>);
+    <span class="d_keyword">assert</span>(city[first..$] == <span class="d_string">"rhus"</span>);
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="decodeGrapheme"></a>Grapheme <a name="decodeGrapheme"></a><span class="ddoc_psymbol">decodeGrapheme</span>(Input)(ref Input <i>inp</i>);
 </dt>
-<dd>Read and return one full grapheme cluster from an input range of dchar <span class="d_inlinecode">inp</span>.
+<dd>Reads one full grapheme cluster from an input range of dchar <span class="d_inlinecode">inp</span>.
+<p></p>
+For examples see the <a href="#Grapheme"><span class="d_inlinecode">Grapheme</span></a> below.
+
 <p></p>
 <b>Note:</b><br>
 This function modifies <span class="d_inlinecode">inp</span> and thus <span class="d_inlinecode">inp</span>
@@ -946,32 +1306,20 @@ This function modifies <span class="d_inlinecode">inp</span> and thus <span clas
 </dd>
 <dt class="d_decl"><a name="Grapheme.opIndexAssign"></a>pure nothrow @trusted void <a name="opIndexAssign"></a><span class="ddoc_psymbol">opIndexAssign</span>(dchar <i>ch</i>, size_t <i>index</i>);
 </dt>
-<dd>Write <a href="#Code point">code point</a> <span class="d_inlinecode"><i>ch</i></span> at given <i>index</i> of this cluster.
+<dd>Writes a <a href="#Code point">code point</a> <span class="d_inlinecode"><i>ch</i></span> at given <i>index</i> in this cluster.
 <p></p>
 <b>Warning:</b><br>
 Use of this facility may invalidate grapheme cluster,
-        see also <span class="d_inlinecode">valid</span>.
+        see also <a href="#Grapheme.valid"><span class="d_inlinecode">Grapheme.valid</span></a>.
 
 <p></p>
 <b>Example:</b><br>
-<pre class="d_code">        <span class="d_keyword">import</span> std.algorithm;
-        string bold = <span class="d_string">"ku\u0308hn"</span>;
-
-        <span class="d_comment">// note that decodeGrapheme takes parameter by ref
-</span>        <span class="d_keyword">auto</span> first = decodeGrapheme(bold);
-
-        <span class="d_keyword">assert</span>(first.length == 1);
-        <span class="d_keyword">assert</span>(first[0] == 'k');
-
-        <span class="d_comment">// the next grapheme is 2 characters long
-</span>        <span class="d_keyword">auto</span> wideOne = decodeGrapheme(bold);
-        <span class="d_comment">// slicing a grapheme yields a random-access range of dchar
-</span>        <span class="d_keyword">assert</span>(wideOne[].equal(<span class="d_string">"u\u0308"</span>));
-        <span class="d_keyword">assert</span>(wideOne.length == 2);
-        <span class="d_keyword">static</span> <span class="d_keyword">assert</span>(isRandomAccessRange!(<span class="d_keyword">typeof</span>(wideOne[])));
-
-        <span class="d_comment">// all of the usual range manipulation is possible
-</span>        <span class="d_keyword">assert</span>(wideOne[].filter!isMark.equal(<span class="d_string">"\u0308"</span>));
+<pre class="d_code">        <span class="d_keyword">auto</span> g = Grapheme(<span class="d_string">"A\u0302"</span>);
+        <span class="d_keyword">assert</span>(g[0] == 'A');
+        <span class="d_keyword">assert</span>(g.valid);
+        g[1] = '~'; <span class="d_comment">//ASCII tilda is not a combining mark
+</span>        <span class="d_keyword">assert</span>(g[1] == '~');
+        <span class="d_keyword">assert</span>(!g.valid);
 </pre>
 <p></p>
 
@@ -983,7 +1331,7 @@ Use of this facility may invalidate grapheme cluster,
 <p></p>
 <b>Warning:</b><br>
 Invalidates when this Grapheme leaves the scope,
-        attempts to use it would lead.<p></p>
+        attempts to use it then would lead to memory corruption.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="Grapheme.length"></a>const pure nothrow @property @trusted size_t <a name="length"></a><span class="ddoc_psymbol">length</span>();
@@ -1001,8 +1349,7 @@ Use of this facility may invalidate grapheme cluster,
 
 <p></p>
 <b>Example:</b><br>
-<pre class="d_code">        <span class="d_keyword">import</span> std.algorithm;
-        <span class="d_keyword">auto</span> g = Grapheme(<span class="d_string">"A"</span>);
+<pre class="d_code">        <span class="d_keyword">auto</span> g = Grapheme(<span class="d_string">"A"</span>);
         <span class="d_keyword">assert</span>(g.valid);
         g ~= '\u0301';
         <span class="d_keyword">assert</span>(g[].equal(<span class="d_string">"A\u0301"</span>));
@@ -1028,7 +1375,7 @@ Use of this facility may invalidate grapheme cluster,
 <p></p>
 Appending to and direct manipulation of grapheme's <a href="#Character">characters</a> may
         render it no longer <a name="valid"></a><span class="ddoc_psymbol">valid</span>. Certain applications may chose to use
-        Grapheme as a "small string" of <a href="#Code point">code points</a> and ignore this property
+        Grapheme as a "small string" of any <a href="#Code point">code points</a> and ignore this property
         entirely.<p></p>
 
 </dd>
@@ -1048,7 +1395,7 @@ This function only handles 1:1 <a href="#Code point">code point</a> mapping
 <p></p>
 <b>Example:</b><br>
 <pre class="d_code">    <span class="d_keyword">assert</span>(<span class="d_psymbol">sicmp</span>(<span class="d_string">"Август"</span>, <span class="d_string">"авгусТ"</span>) == 0);
-    <span class="d_comment">// Greek also works as if there is no 1:M mapping in sight
+    <span class="d_comment">// Greek also works as long as there is no 1:M mapping in sight
 </span>    <span class="d_keyword">assert</span>(<span class="d_psymbol">sicmp</span>(<span class="d_string">"ΌΎ"</span>, <span class="d_string">"όύ"</span>) == 0);
     <span class="d_comment">// things like the following won't get matched as equal
 </span>    <span class="d_comment">// Greek small letter iota with dialytika and tonos
@@ -1138,11 +1485,15 @@ Hangul syllables are not covered by this function.
 </dd>
 <dt class="d_decl"><a name="decompose"></a>Grapheme <a name="decompose"></a><span class="ddoc_psymbol">decompose</span>(UnicodeDecomposition decompType = Canonical)(dchar <i>ch</i>);
 </dt>
-<dd>Returns a full Canonical (by default) or Compatibility decomposition
-    of <a href="#Character">character</a> <span class="d_inlinecode">ch</span>. If no decomposition is available returns
-    Grapheme with the <span class="d_inlinecode">ch</span> itself.
+<dd>Returns a full <a href="#Canonical decomposition">Canonical</a>
+    (by default) or <a href="#Compatibility decomposition">Compatibility</a>
+    decomposition of <a href="#Character">character</a> <span class="d_inlinecode">ch</span>.
+    If no decomposition is available returns a <a href="#Grapheme"><span class="d_inlinecode">Grapheme</span></a>
+    with the <span class="d_inlinecode">ch</span> itself.
 <p></p>
-Note that this function also decomposes hangul syllables.
+<b>Note:</b><br>
+This function also decomposes hangul syllables
+    as prescribed by the standard.
     See also <a href="#decomposeHangul"><span class="d_inlinecode">decomposeHangul</span></a> for a restricted version
     that takes into account only hangul syllables  but
     no other decompositions.
@@ -1206,9 +1557,32 @@ On success returns the composed LV or LVT hangul syllable.
 </dd>
 <dt class="d_decl"><a name="normalize"></a>inout(C)[] <a name="normalize"></a><span class="ddoc_psymbol">normalize</span>(NormalizationForm norm = NFC, C)(inout(C)[] <i>input</i>);
 </dt>
-<dd>Returns input string normalized to the chosen form. Form C is used by default.
-    In case where the string in question is already normalized,
-    it is returned unmodified and no memory allocation happens.<p></p>
+<dd>Returns <span class="d_inlinecode">input</span> string normalized to the chosen form.
+    The Form C is used by default.
+<p></p>
+For more information on normalization forms see
+    the <a href="#Normalization">normalization section</a>.
+
+<p></p>
+<b>Note:</b><br>
+In cases where the string in question is already normalized,
+    it is returned unmodified and no memory allocation happens.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code">    <span class="d_comment">//any encoding works
+</span>    wstring greet = <span class="d_string">"Hello world"</span>;
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">normalize</span>(greet) <span class="d_keyword">is</span> greet); <span class="d_comment">//the same exact slice
+</span>
+    <span class="d_comment">// An example of a character with all 4 forms being different:
+</span>    <span class="d_comment">// Greek upsilon with acute and hook symbol (code point 0x03D3)
+</span>    <span class="d_keyword">assert</span>(<span class="d_psymbol">normalize</span>!NFC(<span class="d_string">"ϓ"</span>) == <span class="d_string">"\u03D3"</span>);
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">normalize</span>!NFD(<span class="d_string">"ϓ"</span>) == <span class="d_string">"\u03D2\u0301"</span>);
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">normalize</span>!NFKC(<span class="d_string">"ϓ"</span>) == <span class="d_string">"\u038E"</span>);
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">normalize</span>!NFKC(<span class="d_string">"ϓ"</span>) == <span class="d_string">"\u038E"</span>);
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">normalize</span>!NFKD(<span class="d_string">"ϓ"</span>) == <span class="d_string">"\u03A5\u0301"</span>);
+</pre>
+<p></p>
 
 </dd>
 <dt class="d_decl"><a name="allowedIn"></a>bool <a name="allowedIn"></a><span class="ddoc_psymbol">allowedIn</span>(NormalizationForm norm)(dchar <i>ch</i>);
