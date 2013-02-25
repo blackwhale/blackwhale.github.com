@@ -209,7 +209,9 @@ function listanchors()
 <h3><a id="Overview">Overview</a></h3>
 <p></p>
 <p>The <span class="d_inlinecode">std.<a name="uni"></a><span class="ddoc_psymbol">uni</span></span> module provides an implementation
-    of fundamental Unicode algorithms and data structures.</p>
+    of fundamental Unicode algorithms and data structures.
+    This doesn't include UTF encoding and decoding primitives,
+    see module std.utf for <a href="std_utf.html#decode"><span class="d_inlinecode">std.utf.decode</span></a> and <a href="std_utf.html#encode"><span class="d_inlinecode">std.utf.encode</span></a>. </p>
 <p></p>
 
     <p>All primitives listed operate on Unicode character and
@@ -347,7 +349,7 @@ function listanchors()
     <p><div><a id="Code unit"><i>Code unit</i></a></div> The minimal bit combination that can represent
     a unit of encoded text for processing or interchange.
     Depending on the encoding this could be:
-    8-bit code units in the UTF-8 (($D char)),
+    8-bit code units in the UTF-8 (<span class="d_inlinecode">char</span>),
     16-bit code units in the UTF-16 (<span class="d_inlinecode">wchar</span>),
     and 32-bit code units in the UTF-32 (<span class="d_inlinecode">dchar</span>).
     <i>Note that in UTF-32, a code unit is a code point
@@ -629,12 +631,12 @@ Unicode(tm) is a trademark of Unicode, Inc.
 
 <dl><dt class="d_decl"><a name="lineSep"></a>dchar <a name="lineSep"></a><span class="ddoc_psymbol">lineSep</span>;
 </dt>
-<dd>UTF line separator <a href="#Code point">code point</a>. <p></p>
+<dd>Constant <a href="#Code point">code point</a> (0x2028) - line separator. <p></p>
 
 </dd>
 <dt class="d_decl"><a name="paraSep"></a>dchar <a name="paraSep"></a><span class="ddoc_psymbol">paraSep</span>;
 </dt>
-<dd>UTF paragraph separator <a href="#Code point">code point</a>.<p></p>
+<dd>Constant <a href="#Code point">code point</a> (0x2029) - paragraph separator.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="isCodepointSet"></a>template <a name="isCodepointSet"></a><span class="ddoc_psymbol">isCodepointSet</span>(T)</dt>
@@ -1457,6 +1459,19 @@ This function only handles 1:1 <a href="#Code point">code point</a> mapping
 </dt>
 <dd>Unicode character decomposition type.<p></p>
 
+<dl><dt class="d_decl"><a name="UnicodeDecomposition.Canonical"></a><a name="Canonical"></a><span class="ddoc_psymbol">Canonical</span></dt>
+<dd><a name="Canonical"></a><span class="ddoc_psymbol">Canonical</span> decomposition. The result is canonically equivalent sequence.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="UnicodeDecomposition.Compatibility"></a><a name="Compatibility"></a><span class="ddoc_psymbol">Compatibility</span></dt>
+<dd><a name="Compatibility"></a><span class="ddoc_psymbol">Compatibility</span> decomposition. The result is compatibility equivalent sequence.
+<p></p>
+<b>Note:</b><br>
+<a name="Compatibility"></a><span class="ddoc_psymbol">Compatibility</span> decomposition is a <b>lossy</b> conversion,
+         typically suitable only for fuzzy matching and internal processing.<p></p>
+
+</dd>
+</dl>
 </dd>
 <dt class="d_decl"><a name="compose"></a>@trusted dchar <a name="compose"></a><span class="ddoc_psymbol">compose</span>(dchar <i>first</i>, dchar <i>second</i>);
 </dt>
@@ -1578,7 +1593,6 @@ In cases where the string in question is already normalized,
 </span>    <span class="d_comment">// Greek upsilon with acute and hook symbol (code point 0x03D3)
 </span>    <span class="d_keyword">assert</span>(<span class="d_psymbol">normalize</span>!NFC(<span class="d_string">"ϓ"</span>) == <span class="d_string">"\u03D3"</span>);
     <span class="d_keyword">assert</span>(<span class="d_psymbol">normalize</span>!NFD(<span class="d_string">"ϓ"</span>) == <span class="d_string">"\u03D2\u0301"</span>);
-    <span class="d_keyword">assert</span>(<span class="d_psymbol">normalize</span>!NFKC(<span class="d_string">"ϓ"</span>) == <span class="d_string">"\u038E"</span>);
     <span class="d_keyword">assert</span>(<span class="d_psymbol">normalize</span>!NFKC(<span class="d_string">"ϓ"</span>) == <span class="d_string">"\u038E"</span>);
     <span class="d_keyword">assert</span>(<span class="d_psymbol">normalize</span>!NFKD(<span class="d_string">"ϓ"</span>) == <span class="d_string">"\u03A5\u0301"</span>);
 </pre>
