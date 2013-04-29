@@ -211,14 +211,15 @@ function listanchors()
    <p>The <span class="d_inlinecode">std.<a name="uni"></a><span class="ddoc_psymbol">uni</span></span> module provides an implementation
     of fundamental Unicode algorithms and data structures.
     This doesn't include UTF encoding and decoding primitives,
-    see module std.utf for <a href="std_utf.html#decode"><span class="d_inlinecode">std.utf.decode</span></a> and <a href="std_utf.html#encode"><span class="d_inlinecode">std.utf.encode</span></a>. </p>
+    see <a href="std_utf.html#decode"><span class="d_inlinecode">std.utf.decode</span></a> and <a href="std_utf.html#encode"><span class="d_inlinecode">std.utf.encode</span></a> in std.utf
+    for this functionality. </p>
 <p></p>
 
-    <p>All primitives listed operate on Unicode character and
+    <p>All primitives listed operate on Unicode characters and
     sets of characters. For functions which operate on ASCII characters
-    and ignore Unicode <a href="#Character">character</a>, see <a href="std_ascii.html">std.ascii</a>.
+    and ignore Unicode <a href="#Character">characters</a>, see <a href="std_ascii.html">std.ascii</a>.
     For definitions of Unicode <a href="#Character">character</a>, <a href="#Code point">code point</a> and other terms
-    used throughout this module see the section <a href="#Terminology">terminology</a>
+    used throughout this module see the <a href="#Terminology">terminology</a> section
     below.
     </p>
 <p></p>
@@ -243,12 +244,12 @@ function listanchors()
     </li>
     </ul>
     <p>It's recognized that an application may need further enhancements
-    and extensions, such as less-commonly known algorithms,
-    or tailoring existing ones for region-specific needs. To help users
+    and extensions, such as less commonly known algorithms,
+    or tailoring existing ones for region specific needs. To help users
     with building any extra functionality beyond the core primitives,
     the module provides:
     </p>
-    <ul>   <li>       A type for easy manipulation of sets of characters <a href="#CodepointSet"><span class="d_inlinecode">CodepointSet</span></a>.
+    <ul>   <li>       <a href="#CodepointSet"><span class="d_inlinecode">CodepointSet</span></a>, a type for easy manipulation of sets of characters.
         Besides the typical set algebra it provides an unusual feature:
         a D source code generator for detection of <a href="#Code point">code points</a> in this set.
         This is a boon for meta-programming parser frameworks,
@@ -265,15 +266,17 @@ function listanchors()
     </li>
     <li>       Generally useful building blocks for customized normalization:
         <a href="#combiningClass"><span class="d_inlinecode">combiningClass</span></a> for querying combining class
-        and <a href="#allowedIn"><span class="d_inlinecode">allowedIn</span></a> for testing Quick_Check.YES
+        and <a href="#allowedIn"><span class="d_inlinecode">allowedIn</span></a> for testing the Quick_Check
         property of a given normalization form.
     </li>
     <li>       Access to a large selection of commonly used sets of <a href="#Code point">code points</a>.
-        <a href="#Unicode properties">Supported ones</a> include Script,
+        <a href="#Unicode properties">Supported sets</a> include Script,
         Block and General Category. The exact contents of a set can be
-        observed in the CLDR utility, on page
-        <a href="http://www.unicode.org/cldr/utility/properties.jsp">property index</a>.
-        See <a href="#unicode"><span class="d_inlinecode">unicode</span></a> for easy and (optionally) compile-time checked queries.
+        observed in the CLDR utility, on the
+        <a href="http://www.unicode.org/cldr/utility/properties.jsp">property index</a> page
+        of the Unicode website.
+        See <a href="#unicode"><span class="d_inlinecode">unicode</span></a> for easy and (optionally) compile-time checked set
+        queries.
     </li>
     </ul>
     <h3><a id="Synopsis">Synopsis</a></h3>
@@ -339,23 +342,11 @@ function listanchors()
     <p>The following is a list of important Unicode notions
     and definitions. Any conventions used specifically in this
     module alone are marked as such. The descriptions are based on the formal
-    definition as found in The Unicode Standard Core Specification,
-    specifically the 3rd chapter.</p>
+    definition as found in ($WEB http://www.unicode.org/versions/Unicode6.2.0/ch03.pdf,
+    chapter three of The Unicode Standard Core Specification.)
+    </p>
 <p></p>
 
-    <p><div><a id="Code point"><i>Code point</i></a></div> Any value in the Unicode codespace;
-    that is, the range of integers from 0 to 10FFFF (hex).
-    Not all code points are assigned to encoded characters.
-    </p>
-    <p><div><a id="Code unit"><i>Code unit</i></a></div> The minimal bit combination that can represent
-    a unit of encoded text for processing or interchange.
-    Depending on the encoding this could be:
-    8-bit code units in the UTF-8 (<span class="d_inlinecode">char</span>),
-    16-bit code units in the UTF-16 (<span class="d_inlinecode">wchar</span>),
-    and 32-bit code units in the UTF-32 (<span class="d_inlinecode">dchar</span>).
-    <i>Note that in UTF-32, a code unit is a code point
-    and is represented by the D <span class="d_inlinecode">dchar</span> type.</i>
-    </p>
     <p><div><a id="Abstract character"><i>Abstract character</i></a></div> A unit of information used for the organization,
     control, or representation of textual data.
     Note that:
@@ -365,7 +356,7 @@ function listanchors()
 
 
         <li>An abstract character has no concrete form
-        and should not be confused with a <i>glyph</i>.</li>
+        and should not be confused with a <a href="#Glyph">glyph</a>.</li>
 
 
         <li>An abstract character does not necessarily
@@ -381,20 +372,110 @@ function listanchors()
         encoded by the Unicode Standard can often be
         represented by the use of combining character sequences.</li>
         </ul>
-
-
     </p>
-    <p><div><a id="Glyph"><i>Glyph</i></a></div> The actual, concrete image of a glyph representation
-    having been rasterized or otherwise imaged onto some display surface.
+<p></p>
+
+    <p><div><a id="Canonical decomposition"><i>Canonical decomposition</i></a></div>
+    The decomposition of a character or character sequence
+    that results from recursively applying the canonical
+    mappings found in the Unicode Character Database
+    and these described in Conjoining Jamo Behavior
+    (section 12 of
+    <a href="http://www.unicode.org/uni2book/ch03.pdf">Unicode Conformance</a>).
     </p>
+<p></p>
+
+    <p><div><a id="Canonical composition"><i>Canonical composition</i></a></div>
+    The precise definition of the Canonical composition
+    is the algorithm as specified in <a href="http://www.unicode.org/uni2book/ch03.pdf">    Unicode Conformance</a> section 11.
+    Informally it's the process that does the reverse of the canonical
+    decomposition with the addition of certain rules
+    that e.g. prevent legacy characters from appearing in the composed result.
+    </p>
+<p></p>
+
+    <p><div><a id="Canonical equivalent"><i>Canonical equivalent</i></a></div>
+    Two character sequences are said to be canonical equivalents if
+    their full canonical decompositions are identical.
+    </p>
+<p></p>
+
+    <p><div><a id="Character"><i>Character</i></a></div> Typically differs by context.
+    For the purpose of this documentation the term <i>character</i>
+    implies <i>encoded character</i>, that is, a code point having
+    an assigned abstract character (a symbolic meaning).
+    </p>
+<p></p>
+
+    <p><div><a id="Code point"><i>Code point</i></a></div> Any value in the Unicode codespace;
+    that is, the range of integers from 0 to 10FFFF (hex).
+    Not all code points are assigned to encoded characters.
+    </p>
+<p></p>
+
+    <p><div><a id="Code unit"><i>Code unit</i></a></div> The minimal bit combination that can represent
+    a unit of encoded text for processing or interchange.
+    Depending on the encoding this could be:
+    8-bit code units in the UTF-8 (<span class="d_inlinecode">char</span>),
+    16-bit code units in the UTF-16 (<span class="d_inlinecode">wchar</span>),
+    and 32-bit code units in the UTF-32 (<span class="d_inlinecode">dchar</span>).
+    <i>Note that in UTF-32, a code unit is a code point
+    and is represented by the D <span class="d_inlinecode">dchar</span> type.</i>
+    </p>
+<p></p>
+
+    <p><div><a id="Combining character"><i>Combining character</i></a></div> A character with the General Category
+     of Combining Mark(M).
+        <ul>           <li>All characters with non-zero canonical combining class
+            are combining characters, but the reverse is not the case:
+            there are combining characters with a zero combining class.
+            </li>
+            <li>These characters are not normally used in isolation
+            unless they are being described. They include such characters
+            as accents, diacritics, Hebrew points, Arabic vowel signs,
+            and Indic matras.
+            </li>
+        </ul>
+    </p>
+<p></p>
+
+    <p><div><a id="Combining class"><i>Combining class</i></a></div>
+        A numerical value used by the Unicode Canonical Ordering Algorithm
+        to determine which sequences of combining marks are to be
+        considered canonically equivalent and  which are not.
+    </p>
+<p></p>
+
+    <p><div><a id="Compatibility decomposition"><i>Compatibility decomposition</i></a></div>
+    The decomposition of a character or character sequence that results
+    from recursively applying both the compatibility mappings and
+    the canonical mappings found in the Unicode Character Database, and those
+    described in Conjoining Jamo Behavior no characters
+    can be further decomposed.
+    </p>
+<p></p>
+
+    <p><div><a id="Compatibility equivalent"><i>Compatibility equivalent</i></a></div>
+    Two character sequences are said to be compatibility
+    equivalents if their full compatibility decompositions are identical.
+    </p>
+<p></p>
+
     <p><div><a id="Encoded character"><i>Encoded character</i></a></div> An association (or mapping)
     between an abstract character and a code point.
     </p>
-    <p><div><a id="Character"><i>Character</i></a></div> Typically differs by context.
-    For the purpose of this documentation the term <i>character</i>
-    implies <i>encoded character</i>, that is a code point having
-    an assigned abstract character (a symbolic meaning).
+<p></p>
+
+    <p><div><a id="Glyph"><i>Glyph</i></a></div> The actual, concrete image of a glyph representation
+    having been rasterized or otherwise imaged onto some display surface.
     </p>
+<p></p>
+
+    <p><div><a id="Grapheme base"><i>Grapheme base</i></a></div> A character with the property
+     Grapheme_Base, or any standard Korean syllable block.
+    </p>
+<p></p>
+
     <p><div><a id="Grapheme cluster"><i>Grapheme cluster</i></a></div> Defined as the text between
         grapheme boundaries  as specified by Unicode Standard Annex #29,
         <a href="http://www.unicode.org/reports/tr29/">Unicode text segmentation</a>.
@@ -422,66 +503,18 @@ function listanchors()
         as defined in the aforementioned standard annex.
         </p>
     </p>
-    <p><div><a id="Grapheme base"><i>Grapheme base</i></a></div> A character with the property
-     Grapheme_Base, or any standard Korean syllable block.
-    </p>
-    <p><div><a id="Combining character"><i>Combining character</i></a></div> A character with the General Category
-     of Combining Mark(M).
-        <ul>           <li>All characters with non-zero canonical combining class
-            are combining characters, but the reverse is not the case:
-            there are combining characters with a zero combining class.
-            </li>
-            <li>These characters are not normally used in isolation
-            unless they are being described. They include such characters
-            as accents, diacritics, Hebrew points, Arabic vowel signs,
-            and Indic matras.
-            </li>
-        </ul>
-    </p>
+<p></p>
+
+<p></p>
+
     <p><div><a id="Nonspacing mark"><i>Nonspacing mark</i></a></div> A combining character with the
         General Category of Nonspacing Mark (Mn) or Enclosing Mark (Me).
     </p>
+<p></p>
+
     <p><div><a id="Spacing mark"><i>Spacing mark</i></a></div> A combining character that is not a nonspacing mark.</p>
 <p></p>
 
-    <p><div><a id="Canonical decomposition"><i>Canonical decomposition</i></a></div>
-    The decomposition of a character or character sequence
-    that results from recursively applying the canonical
-    mappings found in the Unicode Character Database
-    and these described in Conjoining Jamo Behavior
-    (section 12 of
-    <a href="http://www.unicode.org/uni2book/ch03.pdf">Unicode Conformance</a>).
-    </p>
-<p></p>
-
-    <p><div><a id="Compatibility decomposition"><i>Compatibility decomposition</i></a></div>
-    The decomposition of a character or character sequence that results
-    from recursively applying both the compatibility mappings and
-    the canonical mappings found in the Unicode Character Database, and those
-    described in Conjoining Jamo Behavior no characters
-    can be further decomposed.
-    </p>
-<p></p>
-
-    <p><div><a id="Canonical equivalent"><i>Canonical equivalent</i></a></div>
-    Two character sequences are said to be canonical equivalents if
-    their full canonical decompositions are identical.
-    </p>
-<p></p>
-
-    <p><div><a id="Compatibility equivalent"><i>Compatibility equivalent</i></a></div>
-    Two character sequences are said to be compatibility
-    equivalents if their full compatibility decompositions are identical.
-    </p>
-<p></p>
-
-    <p><div><a id="Canonical composition"><i>Canonical composition</i></a></div>
-    The precise definition of the Canonical composition
-    is the algorithm as specified in <a href="http://www.unicode.org/uni2book/ch03.pdf">    Unicode Conformance</a> section 11.
-    Informally it's the process that does the reverse of the canonical
-    decomposition with the addition of certain rules
-    that e.g. prevent legacy characters from appearing in the composed result.
-    </p>
 <p></p>
 
     <h3><a id="Normalization">Normalization</a></h3>
@@ -548,16 +581,16 @@ function listanchors()
 <p></p>
 
     <p>The recommended solution (see Unicode Implementation Guidelines)
-    is using multi-stage tables that is an instance of
-    <a href="http://http://en.wikipedia.org/wiki/Trie">Trie</a> with integer keys
-    and a fixed number of stages. For the reminder of the section
-    it will be called a fixed trie. The following describes a particular
+    is using multi-stage tables that are an implementation of the
+    <a href="http://http://en.wikipedia.org/wiki/Trie">Trie</a> data structure with integer
+    keys and a fixed number of stages. For the reminder of the section
+    this will be called a fixed trie. The following describes a particular
     implementation that is aimed for the speed of access at the expense
     of ideal size savings.
     </p>
 <p></p>
 
-    <p>Taking 2-level Trie as an example the principle of operation is as follows.
+    <p>Taking a 2-level Trie as an example the principle of operation is as follows.
         Split the number of bits in a key (code point, 21 bits) into 2 components
         (e.g. 15 and 8).  The first is the number of bits in the index of the trie
          and the other is number of bits in each page of the trie.
@@ -566,7 +599,7 @@ function listanchors()
     </p>
 <p></p>
 
-    <p>The number of pages is variable (but no less then 1)
+    <p>The number of pages is variable (but not less then 1)
         unlike the number of entries in the index. The slots of the index
         all have to contain a number of a page that is present. The lookup is then
         just a couple of operations - slice the upper bits,
@@ -577,10 +610,10 @@ function listanchors()
         Assuming that pages are laid out consequently
         in one array at <span class="d_inlinecode">pages</span>, the pseudo-code is:
     </p>
-<pre class="d_code"><span class="d_keyword">auto</span> elemsPerPage = 2^^bits_per_page/Value.sizeOfInBits;
-pages[index[n&gt;&gt;bits_per_page]][n &amp; (elemsPerPage-1)];
+<pre class="d_code"><span class="d_keyword">auto</span> elemsPerPage = (2 ^^ bits_per_page) / Value.sizeOfInBits;
+pages[index[n &gt;&gt; bits_per_page]][n &amp; (elemsPerPage - 1)];
 </pre>
-    <p>Where if the <span class="d_inlinecode">elemsPerPage</span> is a power of 2 the whole process is
+    <p>Where if <span class="d_inlinecode">elemsPerPage</span> is a power of 2 the whole process is
     a handful of simple instructions and 2 array reads. Subsequent levels
     of the trie are introduced by recursing on this notion - the index array
     is treated as values. The number of bits in index is then again
@@ -597,9 +630,9 @@ pages[index[n&gt;&gt;bits_per_page]][n &amp; (elemsPerPage-1)];
     </p>
 <p></p>
 
-    <p>The process of construction of a trie is more involved and is hidden from
-    the user in a form of convenience functions: <a href="#codepointTrie"><span class="d_inlinecode">codepointTrie</span></a>,
-    <a href="#codepointSetTrie"><span class="d_inlinecode">codepointSetTrie</span></a> and even more convenient <a href="#toTrie"><span class="d_inlinecode">toTrie</span></a>.
+    <p>The process of constructing a trie is more involved and is hidden from
+    the user in a form of the convenience functions <a href="#codepointTrie"><span class="d_inlinecode">codepointTrie</span></a>,
+    <a href="#codepointSetTrie"><span class="d_inlinecode">codepointSetTrie</span></a> and the even more convenient <a href="#toTrie"><span class="d_inlinecode">toTrie</span></a>.
     In general a set or built-in AA with <span class="d_inlinecode">dchar</span> type
     can be turned into a trie. The trie object in this module
     is read-only (immutable); it's effectively frozen after construction.
@@ -609,14 +642,14 @@ pages[index[n&gt;&gt;bits_per_page]][n &amp; (elemsPerPage-1)];
     <h3><a id="Unicode properties">Unicode properties</a></h3>
 <p></p>
 
-    <p>Full list of Unicode properties accessible through <a href="#unicode"><span class="d_inlinecode">unicode</span></a>
-    and specific helpers per category nested within. Consult the
+    <p>This is a full list of Unicode properties accessible through <a href="#unicode"><span class="d_inlinecode">unicode</span></a>
+    with specific helpers per category nested within. Consult the
     <a href="http://www.unicode.org/cldr/utility/properties.jsp">CLDR utility</a>
     when in doubt about the contents of a particular set.</p>
 <p></p>
 
-    <p>General category sets listed below are only accessible with <a href="#unicode"><span class="d_inlinecode">unicode</span></a>
-    shorthand accessor.</p>
+    <p>General category sets listed below are only accessible with the
+    <a href="#unicode"><span class="d_inlinecode">unicode</span></a> shorthand accessor.</p>
     <table cellspacing=0 cellpadding=5 class=book><caption><b>General category </b></caption>         <tr><th>Abb.</th> <th>Long form</th>
             <th>Abb.</th> <th>Long form</th><th>Abb.</th> <th>Long form</th></tr>
         <tr><td valign=top>L</td> <td valign=top>Letter</td>
@@ -647,7 +680,7 @@ pages[index[n&gt;&gt;bits_per_page]][n &amp; (elemsPerPage-1)];
           <td valign=top>Pi</td> <td valign=top>Initial_Punctuation</td> <td valign=top>-</td> <td valign=top>ASCII</td></tr>
     </table>
     <p>Sets for other commonly useful properties that are
-    accessible with <a href="#unicode"><span class="d_inlinecode">unicode</span></a>.</p>
+    accessible with <a href="#unicode"><span class="d_inlinecode">unicode</span></a>:</p>
     <table cellspacing=0 cellpadding=5 class=book><caption><b>Common binary properties</b></caption>        <tr><th>Name</th> <th>Name</th> <th>Name</th></tr>
         <tr><td valign=top>Alphabetic</td>  <td valign=top>Ideographic</td> <td valign=top>Other_Uppercase</td></tr>
         <tr><td valign=top>ASCII_Hex_Digit</td> <td valign=top>IDS_Binary_Operator</td> <td valign=top>Pattern_Syntax</td></tr>
@@ -750,7 +783,7 @@ pages[index[n&gt;&gt;bits_per_page]][n &amp; (elemsPerPage-1)];
 <p></p>
 
     <p>Bellow is the table with script names accepted by <a href="#unicode.script"><span class="d_inlinecode">unicode.script</span></a>
-    and by the shorthand version <a href="#unicode"><span class="d_inlinecode">unicode</span></a>.</p>
+    and by the shorthand version <a href="#unicode"><span class="d_inlinecode">unicode</span></a>:</p>
     <table cellspacing=0 cellpadding=5 class=book><caption><b>Scripts</b></caption>        <tr><td valign=top>Arabic</td>  <td valign=top>Hanunoo</td> <td valign=top>Old_Italic</td></tr>
         <tr><td valign=top>Armenian</td>    <td valign=top>Hebrew</td>  <td valign=top>Old_Persian</td></tr>
         <tr><td valign=top>Avestan</td> <td valign=top>Hiragana</td>    <td valign=top>Old_South_Arabian</td></tr>
@@ -823,7 +856,7 @@ Unicode(tm) is a trademark of Unicode, Inc.
 
 <dl><dt class="d_decl"><a name="lineSep"></a>dchar <a name="lineSep"></a><span class="ddoc_psymbol">lineSep</span>;
 </dt>
-<dd>Constant <a href="#Code point">code point</a> (0x2028) - line separator. <p></p>
+<dd>Constant <a href="#Code point">code point</a> (0x2028) - line separator.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="paraSep"></a>dchar <a name="paraSep"></a><span class="ddoc_psymbol">paraSep</span>;
@@ -896,20 +929,21 @@ a = a | b;
 <span class="d_keyword">assert</span>(a != c);
 </pre>
     <p>See also <a href="#unicode"><span class="d_inlinecode">unicode</span></a> for simpler construction of sets
-        out of predefined ones.
+        from predefined ones.
     </p>
 <p></p>
 
     <p>Memory usage is 6 bytes per each contiguous interval in a set.
-    The value semantics are achieved by using COW technique
-    and thus it's <span style="color:red">not</span> safe to cast this type to shared.
+    The value semantics are achieved by using the
+    ($WEB http://en.wikipedia.org/wiki/Copy-on-write, COW) technique
+    and thus it's <span style="color:red">not</span> safe to cast this type to <span class="d_keyword">shared</span>.
     </p>
 
 <p></p>
 <b>Note:</b><br>
 <p>It's not recommended to rely on the template parameters
     or the exact type of a current <a href="#Code point">code point</a> set in <span class="d_inlinecode">std.uni</span>.
-    The type and parameters may change when standard
+    The type and parameters may change when the standard
     allocators design is finalized.
     Use <a href="#isCodepointSet"><span class="d_inlinecode">isCodepointSet</span></a> with templates or just stick with the default
     alias <a href="#CodepointSet"><span class="d_inlinecode">CodepointSet</span></a> throughout the whole code base.
@@ -1096,7 +1130,7 @@ The function generated tests if the <a href="#Code point">code point</a> passed
 
 <p></p>
 <b>Note:</b><br>
-To be used with care for relatively small or regular sets. It
+Use with care for relatively small or regular sets. It
         could end up being slower then just using multi-staged tables.
 
 <p></p>
@@ -1151,9 +1185,9 @@ writeln(set.<span class="d_psymbol">toSourceCode</span>(<span class="d_string">"
 <p></p>
 <b>Note:</b><br>
 The sum of <span class="d_inlinecode">sizes</span> must be equal 21.
-<p></p>
 
-    See also even simpler <a href="#toTrie"><span class="d_inlinecode">toTrie</span></a>.
+<p></p>
+<b>See Also:</b><br><a href="#toTrie"><span class="d_inlinecode">toTrie</span></a>, which is even simpler.
 
 <p></p>
 <b>Example:</b><br>
@@ -1269,9 +1303,9 @@ Level 4 stays very practical (being faster and more predictable)
 </dd>
 <dt class="d_decl"><a name="toDelegate"></a>auto <a name="toDelegate"></a><span class="ddoc_psymbol">toDelegate</span>(Set)(Set <i>set</i>);
 </dt>
-<dd><p>Builds <span class="d_inlinecode">Trie</span> with typically optimal speed-size trade-off
+<dd><p>Builds a <span class="d_inlinecode">Trie</span> with typically optimal speed-size trade-off
     and wraps it into a delegate of the following type:
-    <span class="d_inlinecode">delegate bool (dchar ch)</span>. </p>
+    <span class="d_inlinecode">bool delegate(dchar ch)</span>. </p>
 <p></p>
 <p>Effectively this creates a 'tester' lambda suitable
     for algorithms like std.algorithm.find that take unary predicates. </p>
@@ -1283,7 +1317,7 @@ Level 4 stays very practical (being faster and more predictable)
 <dt class="d_decl"><a name="unicode"></a>struct <a name="unicode"></a><span class="ddoc_psymbol">unicode</span>;
 </dt>
 <dd>A single entry point to lookup Unicode <a href="#Code point">code point</a> sets by name or alias of
-    block, script or general category.
+    a block, script or general category.
 <p></p>
 It uses well defined standard rules of property name lookup.
     This includes fuzzy matching of names, so that
@@ -1295,7 +1329,7 @@ It uses well defined standard rules of property name lookup.
 <dd>Performs the lookup of set of <a href="#Code point">code points</a>
         with compile-time correctness checking.
         This short-cut version combines 3 searches:
-        across blocks, scripts and common binary properties.
+        across blocks, scripts, and common binary properties.
 <p></p>
 Note that since scripts and blocks overlap the
         usual trick to disambiguate is used - to get a block use
@@ -1330,13 +1364,14 @@ Note that since scripts and blocks overlap the
 </dd>
 <dt class="d_decl"><a name="unicode.opCall"></a>static auto <a name="opCall"></a><span class="ddoc_psymbol">opCall</span>(C)(in C[] <i>name</i>);
 </dt>
-<dd>The same lookup across blocks, scripts or binary property
+<dd>The same lookup across blocks, scripts, or binary properties,
         but performed at run-time.
         This version is provided for cases where <span class="d_inlinecode">name</span>
-        is not known beforehand otherwise compile-time
+        is not known beforehand; otherwise compile-time
         checked <a href="#opDispatch"><span class="d_inlinecode">opDispatch</span></a> is typically a better choice.
 <p></p>
-See <a href="#Unicode properties">table of properties</a> for available sets.<p></p>
+See the <a href="#Unicode properties">table of properties</a> for available
+        sets.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="unicode.block"></a>struct <a name="block"></a><span class="ddoc_psymbol">block</span>;
@@ -1365,7 +1400,8 @@ Here <a name="block"></a><span class="ddoc_psymbol">block</span> names are unamb
 </dt>
 <dd>Narrows down the search for sets of <a href="#Code point">code points</a> to all Unicode scripts.
 <p></p>
-See <a href="#Unicode properties">table of properties</a> for available sets.
+See the <a href="#Unicode properties">table of properties</a> for available
+        sets.
 
 <p></p>
 <b>Example:</b><br>
@@ -1386,13 +1422,14 @@ See <a href="#Unicode properties">table of properties</a> for available sets.
 </dt>
 <dd>Fetch a set of <a href="#Code point">code points</a> that have the given hangul syllable type.
 <p></p>
-Other non-binary properties (once supported) are following the same
+Other non-binary properties (once supported) follow the same
         notation - <span class="d_inlinecode">unicode.propertyName.propertyValue</span> for compile-time
         checked access and <span class="d_inlinecode">unicode.propertyName(propertyValue)</span>
         for run-time checked one.
 <p></p>
 
-        See <a href="#Unicode properties">table of properties</a> for available sets.
+        See the <a href="#Unicode properties">table of properties</a> for available
+        sets.
 
 <p></p>
 <b>Example:</b><br>
@@ -1446,8 +1483,8 @@ This function modifies <span class="d_inlinecode">inp</span> and thus <span clas
     </p>
 <p></p>
 <p><span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span> has value semantics so 2 copies of a <span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span>
-    always refer to distinct objects. In the most actual scenarios a <span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span>
-    fits on stack and avoids memory allocation overhead for all but quite
+    always refer to distinct objects. In most actual scenarios a <span class="d_inlinecode"><a name="Grapheme"></a><span class="ddoc_psymbol">Grapheme</span></span>
+    fits on the stack and avoids memory allocation overhead for all but quite
     long clusters.
     </p>
 
@@ -1536,13 +1573,13 @@ g ~= <span class="d_string">"B"</span>;
 </dd>
 <dt class="d_decl"><a name="Grapheme.opOpAssign"></a>ref auto <a name="opOpAssign"></a><span class="ddoc_psymbol">opOpAssign</span>(string op, Input)(Input <i>inp</i>);
 </dt>
-<dd>Append all of <a href="#Character">characters</a> from the input range <span class="d_inlinecode">inp</span> to this Grapheme.<p></p>
+<dd>Append all <a href="#Character">characters</a> from the input range <span class="d_inlinecode">inp</span> to this Grapheme.<p></p>
 
 </dd>
 <dt class="d_decl"><a name="Grapheme.valid"></a>bool <a name="valid"></a><span class="ddoc_psymbol">valid</span>()();
 </dt>
 <dd>True if this object contains <a name="valid"></a><span class="ddoc_psymbol">valid</span> extended grapheme cluster.
-        Decoding primitives of this module always return <a name="valid"></a><span class="ddoc_psymbol">valid</span> <span class="d_inlinecode">Grapheme</span>.
+        Decoding primitives of this module always return a <a name="valid"></a><span class="ddoc_psymbol">valid</span> <span class="d_inlinecode">Grapheme</span>.
 <p></p>
 Appending to and direct manipulation of grapheme's <a href="#Character">characters</a> may
         render it no longer <a name="valid"></a><span class="ddoc_psymbol">valid</span>. Certain applications may chose to use
@@ -1598,17 +1635,7 @@ This function only handles 1:1 <a href="#Code point">code point</a> mapping
 </dd>
 <dt class="d_decl"><a name="combiningClass"></a>@trusted ubyte <a name="combiningClass"></a><span class="ddoc_psymbol">combiningClass</span>(dchar <i>ch</i>);
 </dt>
-<dd>Returns the combining class of <span class="d_inlinecode"><i>ch</i></span>.
-<p></p>
-<p>The combining class is a numerical value used by the
-    Unicode Canonical Ordering Algorithm to determine which sequences
-    of combining marks are to be considered canonically equivalent and
-    which are not. </p>
-<p></p>
-
-    <p>Canonical equivalence is the criterion used to determine whether two
-    <a href="#Code point">code point</a> sequences are considered identical for interpretation. </p>
-
+<dd><p>Returns the <a href="#Combining class">combining class</a> of <span class="d_inlinecode"><i>ch</i></span>.</p>
 <p></p>
 <b>Example:</b><br>
 <pre class="d_code"><span class="d_comment">//shorten the code
@@ -1742,7 +1769,7 @@ On success returns the composed LV or LVT hangul syllable.
 <dt class="d_decl"><a name="normalize"></a>inout(C)[] <a name="normalize"></a><span class="ddoc_psymbol">normalize</span>(NormalizationForm norm = NFC, C)(inout(C)[] <i>input</i>);
 </dt>
 <dd>Returns <span class="d_inlinecode">input</span> string normalized to the chosen form.
-    The Form C is used by default.
+    Form C is used by default.
 <p></p>
 For more information on normalization forms see
     the <a href="#Normalization">normalization section</a>.
@@ -1805,7 +1832,7 @@ In cases where the string in question is already normalized,
     is returned. Otherwise <span class="d_inlinecode"><i>c</i></span> is returned.
 <p></p>
 <b>Warning:</b><br>
-certain alphabets like German, Greek have no 1:1
+certain alphabets like German and Greek have no 1:1
     upper-lower mapping. Use overload of <a name="toLower"></a><span class="ddoc_psymbol">toLower</span> which takes full string instead.<p></p>
 
 </dd>
@@ -1815,7 +1842,7 @@ certain alphabets like German, Greek have no 1:1
     is returned. Otherwise <span class="d_inlinecode"><i>c</i></span> is returned.
 <p></p>
 <b>Warning:</b><br>
-Certain alphabets like German, Greek have no 1:1
+Certain alphabets like German and Greek have no 1:1
     upper-lower mapping. Use overload of <a name="toUpper"></a><span class="ddoc_psymbol">toUpper</span> which takes full string instead.<p></p>
 
 </dd>
