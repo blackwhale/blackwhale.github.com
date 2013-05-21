@@ -583,7 +583,7 @@ function listanchors()
     <p>The recommended solution (see Unicode Implementation Guidelines)
     is using multi-stage tables that are an implementation of the
     <a href="http://http://en.wikipedia.org/wiki/Trie">Trie</a> data structure with integer
-    keys and a fixed number of stages. For the reminder of the section
+    keys and a fixed number of stages. For the remainder of the section
     this will be called a fixed trie. The following describes a particular
     implementation that is aimed for the speed of access at the expense
     of ideal size savings.
@@ -885,7 +885,7 @@ Unicode(tm) is a trademark of Unicode, Inc.
     For details, see the current implementation: <a href="#InversionList"><span class="d_inlinecode">InversionList</span></a>.<p></p>
 
 </dd>
-<dt class="d_decl"><a name="CodepointInterval"></a>alias <a name="CodepointInterval"></a><span class="ddoc_psymbol">CodepointInterval</span> = std.typecons.Tuple!(uint, "a", uint, "b").Tuple;
+<dt class="d_decl"><a name="CodepointInterval"></a>struct <a name="CodepointInterval"></a><span class="ddoc_psymbol">CodepointInterval</span>;
 </dt>
 <dd>The recommended type of <a href="std_typecons.html#Tuple"><span class="d_inlinecode">std.typecons.Tuple</span></a>
     to represent [a, b) intervals of <a href="#Code point">code points</a>. As used in <a href="#InversionList"><span class="d_inlinecode">InversionList</span></a>.
@@ -1100,7 +1100,7 @@ someSet.<span class="d_psymbol">add</span>('5', '9'+1);
 <p></p>
 
 </dd>
-<dt class="d_decl"><a name="inverted"></a>auto <a name="inverted"></a><span class="ddoc_psymbol">inverted</span>();
+<dt class="d_decl"><a name="inverted"></a>@property auto <a name="inverted"></a><span class="ddoc_psymbol">inverted</span>();
 </dt>
 <dd>Obtains a set that is the inversion of this set.
 <p></p>
@@ -1324,7 +1324,7 @@ It uses well defined standard rules of property name lookup.
     'White_Space', 'white-SpAce' and 'whitespace' are all considered equal
     and yield the same set of white space <a href="#Character">characters</a>.<p></p>
 
-<dl><dt class="d_decl"><a name="unicode.opDispatch"></a>static auto <a name="opDispatch"></a><span class="ddoc_psymbol">opDispatch</span>(string name)();
+<dl><dt class="d_decl"><a name="unicode.opDispatch"></a>static @property auto <a name="opDispatch"></a><span class="ddoc_psymbol">opDispatch</span>(string name)();
 </dt>
 <dd>Performs the lookup of set of <a href="#Code point">code points</a>
         with compile-time correctness checking.
@@ -1616,7 +1616,7 @@ This function only handles 1:1 <a href="#Code point">code point</a> mapping
 <p></p>
 
 </dd>
-<dt class="d_decl"><a name="icmp"></a>int <a name="icmp"></a><span class="ddoc_psymbol">icmp</span>(C1, C2)(const(C1)[] <i>str1</i>, const(C2)[] <i>str2</i>);
+<dt class="d_decl"><a name="icmp"></a>int <a name="icmp"></a><span class="ddoc_psymbol">icmp</span>(S1, S2)(S1 <i>str1</i>, S2 <i>str2</i>);
 </dt>
 <dd><p>Does case insensitive comparison of <span class="d_inlinecode">str1</span> and <span class="d_inlinecode">str2</span>.
     Follows the rules of full case-folding mapping.
