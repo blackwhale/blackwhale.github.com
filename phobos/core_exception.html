@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
-<html lang='en'>
+<html lang='en-US'>
 
 <!--
 	Copyright (c) 1999-2010 by Digital Mars
@@ -11,6 +11,11 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" >
 <title>core.exception - D Programming Language - Digital Mars</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="/js/codemirror.js"></script>
+<script src="/js/d.js"></script>
+<script src="/js/run.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/css/codemirror.css" />
 <link rel="stylesheet" type="text/css" href="../css/style.css">
 
 <script type="text/javascript">
@@ -28,17 +33,25 @@ function listanchors()
     {
         var a = document.anchors[i];
         var text = a.name;
+        // ignore anchors from DDOC_PSYMBOL
+        if (text[0] != '.') continue;
         if (hash[text] > 0) continue;
         hash[text] = 1;
         values[n++] = a.name
     }
 
-    values.sort();
+    // we won't display the qualifying names to save space, so sort by last name
+    var lastName = function(a){
+        var li = a.lastIndexOf('.');
+        return a.slice(li + 1);
+    }
+    values.sort(function(a,b){return lastName(a) > lastName(b)});
 
     for(var i = 0; i < values.length; i++) {
         var a = values[i];
+        var text = lastName(a);
         newText += ' \x3Ca href="\x23' + a +
-            '"\x3E\x3Cspan class="d_psymbol"\x3E' + a + '\x3C/span\x3E\x3C/a\x3E';
+            '"\x3E\x3Cspan class="d_psymbol"\x3E' + text + '\x3C/span\x3E\x3C/a\x3E';
     }
     if (newText != "") newText = "\x3Cp\x3E\x3Cb\x3EJump to:\x3C/b\x3E" + newText + "\x3C/p\x3E";
     var a = document.getElementById("quickindex");
@@ -46,7 +59,7 @@ function listanchors()
 }
 </script>
 
-<script src="/js/hyphenate_selectively.js" type="text/javascript"></script>
+<script src="/js/hyphenate.js" type="text/javascript"></script>
 
 </head>
 
@@ -56,12 +69,12 @@ function listanchors()
 	<div id="search-box">
 		<form method="get" action="http://google.com/search">
 			<img src="/images/search-left.gif" width="11" height="22" alt=""><input id="q" name="q"><input type="image" id="search-submit" name="submit" src="/images/search-button.gif">
-			<input type="hidden" id="domains" name="domains" value="d-programming-language.org">
+			<input type="hidden" id="domains" name="domains" value="dlang.org">
 			<input type="hidden" id="sourceid" name="sourceid" value="google-search">
 			<div id="search-dropdown">
 				<select id="sitesearch" name="sitesearch" size="1">
-					<option value="d-programming-language.org">Entire D  Site</option>
-					<option value="d-programming-language.org/phobos">Library Reference</option>
+					<option value="dlang.org">Entire D  Site</option>
+					<option value="dlang.org/phobos">Library Reference</option>
 					<option value="www.digitalmars.com/d/archives">Newsgroup Archives</option>
 				</select>
 			</div>
@@ -80,7 +93,7 @@ function listanchors()
 <div id="searchbox">
 <input name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
 <input type="hidden" name="domains" value="www.digitalmars.com">
-<input type="hidden" name="sitesearch" value="www.digitalmars.com/d/2.0/phobos">
+<input type="hidden" name="sitesearch" value="dlang.org/phobos">
 <input type="hidden" name="sourceid" value="google-search">
 <input type="submit" name="submit" value="Go">
 </div>
@@ -110,25 +123,18 @@ function listanchors()
 	<li><a href="std_complex.html" title="Complex numbers">std.complex</a></li>
 	<li><a href="std_concurrency.html" title="Message Passing">std.concurrency</a></li>
 	<li><a href="std_container.html" title="Containers">std.container</a></li>
-	<li><a href="std_contracts.html" title="Think assert">std.contracts</a></li>
 	<li><a href="std_conv.html" title="Conversion of strings to integers">std.conv</a></li>
-	<li><a href="std_cpuid.html" title="CPU identification">std.cpuid</a></li>
 	<li><a href="std_csv.html" title="CSV file parser">std.csv</a></li>
-	<li><a href="std_ctype.html" title="Simple character classification">std.ctype</a></li>
-	<li><a href="std_date.html" title="Date and time functions">std.date</a></li>
 	<li><a href="std_datetime.html" title="Date and time-related types and functions">std.datetime</a></li>
-	<li><a href="std_demangle.html" title="Demangle D names">std.demangle</a></li>
 	<li><a href="std_encoding.html" title="Character and string encoding">std.encoding</a></li>
 	<li><a href="std_exception.html" title="Exceptions and error handling">std.exception</a></li>
 	<li><a href="std_file.html" title="Basic file operations">std.file</a></li>
 	<li><a href="std_format.html" title="Formatted conversions of values to strings">std.format</a></li>
 	<li><a href="std_functional.html" title="functional">std.functional</a></li>
 	<li><a href="std_getopt.html" title="Command line options">std.getopt</a></li>
-	<li><a href="std_gregorian.html" title="Gregorian Calendar">std.gregorian</a></li>
 	<li><a href="std_json.html" title="JSON reader">std.json</a></li>
 	<li><a href="std_math.html" title="the usual math functions">std.math</a></li>
 	<li><a href="std_mathspecial.html" title="mathematical special functions">std.mathspecial</a></li>
-	<li><a href="std_md5.html" title="Compute MD5 digests">std.md5</a></li>
 	<li><a href="std_metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
 	<li><a href="std_mmfile.html" title="Memory mapped files">std.mmfile</a></li>
 	<li><a href="std_numeric.html" title="Numeric algorithms">std.numeric</a></li>
@@ -139,11 +145,9 @@ function listanchors()
 	<li><a href="std_random.html" title="Random number generation">std.random</a></li>
 	<li><a href="std_range.html" title="Ranges">std.range</a></li>
 	<li><a href="std_regex.html" title="regular expressions">std.regex</a></li>
-	<li><a href="std_regexp.html" title="regular expressions (deprecated)">std.regexp</a></li>
 	<li><a href="std_signals.html" title="Signals">std.signals</a></li>
 	<li><a href="std_socket.html" title="Sockets">std.socket</a></li>
 	<li><a href="std_socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
-	<li><a href="std_stdint.html" title="Integral types for various purposes">std.stdint</a></li>
 	<li><a href="std_stdio.html" title="Standard I/O">std.stdio</a></li>
 	<li><a href="std_cstream.html" title="Stream I/O">std.cstream</a></li>
 	<li><a href="std_stream.html" title="Stream I/O">std.stream</a></li>
@@ -155,28 +159,19 @@ function listanchors()
 	<li><a href="std_uni.html" title="Unicode classification">std.uni</a></li>
 	<li><a href="std_uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
 	<li><a href="std_utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std_uuid.html" title="Generate and use UUIDs">std.uuid</a></li>
 	<li><a href="std_variant.html" title="Stores all types in a uniform, dynamically-checked representation">std.variant</a></li>
 	<li><a href="std_xml.html" title="XML file processing">std.xml</a></li>
 	<li><a href="std_zip.html" title="Read/write zip archives">std.zip</a></li>
 	<li><a href="std_zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
-	<li><a href="std_c_fenv.html" title="Floating point environment">std.c.fenv</a></li>
-	<li><a href="std_c_locale.html" title="Locale">std.c.locale</a></li>
-	<li><a href="std_c_math.html" title="Math">std.c.math</a></li>
-	<li><a href="std_c_process.html" title="Process">std.c.process</a></li>
-	<li><a href="std_c_stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
-	<li><a href="std_c_stddef.html" title="Standard definitions">std.c.stddef</a></li>
-	<li><a href="std_c_stdio.html" title="Standard I/O">std.c.stdio</a></li>
-	<li><a href="std_c_stdlib.html" title="Standard library">std.c.stdlib</a></li>
-	<li><a href="std_c_string.html" title="Strings">std.c.string</a></li>
-	<li><a href="std_c_time.html" title="Time">std.c.time</a></li>
-	<li><a href="std_c_wcharh.html" title="Wide characters">std.c.wcharh</a></li>
 	<li><a href="std_net_curl.html" title="High level curl wrapper">std.net.curl</a></li>
 	<li><a href="std_net_isemail.html" title="Validate e-mail addresses">std.net.isemail</a></li>
+	<li><a href="std_digest_crc.html" title="CRC digest functions">std.digest.crc</a></li>
+	<li><a href="std_digest_digest.html" title="API for digest functions">std.digest.digest</a></li>
+	<li><a href="std_digest_md.html" title="MD digest functions">std.digest.md</a></li>
+	<li><a href="std_digest_ripemd.html" title="RIPEMD digest functions">std.digest.ripemd</a></li>
+	<li><a href="std_digest_sha.html" title="SHA digest functions">std.digest.sha</a></li>
 	<li><a href="std_windows_charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
-	<li><a href="index.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
-	<li><a href="index.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
-	<li><a href="index.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
-	<li><a href="index.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
     </ul>
     <h2><a href="index.html#etc" title="D etc modules">etc</a></h2>
     <ul>	<li><a href="etc_c_curl.html" title="Interface to libcurl library">etc.c.curl</a></li>
@@ -190,6 +185,7 @@ function listanchors()
 	<li><a href="core_exception.html" title="Root of exception hierarchy">core.exception</a></li>
 	<li><a href="core_memory.html" title="Interface to memory management">core.memory</a></li>
 	<li><a href="core_runtime.html" title="Interface to D runtime library internals">core.runtime</a></li>
+	<li><a href="core_simd.html" title="Builtin SIMD intrinsics">core.simd</a></li>
 	<li><a href="core_thread.html" title="Thread management">core.thread</a></li>
 	<li><a href="core_time.html" title="Core time functionality">core.time</a></li>
 	<li><a href="core_vararg.html" title="Variable function arguments">core.vararg</a></li>
@@ -205,45 +201,68 @@ function listanchors()
 
 </div><!--/navigation-->
 <div id="content">
+    
+<div id="tools">
+	<!--span id="lastupdate">Last update Sun Nov 10 20:07:10 2013
+</span-->
+	<a href="https://github.com/D-Programming-Language/phobos/edit/master/..\druntime\src\core\exception.d" class="tip button">
+		Improve this page
+		<span>
+			Quickly fork, edit online, and submit a pull request for this page.
+			Requires a signed-in GitHub account. This works well for small changes.
+			If you'd like to make larger changes you may want to consider using
+			local clone.
+		</span>
+	</a>
+	<a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/" class="tip button">
+		Page wiki
+		<span>
+	        View or edit the community-maintained wiki page associated with this page.
+		</span>
+	</a>
+</div>
+
     <h1>core.exception</h1>
     <div id=quickindex class=quickindex></div>
     <!-- Generated by Ddoc from ..\druntime\src\core\exception.d -->
 The <a name="exception"></a><span class="ddoc_psymbol">exception</span> module defines all system-level exceptions and provides a
  mechanism to alter system-level error handling.
 <p></p>
-<b>License:</b><br><a href="http://www.boost.org/LICENSE_1_0.txt">Boost License 1.0</a>
+<b>License:</b><br>Distributed under the
+      <a href="http://www.boost.org/LICENSE_1_0.txt">Boost Software License 1.0</a>.
+    (See accompanying file LICENSE)
 <p></p>
 <b>Authors:</b><br>Sean Kelly and Jonathan M Davis
 <p></p>
 <b>Source:</b><br>
 <a href="https://github.com/D-Programming-Language/druntime/blob/master/src/core/exception.d">core/exception.d</a><p></p>
 
-<dl><dt class="d_decl">class <a name="RangeError"></a><span class="ddoc_psymbol">RangeError</span>: object.Error;
+<dl><dt class="d_decl"><a name=".RangeError"></a>class <a name="RangeError"></a><span class="ddoc_psymbol">RangeError</span>: object.Error;
 </dt>
 <dd>Thrown on a range error.<p></p>
 
 </dd>
-<dt class="d_decl">class <a name="AssertError"></a><span class="ddoc_psymbol">AssertError</span>: object.Error;
+<dt class="d_decl"><a name=".AssertError"></a>class <a name="AssertError"></a><span class="ddoc_psymbol">AssertError</span>: object.Error;
 </dt>
 <dd>Thrown on an assert error.<p></p>
 
 </dd>
-<dt class="d_decl">class <a name="FinalizeError"></a><span class="ddoc_psymbol">FinalizeError</span>: object.Error;
+<dt class="d_decl"><a name=".FinalizeError"></a>class <a name="FinalizeError"></a><span class="ddoc_psymbol">FinalizeError</span>: object.Error;
 </dt>
 <dd>Thrown on finalize error.<p></p>
 
 </dd>
-<dt class="d_decl">class <a name="HiddenFuncError"></a><span class="ddoc_psymbol">HiddenFuncError</span>: object.Error;
+<dt class="d_decl"><a name=".HiddenFuncError"></a>class <a name="HiddenFuncError"></a><span class="ddoc_psymbol">HiddenFuncError</span>: object.Error;
 </dt>
 <dd>Thrown on hidden function error.<p></p>
 
 </dd>
-<dt class="d_decl">class <a name="OutOfMemoryError"></a><span class="ddoc_psymbol">OutOfMemoryError</span>: object.Error;
+<dt class="d_decl"><a name=".OutOfMemoryError"></a>class <a name="OutOfMemoryError"></a><span class="ddoc_psymbol">OutOfMemoryError</span>: object.Error;
 </dt>
 <dd>Thrown on an out of memory error.<p></p>
 
 </dd>
-<dt class="d_decl">class <a name="InvalidMemoryOperationError"></a><span class="ddoc_psymbol">InvalidMemoryOperationError</span>: object.Error;
+<dt class="d_decl"><a name=".InvalidMemoryOperationError"></a>class <a name="InvalidMemoryOperationError"></a><span class="ddoc_psymbol">InvalidMemoryOperationError</span>: object.Error;
 </dt>
 <dd>Thrown on an invalid memory operation.
 <p></p>
@@ -253,26 +272,35 @@ An invalid memory operation error occurs in circumstances when the garbage
  within finalizers called during a garbage collection cycle.<p></p>
 
 </dd>
-<dt class="d_decl">class <a name="SwitchError"></a><span class="ddoc_psymbol">SwitchError</span>: object.Error;
+<dt class="d_decl"><a name=".SwitchError"></a>class <a name="SwitchError"></a><span class="ddoc_psymbol">SwitchError</span>: object.Error;
 </dt>
 <dd>Thrown on a switch error.<p></p>
 
 </dd>
-<dt class="d_decl">class <a name="UnicodeException"></a><span class="ddoc_psymbol">UnicodeException</span>: object.Exception;
+<dt class="d_decl"><a name=".UnicodeException"></a>class <a name="UnicodeException"></a><span class="ddoc_psymbol">UnicodeException</span>: object.Exception;
 </dt>
 <dd>Thrown on a unicode conversion error.<p></p>
 
 </dd>
-<dt class="d_decl">deprecated void <a name="setAssertHandler"></a><span class="ddoc_psymbol">setAssertHandler</span>(errorHandlerType <i>h</i>);
+<dt class="d_decl"><a name=".AssertHandler"></a>alias <a name="AssertHandler"></a><span class="ddoc_psymbol">AssertHandler</span> = void function(string file, uint line, string msg) nothrow;
+<br><a name=".assertHandler"></a>nothrow @property @trusted AssertHandler <a name="assertHandler"></a><span class="ddoc_psymbol">assertHandler</span>();
+<br><a name=".assertHandler"></a>nothrow @property @trusted void <a name="assertHandler"></a><span class="ddoc_psymbol">assertHandler</span>(AssertHandler <i>handler</i>);
+</dt>
+<dd>Gets/sets assert hander. <b>null</b> means the default handler is used.<p></p>
+
+</dd>
+<dt class="d_decl"><a name=".setAssertHandler"></a>deprecated nothrow @trusted void <a name="setAssertHandler"></a><span class="ddoc_psymbol">setAssertHandler</span>(AssertHandler <i>h</i>);
 </dt>
 <dd>Overrides the default assert hander with a user-supplied version.
+ <span style="color:red">Deprecated.
+   Please use <a href="#assertHandler"><span class="d_inlinecode">assertHandler</span></a> instead.</span>
 <p></p>
-<b>Parameters:</b><table class=parms><tr><td valign=top>errorHandlerType <i>h</i></td>
+<b>Parameters:</b><table class=parms><tr><td valign=top>AssertHandler <i>h</i></td>
 <td valign=top>The new assert handler.  Set to <b>null</b> to use the default handler.</td></tr>
 </table><p></p>
 
 </dd>
-<dt class="d_decl">void <a name="onAssertError"></a><span class="ddoc_psymbol">onAssertError</span>(string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
+<dt class="d_decl"><a name=".onAssertError"></a>nothrow void <a name="onAssertError"></a><span class="ddoc_psymbol">onAssertError</span>(string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
 </dt>
 <dd>A callback for assert errors in D.  The user-supplied assert handler will
  be called if one has been supplied, otherwise an AssertError will be thrown.
@@ -284,7 +312,7 @@ An invalid memory operation error occurs in circumstances when the garbage
 </table><p></p>
 
 </dd>
-<dt class="d_decl">void <a name="onAssertErrorMsg"></a><span class="ddoc_psymbol">onAssertErrorMsg</span>(string <i>file</i>, size_t <i>line</i>, string <i>msg</i>);
+<dt class="d_decl"><a name=".onAssertErrorMsg"></a>nothrow void <a name="onAssertErrorMsg"></a><span class="ddoc_psymbol">onAssertErrorMsg</span>(string <i>file</i>, size_t <i>line</i>, string <i>msg</i>);
 </dt>
 <dd>A callback for assert errors in D.  The user-supplied assert handler will
  be called if one has been supplied, otherwise an AssertError will be thrown.
@@ -298,7 +326,7 @@ An invalid memory operation error occurs in circumstances when the garbage
 </table><p></p>
 
 </dd>
-<dt class="d_decl">void <a name="onUnittestErrorMsg"></a><span class="ddoc_psymbol">onUnittestErrorMsg</span>(string <i>file</i>, size_t <i>line</i>, string <i>msg</i>);
+<dt class="d_decl"><a name=".onUnittestErrorMsg"></a>nothrow void <a name="onUnittestErrorMsg"></a><span class="ddoc_psymbol">onUnittestErrorMsg</span>(string <i>file</i>, size_t <i>line</i>, string <i>msg</i>);
 </dt>
 <dd>A callback for unittest errors in D.  The user-supplied unittest handler
  will be called if one has been supplied, otherwise the error will be
@@ -313,7 +341,7 @@ An invalid memory operation error occurs in circumstances when the garbage
 </table><p></p>
 
 </dd>
-<dt class="d_decl">void <a name="onRangeError"></a><span class="ddoc_psymbol">onRangeError</span>(string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
+<dt class="d_decl"><a name=".onRangeError"></a>pure nothrow @safe void <a name="onRangeError"></a><span class="ddoc_psymbol">onRangeError</span>(string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
 </dt>
 <dd>A callback for array bounds errors in D.  A RangeError will be thrown.
 <p></p>
@@ -325,17 +353,23 @@ An invalid memory operation error occurs in circumstances when the garbage
 <b>Throws:</b><br>RangeError.<p></p>
 
 </dd>
-<dt class="d_decl">void <a name="onFinalizeError"></a><span class="ddoc_psymbol">onFinalizeError</span>(ClassInfo <i>info</i>, Exception <i>e</i>, string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
+<dt class="d_decl"><a name=".onFinalizeError"></a>pure nothrow @safe void <a name="onFinalizeError"></a><span class="ddoc_psymbol">onFinalizeError</span>(ClassInfo <i>info</i>, Exception <i>e</i>, string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
 </dt>
 <dd>A callback for finalize errors in D.  A FinalizeError will be thrown.
 <p></p>
-<b>Parameters:</b><table class=parms><tr><td valign=top>Exception <i>e</i></td>
+<b>Parameters:</b><table class=parms><tr><td valign=top>ClassInfo <i>info</i></td>
+<td valign=top>The ClassInfo instance for the object that failed finalization.</td></tr>
+<tr><td valign=top>Exception <i>e</i></td>
 <td valign=top>The exception thrown during finalization.</td></tr>
+<tr><td valign=top>string <i>file</i></td>
+<td valign=top>The name of the <i>file</i> that signaled this error.</td></tr>
+<tr><td valign=top>size_t <i>line</i></td>
+<td valign=top>The <i>line</i> number on which this error occurred.</td></tr>
 </table><p></p>
 <b>Throws:</b><br>FinalizeError.<p></p>
 
 </dd>
-<dt class="d_decl">void <a name="onHiddenFuncError"></a><span class="ddoc_psymbol">onHiddenFuncError</span>(Object <i>o</i>);
+<dt class="d_decl"><a name=".onHiddenFuncError"></a>pure nothrow @safe void <a name="onHiddenFuncError"></a><span class="ddoc_psymbol">onHiddenFuncError</span>(Object <i>o</i>);
 </dt>
 <dd>A callback for hidden function errors in D.  A HiddenFuncError will be
  thrown.
@@ -343,7 +377,7 @@ An invalid memory operation error occurs in circumstances when the garbage
 <b>Throws:</b><br>HiddenFuncError.<p></p>
 
 </dd>
-<dt class="d_decl">void <a name="onOutOfMemoryError"></a><span class="ddoc_psymbol">onOutOfMemoryError</span>();
+<dt class="d_decl"><a name=".onOutOfMemoryError"></a>pure nothrow @trusted void <a name="onOutOfMemoryError"></a><span class="ddoc_psymbol">onOutOfMemoryError</span>();
 </dt>
 <dd>A callback for out of memory errors in D.  An OutOfMemoryError will be
  thrown.
@@ -351,7 +385,7 @@ An invalid memory operation error occurs in circumstances when the garbage
 <b>Throws:</b><br>OutOfMemoryError.<p></p>
 
 </dd>
-<dt class="d_decl">void <a name="onInvalidMemoryOperationError"></a><span class="ddoc_psymbol">onInvalidMemoryOperationError</span>();
+<dt class="d_decl"><a name=".onInvalidMemoryOperationError"></a>pure nothrow @trusted void <a name="onInvalidMemoryOperationError"></a><span class="ddoc_psymbol">onInvalidMemoryOperationError</span>();
 </dt>
 <dd>A callback for invalid memory operations in D.  An
  InvalidMemoryOperationError will be thrown.
@@ -359,7 +393,7 @@ An invalid memory operation error occurs in circumstances when the garbage
 <b>Throws:</b><br>InvalidMemoryOperationError.<p></p>
 
 </dd>
-<dt class="d_decl">void <a name="onSwitchError"></a><span class="ddoc_psymbol">onSwitchError</span>(string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
+<dt class="d_decl"><a name=".onSwitchError"></a>pure nothrow @safe void <a name="onSwitchError"></a><span class="ddoc_psymbol">onSwitchError</span>(string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
 </dt>
 <dd>A callback for switch errors in D.  A SwitchError will be thrown.
 <p></p>
@@ -371,7 +405,7 @@ An invalid memory operation error occurs in circumstances when the garbage
 <b>Throws:</b><br>SwitchError.<p></p>
 
 </dd>
-<dt class="d_decl">void <a name="onUnicodeError"></a><span class="ddoc_psymbol">onUnicodeError</span>(string <i>msg</i>, size_t <i>idx</i>, string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
+<dt class="d_decl"><a name=".onUnicodeError"></a>pure @safe void <a name="onUnicodeError"></a><span class="ddoc_psymbol">onUnicodeError</span>(string <i>msg</i>, size_t <i>idx</i>, string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
 </dt>
 <dd>A callback for unicode errors in D.  A UnicodeException will be thrown.
 <p></p>
@@ -379,8 +413,122 @@ An invalid memory operation error occurs in circumstances when the garbage
 <td valign=top>Information about the error.</td></tr>
 <tr><td valign=top>size_t <i>idx</i></td>
 <td valign=top>String index where this error was detected.</td></tr>
+<tr><td valign=top>string <i>file</i></td>
+<td valign=top>The name of the <i>file</i> that signaled this error.</td></tr>
+<tr><td valign=top>size_t <i>line</i></td>
+<td valign=top>The <i>line</i> number on which this error occurred.</td></tr>
 </table><p></p>
 <b>Throws:</b><br>UnicodeException.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="._d_assertm"></a>void <a name="_d_assertm"></a><span class="ddoc_psymbol">_d_assertm</span>(ModuleInfo* <i>m</i>, uint <i>line</i>);
+</dt>
+<dd>These functions must be defined for any D program linked
+ against this library.
+ 
+<p></p>
+
+ Function calls to these are generated by the compiler and inserted into
+ the object code.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="._d_assert_msg"></a>void <a name="_d_assert_msg"></a><span class="ddoc_psymbol">_d_assert_msg</span>(string <i>msg</i>, string <i>file</i>, uint <i>line</i>);
+</dt>
+<dd>These functions must be defined for any D program linked
+ against this library.
+ 
+<p></p>
+
+ Function calls to these are generated by the compiler and inserted into
+ the object code.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="._d_assert"></a>void <a name="_d_assert"></a><span class="ddoc_psymbol">_d_assert</span>(string <i>file</i>, uint <i>line</i>);
+</dt>
+<dd>These functions must be defined for any D program linked
+ against this library.
+ 
+<p></p>
+
+ Function calls to these are generated by the compiler and inserted into
+ the object code.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="._d_unittestm"></a>void <a name="_d_unittestm"></a><span class="ddoc_psymbol">_d_unittestm</span>(ModuleInfo* <i>m</i>, uint <i>line</i>);
+</dt>
+<dd>These functions must be defined for any D program linked
+ against this library.
+ 
+<p></p>
+
+ Function calls to these are generated by the compiler and inserted into
+ the object code.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="._d_unittest_msg"></a>void <a name="_d_unittest_msg"></a><span class="ddoc_psymbol">_d_unittest_msg</span>(string <i>msg</i>, string <i>file</i>, uint <i>line</i>);
+</dt>
+<dd>These functions must be defined for any D program linked
+ against this library.
+ 
+<p></p>
+
+ Function calls to these are generated by the compiler and inserted into
+ the object code.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="._d_unittest"></a>void <a name="_d_unittest"></a><span class="ddoc_psymbol">_d_unittest</span>(string <i>file</i>, uint <i>line</i>);
+</dt>
+<dd>These functions must be defined for any D program linked
+ against this library.
+ 
+<p></p>
+
+ Function calls to these are generated by the compiler and inserted into
+ the object code.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="._d_array_bounds"></a>void <a name="_d_array_bounds"></a><span class="ddoc_psymbol">_d_array_bounds</span>(ModuleInfo* <i>m</i>, uint <i>line</i>);
+</dt>
+<dd>These functions must be defined for any D program linked
+ against this library.
+ 
+<p></p>
+
+ Function calls to these are generated by the compiler and inserted into
+ the object code.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="._d_arraybounds"></a>void <a name="_d_arraybounds"></a><span class="ddoc_psymbol">_d_arraybounds</span>(string <i>file</i>, uint <i>line</i>);
+</dt>
+<dd>These functions must be defined for any D program linked
+ against this library.
+ 
+<p></p>
+
+ Function calls to these are generated by the compiler and inserted into
+ the object code.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="._d_switch_error"></a>void <a name="_d_switch_error"></a><span class="ddoc_psymbol">_d_switch_error</span>(ModuleInfo* <i>m</i>, uint <i>line</i>);
+</dt>
+<dd>These functions must be defined for any D program linked
+ against this library.
+ 
+<p></p>
+
+ Function calls to these are generated by the compiler and inserted into
+ the object code.<p></p>
+
+</dd>
+<dt class="d_decl"><a name="._d_hidden_func"></a>void <a name="_d_hidden_func"></a><span class="ddoc_psymbol">_d_hidden_func</span>();
+</dt>
+<dd>These functions must be defined for any D program linked
+ against this library.
+ 
+<p></p>
+
+ Function calls to these are generated by the compiler and inserted into
+ the object code.<p></p>
 
 </dd>
 </dl>
@@ -404,7 +552,7 @@ An invalid memory operation error occurs in circumstances when the garbage
 
 
 <div id="copyright">
-Copyright Sean Kelly 2005 - 2011.
+Copyright Sean Kelly 2005 - 2013.
  |
 Page generated by <a href="http://www.digitalmars.com/d/2.0/ddoc.html">Ddoc</a>.
 </div>

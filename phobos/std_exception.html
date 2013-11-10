@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
-<html lang='en'>
+<html lang='en-US'>
 
 <!--
 	Copyright (c) 1999-2010 by Digital Mars
@@ -11,6 +11,11 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" >
 <title>std.exception - D Programming Language - Digital Mars</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="/js/codemirror.js"></script>
+<script src="/js/d.js"></script>
+<script src="/js/run.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/css/codemirror.css" />
 <link rel="stylesheet" type="text/css" href="../css/style.css">
 
 <script type="text/javascript">
@@ -28,17 +33,25 @@ function listanchors()
     {
         var a = document.anchors[i];
         var text = a.name;
+        // ignore anchors from DDOC_PSYMBOL
+        if (text[0] != '.') continue;
         if (hash[text] > 0) continue;
         hash[text] = 1;
         values[n++] = a.name
     }
 
-    values.sort();
+    // we won't display the qualifying names to save space, so sort by last name
+    var lastName = function(a){
+        var li = a.lastIndexOf('.');
+        return a.slice(li + 1);
+    }
+    values.sort(function(a,b){return lastName(a) > lastName(b)});
 
     for(var i = 0; i < values.length; i++) {
         var a = values[i];
+        var text = lastName(a);
         newText += ' \x3Ca href="\x23' + a +
-            '"\x3E\x3Cspan class="d_psymbol"\x3E' + a + '\x3C/span\x3E\x3C/a\x3E';
+            '"\x3E\x3Cspan class="d_psymbol"\x3E' + text + '\x3C/span\x3E\x3C/a\x3E';
     }
     if (newText != "") newText = "\x3Cp\x3E\x3Cb\x3EJump to:\x3C/b\x3E" + newText + "\x3C/p\x3E";
     var a = document.getElementById("quickindex");
@@ -46,7 +59,7 @@ function listanchors()
 }
 </script>
 
-<script src="/js/hyphenate_selectively.js" type="text/javascript"></script>
+<script src="/js/hyphenate.js" type="text/javascript"></script>
 
 </head>
 
@@ -56,12 +69,12 @@ function listanchors()
 	<div id="search-box">
 		<form method="get" action="http://google.com/search">
 			<img src="/images/search-left.gif" width="11" height="22" alt=""><input id="q" name="q"><input type="image" id="search-submit" name="submit" src="/images/search-button.gif">
-			<input type="hidden" id="domains" name="domains" value="d-programming-language.org">
+			<input type="hidden" id="domains" name="domains" value="dlang.org">
 			<input type="hidden" id="sourceid" name="sourceid" value="google-search">
 			<div id="search-dropdown">
 				<select id="sitesearch" name="sitesearch" size="1">
-					<option value="d-programming-language.org">Entire D  Site</option>
-					<option value="d-programming-language.org/phobos">Library Reference</option>
+					<option value="dlang.org">Entire D  Site</option>
+					<option value="dlang.org/phobos">Library Reference</option>
 					<option value="www.digitalmars.com/d/archives">Newsgroup Archives</option>
 				</select>
 			</div>
@@ -80,7 +93,7 @@ function listanchors()
 <div id="searchbox">
 <input name="q" size="10" value="RTL Search" onFocus='if(this.value == "RTL Search"){this.value="";}'>
 <input type="hidden" name="domains" value="www.digitalmars.com">
-<input type="hidden" name="sitesearch" value="www.digitalmars.com/d/2.0/phobos">
+<input type="hidden" name="sitesearch" value="dlang.org/phobos">
 <input type="hidden" name="sourceid" value="google-search">
 <input type="submit" name="submit" value="Go">
 </div>
@@ -110,25 +123,18 @@ function listanchors()
 	<li><a href="std_complex.html" title="Complex numbers">std.complex</a></li>
 	<li><a href="std_concurrency.html" title="Message Passing">std.concurrency</a></li>
 	<li><a href="std_container.html" title="Containers">std.container</a></li>
-	<li><a href="std_contracts.html" title="Think assert">std.contracts</a></li>
 	<li><a href="std_conv.html" title="Conversion of strings to integers">std.conv</a></li>
-	<li><a href="std_cpuid.html" title="CPU identification">std.cpuid</a></li>
 	<li><a href="std_csv.html" title="CSV file parser">std.csv</a></li>
-	<li><a href="std_ctype.html" title="Simple character classification">std.ctype</a></li>
-	<li><a href="std_date.html" title="Date and time functions">std.date</a></li>
 	<li><a href="std_datetime.html" title="Date and time-related types and functions">std.datetime</a></li>
-	<li><a href="std_demangle.html" title="Demangle D names">std.demangle</a></li>
 	<li><a href="std_encoding.html" title="Character and string encoding">std.encoding</a></li>
 	<li><a href="std_exception.html" title="Exceptions and error handling">std.exception</a></li>
 	<li><a href="std_file.html" title="Basic file operations">std.file</a></li>
 	<li><a href="std_format.html" title="Formatted conversions of values to strings">std.format</a></li>
 	<li><a href="std_functional.html" title="functional">std.functional</a></li>
 	<li><a href="std_getopt.html" title="Command line options">std.getopt</a></li>
-	<li><a href="std_gregorian.html" title="Gregorian Calendar">std.gregorian</a></li>
 	<li><a href="std_json.html" title="JSON reader">std.json</a></li>
 	<li><a href="std_math.html" title="the usual math functions">std.math</a></li>
 	<li><a href="std_mathspecial.html" title="mathematical special functions">std.mathspecial</a></li>
-	<li><a href="std_md5.html" title="Compute MD5 digests">std.md5</a></li>
 	<li><a href="std_metastrings.html" title="Metaprogramming with strings">std.metastrings</a></li>
 	<li><a href="std_mmfile.html" title="Memory mapped files">std.mmfile</a></li>
 	<li><a href="std_numeric.html" title="Numeric algorithms">std.numeric</a></li>
@@ -139,11 +145,9 @@ function listanchors()
 	<li><a href="std_random.html" title="Random number generation">std.random</a></li>
 	<li><a href="std_range.html" title="Ranges">std.range</a></li>
 	<li><a href="std_regex.html" title="regular expressions">std.regex</a></li>
-	<li><a href="std_regexp.html" title="regular expressions (deprecated)">std.regexp</a></li>
 	<li><a href="std_signals.html" title="Signals">std.signals</a></li>
 	<li><a href="std_socket.html" title="Sockets">std.socket</a></li>
 	<li><a href="std_socketstream.html" title="Stream for a blocking, connected Socket">std.socketstream</a></li>
-	<li><a href="std_stdint.html" title="Integral types for various purposes">std.stdint</a></li>
 	<li><a href="std_stdio.html" title="Standard I/O">std.stdio</a></li>
 	<li><a href="std_cstream.html" title="Stream I/O">std.cstream</a></li>
 	<li><a href="std_stream.html" title="Stream I/O">std.stream</a></li>
@@ -155,28 +159,19 @@ function listanchors()
 	<li><a href="std_uni.html" title="Unicode classification">std.uni</a></li>
 	<li><a href="std_uri.html" title="Encode and decode Uniform Resource Identifiers (URIs)">std.uri</a></li>
 	<li><a href="std_utf.html" title="Encode and decode utf character encodings">std.utf</a></li>
+	<li><a href="std_uuid.html" title="Generate and use UUIDs">std.uuid</a></li>
 	<li><a href="std_variant.html" title="Stores all types in a uniform, dynamically-checked representation">std.variant</a></li>
 	<li><a href="std_xml.html" title="XML file processing">std.xml</a></li>
 	<li><a href="std_zip.html" title="Read/write zip archives">std.zip</a></li>
 	<li><a href="std_zlib.html" title="Compression / Decompression of data">std.zlib</a></li>
-	<li><a href="std_c_fenv.html" title="Floating point environment">std.c.fenv</a></li>
-	<li><a href="std_c_locale.html" title="Locale">std.c.locale</a></li>
-	<li><a href="std_c_math.html" title="Math">std.c.math</a></li>
-	<li><a href="std_c_process.html" title="Process">std.c.process</a></li>
-	<li><a href="std_c_stdarg.html" title="Variadic arguments">std.c.stdarg</a></li>
-	<li><a href="std_c_stddef.html" title="Standard definitions">std.c.stddef</a></li>
-	<li><a href="std_c_stdio.html" title="Standard I/O">std.c.stdio</a></li>
-	<li><a href="std_c_stdlib.html" title="Standard library">std.c.stdlib</a></li>
-	<li><a href="std_c_string.html" title="Strings">std.c.string</a></li>
-	<li><a href="std_c_time.html" title="Time">std.c.time</a></li>
-	<li><a href="std_c_wcharh.html" title="Wide characters">std.c.wcharh</a></li>
 	<li><a href="std_net_curl.html" title="High level curl wrapper">std.net.curl</a></li>
 	<li><a href="std_net_isemail.html" title="Validate e-mail addresses">std.net.isemail</a></li>
+	<li><a href="std_digest_crc.html" title="CRC digest functions">std.digest.crc</a></li>
+	<li><a href="std_digest_digest.html" title="API for digest functions">std.digest.digest</a></li>
+	<li><a href="std_digest_md.html" title="MD digest functions">std.digest.md</a></li>
+	<li><a href="std_digest_ripemd.html" title="RIPEMD digest functions">std.digest.ripemd</a></li>
+	<li><a href="std_digest_sha.html" title="SHA digest functions">std.digest.sha</a></li>
 	<li><a href="std_windows_charset.html" title="Conversion to/from Windows character sets">std.windows.charset</a></li>
-	<li><a href="index.html#std_windows" title="Modules specific to Windows">std.windows</a></li>
-	<li><a href="index.html#std_linux" title="Modules specific to Windows">std.linux</a></li>
-	<li><a href="index.html#std_c_windows" title="C Windows API">std.c.windows</a></li>
-	<li><a href="index.html#std_c_linux" title="C Linux API">std.c.linux</a></li>
     </ul>
     <h2><a href="index.html#etc" title="D etc modules">etc</a></h2>
     <ul>	<li><a href="etc_c_curl.html" title="Interface to libcurl library">etc.c.curl</a></li>
@@ -190,6 +185,7 @@ function listanchors()
 	<li><a href="core_exception.html" title="Root of exception hierarchy">core.exception</a></li>
 	<li><a href="core_memory.html" title="Interface to memory management">core.memory</a></li>
 	<li><a href="core_runtime.html" title="Interface to D runtime library internals">core.runtime</a></li>
+	<li><a href="core_simd.html" title="Builtin SIMD intrinsics">core.simd</a></li>
 	<li><a href="core_thread.html" title="Thread management">core.thread</a></li>
 	<li><a href="core_time.html" title="Core time functionality">core.time</a></li>
 	<li><a href="core_vararg.html" title="Variable function arguments">core.vararg</a></li>
@@ -205,37 +201,58 @@ function listanchors()
 
 </div><!--/navigation-->
 <div id="content">
+    
+<div id="tools">
+	<!--span id="lastupdate">Last update Sun Nov 10 20:07:15 2013
+</span-->
+	<a href="https://github.com/D-Programming-Language/phobos/edit/master/std\exception.d" class="tip button">
+		Improve this page
+		<span>
+			Quickly fork, edit online, and submit a pull request for this page.
+			Requires a signed-in GitHub account. This works well for small changes.
+			If you'd like to make larger changes you may want to consider using
+			local clone.
+		</span>
+	</a>
+	<a href="http://www.prowiki.org/wiki4d/wiki.cgi?DocComments/Phobos/StdException" class="tip button">
+		Page wiki
+		<span>
+	        View or edit the community-maintained wiki page associated with this page.
+		</span>
+	</a>
+</div>
+
     <h1>std.exception</h1>
     <div id=quickindex class=quickindex></div>
     <!-- Generated by Ddoc from std\exception.d -->
 This module defines functions related to exceptions and general error
     handling. It also defines functions intended to aid in unit testing.
 <p></p>
-Synopsis of some of std.<a name="exception"></a><span class="ddoc_psymbol">exception</span>'s functions:
+   Synopsis of some of std.<a name="exception"></a><span class="ddoc_psymbol">exception</span>'s functions:
 <pre class="d_code">string synopsis()
 {
-   FILE* f = enforce(fopen(<span class="d_string">"some/file"</span>));
-   <span class="d_comment">// f is not null from here on
-</span>   FILE* g = enforceEx!WriteException(fopen(<span class="d_string">"some/other/file"</span>, <span class="d_string">"w"</span>));
-   <span class="d_comment">// g is not null from here on
+    FILE* f = enforce(fopen(<span class="d_string">"some/file"</span>));
+    <span class="d_comment">// f is not null from here on
+</span>    FILE* g = enforceEx!WriteException(fopen(<span class="d_string">"some/other/file"</span>, <span class="d_string">"w"</span>));
+    <span class="d_comment">// g is not null from here on
 </span>
-   Exception e = collectException(write(g, readln(f)));
-   <span class="d_keyword">if</span> (e)
-   {
-       ... an <span class="d_psymbol">exception</span> occurred...
-       ... We have the <span class="d_psymbol">exception</span> to play around <span class="d_keyword">with</span>...
-   }
+    Exception e = collectException(write(g, readln(f)));
+    <span class="d_keyword">if</span> (e)
+    {
+        ... an <span class="d_psymbol">exception</span> occurred...
+        ... We have the <span class="d_psymbol">exception</span> to play around <span class="d_keyword">with</span>...
+    }
 
-   string msg = collectExceptionMsg(write(g, readln(f)));
-   <span class="d_keyword">if</span> (msg)
-   {
-       ... an <span class="d_psymbol">exception</span> occurred...
-       ... We have the message from the <span class="d_psymbol">exception</span> but not the <span class="d_psymbol">exception</span>...
-   }
+    string msg = collectExceptionMsg(write(g, readln(f)));
+    <span class="d_keyword">if</span> (msg)
+    {
+        ... an <span class="d_psymbol">exception</span> occurred...
+        ... We have the message from the <span class="d_psymbol">exception</span> but not the <span class="d_psymbol">exception</span>...
+    }
 
-   <span class="d_keyword">char</span>[] line;
-   enforce(readln(f, line));
-   <span class="d_keyword">return</span> assumeUnique(line);
+    <span class="d_keyword">char</span>[] line;
+    enforce(readln(f, line));
+    <span class="d_keyword">return</span> assumeUnique(line);
 }
 </pre>
 
@@ -247,7 +264,7 @@ Synopsis of some of std.<a name="exception"></a><span class="ddoc_psymbol">excep
 <b>Source:</b><br>
 <a href="https://github.com/D-Programming-Language/phobos/blob/master/std/exception.d">std/exception.d</a><p></p>
 
-<dl><dt class="d_decl">void <a name="assertNotThrown"></a><span class="ddoc_psymbol">assertNotThrown</span>(T : Throwable = Exception, E)(lazy E <i>expression</i>, string <i>msg</i> = null, string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
+<dl><dt class="d_decl"><a name=".assertNotThrown"></a>void <a name="assertNotThrown"></a><span class="ddoc_psymbol">assertNotThrown</span>(T : Throwable = Exception, E)(lazy E <i>expression</i>, string <i>msg</i> = null, string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
 </dt>
 <dd>Asserts that the given expression does <i>not</i> throw the given type
     of <span class="d_inlinecode">Throwable</span>. If a <span class="d_inlinecode">Throwable</span> of the given type is thrown,
@@ -256,27 +273,34 @@ Synopsis of some of std.<a name="exception"></a><span class="ddoc_psymbol">excep
 <p></p>
 <b>Parameters:</b><table class=parms><tr><td valign=top>T</td>
 <td valign=top>The <span class="d_inlinecode">Throwable</span> to test for.</td></tr>
-<tr><td valign=top>expression</td>
+<tr><td valign=top>E expression</td>
 <td valign=top>The expression to test.</td></tr>
-<tr><td valign=top>msg</td>
-<td valign=top>Optional message to output on test failure.</td></tr>
+<tr><td valign=top>string msg</td>
+<td valign=top>Optional message to output on test failure.
+                     If msg is empty, and the thrown exception has a
+                     non-empty msg field, the exception's msg field
+                     will be output on test failure.</td></tr>
+<tr><td valign=top>string file</td>
+<td valign=top>The file where the error occurred.
+                     Defaults to <span class="d_inlinecode">_FILE__</span>.</td></tr>
+<tr><td valign=top>size_t line</td>
+<td valign=top>The line where the error occurred.
+                     Defaults to <span class="d_inlinecode">_LINE__</span>.</td></tr>
 </table><p></p>
-<b>Throws:</b><br><span class="d_inlinecode">AssertError</span> if the given <span class="d_inlinecode">Throwable</span> is thrown.
+<b>Throws:</b><br><span class="d_inlinecode">AssertError</span> if the given <span class="d_inlinecode">Throwable</span> is thrown.<p></p>
+<b>Examples:</b><br><pre class="d_code">
+    <span class="d_psymbol">assertNotThrown</span>!StringException(enforceEx!StringException(<span class="d_keyword">true</span>, <span class="d_string">"Error!"</span>));
 
-<p></p>
-<b>Examples:</b><br><pre class="d_code"><span class="d_psymbol">assertNotThrown</span>!StringException(enforceEx!StringException(<span class="d_keyword">true</span>, <span class="d_string">"Error!"</span>));
+    <span class="d_comment">//Exception is the default.
+</span>    <span class="d_psymbol">assertNotThrown</span>(enforceEx!StringException(<span class="d_keyword">true</span>, <span class="d_string">"Error!"</span>));
 
-<span class="d_comment">//Exception is the default.
-</span><span class="d_psymbol">assertNotThrown</span>(enforceEx!StringException(<span class="d_keyword">true</span>, <span class="d_string">"Error!"</span>));
-
-<span class="d_keyword">assert</span>(collectExceptionMsg!AssertError(<span class="d_psymbol">assertNotThrown</span>!StringException(
-           enforceEx!StringException(<span class="d_keyword">false</span>, <span class="d_string">"Error!"</span>))) ==
-       <span class="d_string">`assertNotThrown failed: StringException was thrown.`</span>);
+    <span class="d_keyword">assert</span>(collectExceptionMsg!AssertError(<span class="d_psymbol">assertNotThrown</span>!StringException(
+               enforceEx!StringException(<span class="d_keyword">false</span>, <span class="d_string">"Error!"</span>))) ==
+           <span class="d_string">`assertNotThrown failed: StringException was thrown: Error!`</span>);
 </pre>
 <p></p>
-
 </dd>
-<dt class="d_decl">void <a name="assertThrown"></a><span class="ddoc_psymbol">assertThrown</span>(T : Throwable = Exception, E)(lazy E <i>expression</i>, string <i>msg</i> = null, string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
+<dt class="d_decl"><a name=".assertThrown"></a>void <a name="assertThrown"></a><span class="ddoc_psymbol">assertThrown</span>(T : Throwable = Exception, E)(lazy E <i>expression</i>, string <i>msg</i> = null, string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
 </dt>
 <dd>Asserts that the given expression throws the given type of <span class="d_inlinecode">Throwable</span>.
     The <span class="d_inlinecode">Throwable</span> is caught and does not escape <a name="assertThrown"></a><span class="ddoc_psymbol">assertThrown</span>. However,
@@ -285,27 +309,31 @@ Synopsis of some of std.<a name="exception"></a><span class="ddoc_psymbol">excep
 <p></p>
 <b>Parameters:</b><table class=parms><tr><td valign=top>T</td>
 <td valign=top>The <span class="d_inlinecode">Throwable</span> to test for.</td></tr>
-<tr><td valign=top>expression</td>
+<tr><td valign=top>E expression</td>
 <td valign=top>The expression to test.</td></tr>
-<tr><td valign=top>msg</td>
+<tr><td valign=top>string msg</td>
 <td valign=top>Optional message to output on test failure.</td></tr>
+<tr><td valign=top>string file</td>
+<td valign=top>The file where the error occurred.
+                     Defaults to <span class="d_inlinecode">_FILE__</span>.</td></tr>
+<tr><td valign=top>size_t line</td>
+<td valign=top>The line where the error occurred.
+                     Defaults to <span class="d_inlinecode">_LINE__</span>.</td></tr>
 </table><p></p>
-<b>Throws:</b><br><span class="d_inlinecode">AssertError</span> if the given <span class="d_inlinecode">Throwable</span> is not thrown.
+<b>Throws:</b><br><span class="d_inlinecode">AssertError</span> if the given <span class="d_inlinecode">Throwable</span> is not thrown.<p></p>
+<b>Examples:</b><br><pre class="d_code">
+    <span class="d_psymbol">assertThrown</span>!StringException(enforceEx!StringException(<span class="d_keyword">false</span>, <span class="d_string">"Error!"</span>));
 
-<p></p>
-<b>Examples:</b><br><pre class="d_code"><span class="d_psymbol">assertThrown</span>!StringException(enforceEx!StringException(<span class="d_keyword">false</span>, <span class="d_string">"Error!"</span>));
+    <span class="d_comment">//Exception is the default.
+</span>    <span class="d_psymbol">assertThrown</span>(enforceEx!StringException(<span class="d_keyword">false</span>, <span class="d_string">"Error!"</span>));
 
-<span class="d_comment">//Exception is the default.
-</span><span class="d_psymbol">assertThrown</span>(enforceEx!StringException(<span class="d_keyword">false</span>, <span class="d_string">"Error!"</span>));
-
-<span class="d_keyword">assert</span>(collectExceptionMsg!AssertError(<span class="d_psymbol">assertThrown</span>!StringException(
-           enforceEx!StringException(<span class="d_keyword">true</span>, <span class="d_string">"Error!"</span>))) ==
-       <span class="d_string">`assertThrown failed: No StringException was thrown.`</span>);
+    <span class="d_keyword">assert</span>(collectExceptionMsg!AssertError(<span class="d_psymbol">assertThrown</span>!StringException(
+               enforceEx!StringException(<span class="d_keyword">true</span>, <span class="d_string">"Error!"</span>))) ==
+           <span class="d_string">`assertThrown failed: No StringException was thrown.`</span>);
 </pre>
 <p></p>
-
 </dd>
-<dt class="d_decl">pure @safe T <a name="enforce"></a><span class="ddoc_psymbol">enforce</span>(T, string file = __FILE__, size_t line = __LINE__)(T <i>value</i>, lazy const(char)[] <i>msg</i> = null);
+<dt class="d_decl"><a name=".enforce"></a>T <a name="enforce"></a><span class="ddoc_psymbol">enforce</span>(T)(T <i>value</i>, lazy const(char)[] <i>msg</i> = null, string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
 </dt>
 <dd>If <span class="d_inlinecode">!!value</span> is <b>true</b>, <span class="d_inlinecode">value</span> is returned. Otherwise,
     <span class="d_inlinecode">new Exception(msg)</span> is thrown.
@@ -327,7 +355,15 @@ Synopsis of some of std.<a name="exception"></a><span class="ddoc_psymbol">excep
 <p></p>
 
 </dd>
-<dt class="d_decl">T <a name="enforce"></a><span class="ddoc_psymbol">enforce</span>(T, Dg, string file = __FILE__, size_t line = __LINE__)(T <i>value</i>, scope Dg <i>dg</i>);
+<dt class="d_decl"><a name=".enforce"></a>T <a name="enforce"></a><span class="ddoc_psymbol">enforce</span>(T, string file, size_t line = __LINE__)(T <i>value</i>, lazy const(char)[] <i>msg</i> = null);
+</dt>
+<dd><span style="color:red">Scheduled for deprecation in January 2013. If passing the file or line
+         number explicitly, please use the version of <a name="enforce"></a><span class="ddoc_psymbol">enforce</span> which takes them as
+         function arguments. Taking them as template arguments causes
+         unnecessary template bloat.</span><p></p>
+
+</dd>
+<dt class="d_decl"><a name=".enforce"></a>T <a name="enforce"></a><span class="ddoc_psymbol">enforce</span>(T, Dg, string file = __FILE__, size_t line = __LINE__)(T <i>value</i>, scope Dg <i>dg</i>) if (isSomeFunction!Dg &amp;&amp; is(typeof(<i>dg</i>())));
 </dt>
 <dd>If <span class="d_inlinecode">!!value</span> is <b>true</b>, <span class="d_inlinecode">value</span> is returned. Otherwise, the given
     delegate is called.
@@ -335,7 +371,7 @@ Synopsis of some of std.<a name="exception"></a><span class="ddoc_psymbol">excep
 The whole safety and purity are inferred from <span class="d_inlinecode">Dg</span>'s safety and purity.<p></p>
 
 </dd>
-<dt class="d_decl">pure @safe T <a name="enforce"></a><span class="ddoc_psymbol">enforce</span>(T)(T <i>value</i>, lazy Throwable <i>ex</i>);
+<dt class="d_decl"><a name=".enforce"></a>T <a name="enforce"></a><span class="ddoc_psymbol">enforce</span>(T)(T <i>value</i>, lazy Throwable <i>ex</i>);
 </dt>
 <dd>If <span class="d_inlinecode">!!value</span> is <b>true</b>, <span class="d_inlinecode">value</span> is returned. Otherwise, <span class="d_inlinecode">ex</span> is thrown.
 <p></p>
@@ -347,7 +383,7 @@ The whole safety and purity are inferred from <span class="d_inlinecode">Dg</spa
 <p></p>
 
 </dd>
-<dt class="d_decl">pure @safe T <a name="errnoEnforce"></a><span class="ddoc_psymbol">errnoEnforce</span>(T, string file = __FILE__, size_t line = __LINE__)(T <i>value</i>, lazy string <i>msg</i> = null);
+<dt class="d_decl"><a name=".errnoEnforce"></a>T <a name="errnoEnforce"></a><span class="ddoc_psymbol">errnoEnforce</span>(T, string file = __FILE__, size_t line = __LINE__)(T <i>value</i>, lazy string <i>msg</i> = null);
 </dt>
 <dd>If <span class="d_inlinecode">!!value</span> is <b>true</b>, <span class="d_inlinecode">value</span> is returned. Otherwise,
     <span class="d_inlinecode">new ErrnoException(msg)</span> is thrown. <span class="d_inlinecode">ErrnoException</span> assumes that the
@@ -361,28 +397,21 @@ enforce(line.length); <span class="d_comment">// expect a non-empty line
 <p></p>
 
 </dd>
-<dt class="d_decl">template <a name="enforceEx"></a><span class="ddoc_psymbol">enforceEx</span>(E) if (is(typeof(new E("","std\\exception.d",488))))</dt>
+<dt class="d_decl"><a name=".enforceEx"></a>template <a name="enforceEx"></a><span class="ddoc_psymbol">enforceEx</span>(E) if (is(typeof(new E("", "std\\exception.d", 522))))</dt>
 <dd>If <span class="d_inlinecode">!!value</span> is <span class="d_inlinecode"><b>true</b></span>, <span class="d_inlinecode">value</span> is returned. Otherwise,
-    <span class="d_inlinecode">new E(msg, file, line)</span> is thrown.
+    <span class="d_inlinecode">new E(msg, file, line)</span> is thrown. Or if <span class="d_inlinecode">E</span> doesn't take a message
+    and can be constructed with <span class="d_inlinecode">new E(file, line)</span>, then
+    <span class="d_inlinecode">new E(file, line)</span> will be thrown.
 <p></p>
 <b>Example:</b><br>
-<pre class="d_code"> <span class="d_keyword">auto</span> f = <span class="d_psymbol">enforceEx</span>!FileMissingException(fopen(<span class="d_string">"data.txt"</span>));
- <span class="d_keyword">auto</span> line = readln(f);
- <span class="d_psymbol">enforceEx</span>!DataCorruptionException(line.length);
+<pre class="d_code"><span class="d_keyword">auto</span> f = <span class="d_psymbol">enforceEx</span>!FileMissingException(fopen(<span class="d_string">"data.txt"</span>));
+<span class="d_keyword">auto</span> line = readln(f);
+<span class="d_psymbol">enforceEx</span>!DataCorruptionException(line.length);
 </pre>
 <p></p>
 
 </dd>
-<dt class="d_decl">template <a name="enforceEx"></a><span class="ddoc_psymbol">enforceEx</span>(E) if (is(typeof(new E(""))) &amp;&amp; !is(typeof(new E("","std\\exception.d",506))))</dt>
-<dd><span style="color:red">Scheduled for deprecation in March 2012. Please use the version of
-          <span class="d_inlinecode"><a name="enforceEx"></a><span class="ddoc_psymbol">enforceEx</span></span> which takes an exception that constructs with
-          <span class="d_inlinecode">new E(msg, file, line)</span>.</span>
-<p></p>
-If <span class="d_inlinecode">!!value</span> is <span class="d_inlinecode"><b>true</b></span>, <span class="d_inlinecode">value</span> is returned. Otherwise,
-    <span class="d_inlinecode">new E(msg)</span> is thrown.<p></p>
-
-</dd>
-<dt class="d_decl">T <a name="collectException"></a><span class="ddoc_psymbol">collectException</span>(T = Exception, E)(lazy E <i>expression</i>, ref E <i>result</i>);
+<dt class="d_decl"><a name=".collectException"></a>T <a name="collectException"></a><span class="ddoc_psymbol">collectException</span>(T = Exception, E)(lazy E <i>expression</i>, ref E <i>result</i>);
 </dt>
 <dd>Catches and returns the exception thrown from the given expression.
     If no exception is thrown, then <b>null</b> is returned and <span class="d_inlinecode">result</span> is
@@ -398,20 +427,23 @@ Note that while <span class="d_inlinecode"><a name="collectException"></a><span 
 <p></p>
 <b>Parameters:</b><table class=parms><tr><td valign=top>T</td>
 <td valign=top>The type of exception to catch.</td></tr>
-<tr><td valign=top>expression</td>
+<tr><td valign=top>E expression</td>
 <td valign=top>The expression which may throw an exception.</td></tr>
-<tr><td valign=top>result</td>
+<tr><td valign=top>E result</td>
 <td valign=top>The result of the expression if no exception is thrown.</td></tr>
 </table><p></p>
-<b>Example:</b><br>
-<pre class="d_code"><span class="d_keyword">int</span>[] a = <span class="d_keyword">new</span> <span class="d_keyword">int</span>[3];
-<span class="d_keyword">int</span> b;
-<span class="d_keyword">assert</span>(<span class="d_psymbol">collectException</span>(a[4], b));
+<b>Examples:</b><br><pre class="d_code">
+    <span class="d_keyword">int</span> b;
+    <span class="d_keyword">int</span> foo() { <span class="d_keyword">throw</span> <span class="d_keyword">new</span> Exception(<span class="d_string">"blah"</span>); }
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">collectException</span>(foo(), b));
+
+    <span class="d_keyword">int</span>[] a = <span class="d_keyword">new</span> <span class="d_keyword">int</span>[3];
+    <span class="d_keyword">import</span> core.exception : RangeError;
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">collectException</span>!RangeError(a[4], b));
 </pre>
 <p></p>
-
 </dd>
-<dt class="d_decl">T <a name="collectException"></a><span class="ddoc_psymbol">collectException</span>(T : Throwable = Exception, E)(lazy E <i>expression</i>);
+<dt class="d_decl"><a name=".collectException"></a>T <a name="collectException"></a><span class="ddoc_psymbol">collectException</span>(T : Throwable = Exception, E)(lazy E <i>expression</i>);
 </dt>
 <dd>Catches and returns the exception thrown from the given expression.
     If no exception is thrown, then <b>null</b> is returned. <span class="d_inlinecode">E</span> can be
@@ -427,12 +459,12 @@ Note that while <span class="d_inlinecode"><a name="collectException"></a><span 
 <p></p>
 <b>Parameters:</b><table class=parms><tr><td valign=top>T</td>
 <td valign=top>The type of exception to catch.</td></tr>
-<tr><td valign=top>expression</td>
+<tr><td valign=top>E expression</td>
 <td valign=top>The expression which may throw an exception.</td></tr>
 </table><p></p>
 
 </dd>
-<dt class="d_decl">string <a name="collectExceptionMsg"></a><span class="ddoc_psymbol">collectExceptionMsg</span>(T = Exception, E)(lazy E <i>expression</i>);
+<dt class="d_decl"><a name=".collectExceptionMsg"></a>string <a name="collectExceptionMsg"></a><span class="ddoc_psymbol">collectExceptionMsg</span>(T = Exception, E)(lazy E <i>expression</i>);
 </dt>
 <dd>Catches the exception thrown from the given expression and returns the
     msg property of that exception. If no exception is thrown, then <b>null</b> is
@@ -441,7 +473,6 @@ Note that while <span class="d_inlinecode"><a name="collectException"></a><span 
 If an exception is thrown but it has an empty message, then
     <span class="d_inlinecode">emptyExceptionMsg</span> is returned.
 <p></p>
-
 
     Note that while <span class="d_inlinecode"><a name="collectExceptionMsg"></a><span class="ddoc_psymbol">collectExceptionMsg</span></span> <i>can</i> be used to collect any
     <span class="d_inlinecode">Throwable</span> and not just <span class="d_inlinecode">Exception</span>s, it is generally ill-advised to
@@ -453,28 +484,29 @@ If an exception is thrown but it has an empty message, then
 <p></p>
 <b>Parameters:</b><table class=parms><tr><td valign=top>T</td>
 <td valign=top>The type of exception to catch.</td></tr>
-<tr><td valign=top>expression</td>
+<tr><td valign=top>E expression</td>
 <td valign=top>The expression which may throw an exception.</td></tr>
 </table><p></p>
-<b>Examples:</b><br><pre class="d_code"><span class="d_keyword">void</span> throwFunc() {<span class="d_keyword">throw</span> <span class="d_keyword">new</span> Exception(<span class="d_string">"My Message."</span>);}
-<span class="d_keyword">assert</span>(<span class="d_psymbol">collectExceptionMsg</span>(throwFunc()) == <span class="d_string">"My Message."</span>);
+<b>Examples:</b><br><pre class="d_code">
+    <span class="d_keyword">void</span> throwFunc() { <span class="d_keyword">throw</span> <span class="d_keyword">new</span> Exception(<span class="d_string">"My Message."</span>); }
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">collectExceptionMsg</span>(throwFunc()) == <span class="d_string">"My Message."</span>);
 
-<span class="d_keyword">void</span> nothrowFunc() {}
-<span class="d_keyword">assert</span>(<span class="d_psymbol">collectExceptionMsg</span>(nothrowFunc()) <span class="d_keyword">is</span> <span class="d_keyword">null</span>);
+    <span class="d_keyword">void</span> nothrowFunc() {}
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">collectExceptionMsg</span>(nothrowFunc()) <span class="d_keyword">is</span> <span class="d_keyword">null</span>);
 
-<span class="d_keyword">void</span> throwEmptyFunc() {<span class="d_keyword">throw</span> <span class="d_keyword">new</span> Exception(<span class="d_string">""</span>);}
-<span class="d_keyword">assert</span>(<span class="d_psymbol">collectExceptionMsg</span>(throwEmptyFunc()) == emptyExceptionMsg);
+    <span class="d_keyword">void</span> throwEmptyFunc() { <span class="d_keyword">throw</span> <span class="d_keyword">new</span> Exception(<span class="d_string">""</span>); }
+    <span class="d_keyword">assert</span>(<span class="d_psymbol">collectExceptionMsg</span>(throwEmptyFunc()) == emptyExceptionMsg);
 </pre>
 <p></p>
-
 </dd>
-<dt class="d_decl">string <a name="emptyExceptionMsg"></a><span class="ddoc_psymbol">emptyExceptionMsg</span>;
+<dt class="d_decl"><a name=".emptyExceptionMsg"></a>string <a name="emptyExceptionMsg"></a><span class="ddoc_psymbol">emptyExceptionMsg</span>;
 </dt>
 <dd>Value that collectExceptionMsg returns when it catches an exception
     with an empty exception message.<p></p>
 
 </dd>
-<dt class="d_decl">pure nothrow immutable(T)[] <a name="assumeUnique"></a><span class="ddoc_psymbol">assumeUnique</span>(T)(ref T[] <i>array</i>);
+<dt class="d_decl"><a name=".assumeUnique"></a>pure nothrow immutable(T)[] <a name="assumeUnique"></a><span class="ddoc_psymbol">assumeUnique</span>(T)(T[] <i>array</i>);
+<br><a name=".assumeUnique"></a>pure nothrow immutable(T)[] <a name="assumeUnique"></a><span class="ddoc_psymbol">assumeUnique</span>(T)(ref T[] <i>array</i>);
 </dt>
 <dd>Casts a mutable array to an immutable array in an idiomatic
  manner. Technically, <span class="d_inlinecode"><a name="assumeUnique"></a><span class="ddoc_psymbol">assumeUnique</span></span> just inserts a cast,
@@ -491,16 +523,17 @@ Typically, <span class="d_inlinecode"><a name="assumeUnique"></a><span class="dd
 
 <p></p>
 <b>Example:</b><br>
-<pre class="d_code"> string letters()
- {
-   <span class="d_keyword">char</span>[] result = <span class="d_keyword">new</span> <span class="d_keyword">char</span>['z' - 'a' + 1];
-   <span class="d_keyword">foreach</span> (i, <span class="d_keyword">ref</span> e; result)
-   {
-     e = 'a' + i;
-   }
-   <span class="d_keyword">return</span> <span class="d_psymbol">assumeUnique</span>(result);
- }
+<pre class="d_code">string letters()
+{
+  <span class="d_keyword">char</span>[] result = <span class="d_keyword">new</span> <span class="d_keyword">char</span>['z' - 'a' + 1];
+  <span class="d_keyword">foreach</span> (i, <span class="d_keyword">ref</span> e; result)
+  {
+    e = 'a' + i;
+  }
+  <span class="d_keyword">return</span> <span class="d_psymbol">assumeUnique</span>(result);
+}
 </pre>
+<p></p>
 
  The use in the example above is correct because <span class="d_inlinecode">result</span>
  was private to <span class="d_inlinecode">letters</span> and is unaccessible in writing
@@ -509,30 +542,31 @@ Typically, <span class="d_inlinecode"><a name="assumeUnique"></a><span class="dd
 
 <p></p>
 <b>Bad:</b><br>
-<pre class="d_code"> <span class="d_keyword">private</span> <span class="d_keyword">char</span>[] buffer;
- string letters(<span class="d_keyword">char</span> first, <span class="d_keyword">char</span> last)
- {
-   <span class="d_keyword">if</span> (first &gt;= last) <span class="d_keyword">return</span> <span class="d_keyword">null</span>; <span class="d_comment">// fine
-</span>   <span class="d_keyword">auto</span> sneaky = buffer;
-   sneaky.length = last - first + 1;
-   <span class="d_keyword">foreach</span> (i, <span class="d_keyword">ref</span> e; sneaky)
-   {
-     e = 'a' + i;
-   }
-   <span class="d_keyword">return</span> <span class="d_psymbol">assumeUnique</span>(sneaky); <span class="d_comment">// BAD
-</span> }
+<pre class="d_code"><span class="d_keyword">private</span> <span class="d_keyword">char</span>[] buffer;
+string letters(<span class="d_keyword">char</span> first, <span class="d_keyword">char</span> last)
+{
+  <span class="d_keyword">if</span> (first &gt;= last) <span class="d_keyword">return</span> <span class="d_keyword">null</span>; <span class="d_comment">// fine
+</span>  <span class="d_keyword">auto</span> sneaky = buffer;
+  sneaky.length = last - first + 1;
+  <span class="d_keyword">foreach</span> (i, <span class="d_keyword">ref</span> e; sneaky)
+  {
+    e = 'a' + i;
+  }
+  <span class="d_keyword">return</span> <span class="d_psymbol">assumeUnique</span>(sneaky); <span class="d_comment">// BAD
+</span>}
 </pre>
+<p></p>
 
  The example above wreaks havoc on client code because it is
  modifying arrays that callers considered immutable. To obtain an
  immutable array from the writable array <span class="d_inlinecode">buffer</span>, replace
  the last line with:
-<pre class="d_code"> <span class="d_keyword">return</span> to!(string)(sneaky); <span class="d_comment">// not that sneaky anymore
+<pre class="d_code"><span class="d_keyword">return</span> to!(string)(sneaky); <span class="d_comment">// not that sneaky anymore
 </span></pre>
+<p></p>
 
  The call will duplicate the array appropriately.
 <p></p>
-
 
  Checking for uniqueness during compilation is possible in certain
  cases (see the <span class="d_inlinecode">unique</span> and <span class="d_inlinecode">lent</span> keywords in
@@ -543,17 +577,148 @@ Typically, <span class="d_inlinecode"><a name="assumeUnique"></a><span class="dd
  assumption; on the upside, the idiomatic use of <span class="d_inlinecode"><a name="assumeUnique"></a><span class="ddoc_psymbol">assumeUnique</span></span> is simple and rare enough to be tolerable.<p></p>
 
 </dd>
-<dt class="d_decl">pure nothrow @trusted bool <a name="pointsTo"></a><span class="ddoc_psymbol">pointsTo</span>(S, T, Tdummy = void)(ref const S <i>source</i>, ref const T <i>target</i>);
+<dt class="d_decl"><a name=".assumeWontThrow"></a>nothrow T <a name="assumeWontThrow"></a><span class="ddoc_psymbol">assumeWontThrow</span>(T)(lazy T <i>expr</i>, string <i>msg</i> = null, string <i>file</i> = __FILE__, size_t <i>line</i> = __LINE__);
+</dt>
+<dd>Wraps a possibly-throwing expression in a <span class="d_inlinecode">nothrow</span> wrapper so that it
+ can be called by a <span class="d_inlinecode">nothrow</span> function.
+<p></p>
+This wrapper function documents commitment on the part of the caller that
+ the appropriate steps have been taken to avoid whatever conditions may
+ trigger an exception during the evaluation of <span class="d_inlinecode">expr</span>.  If it turns out
+ that the expression <i>does</i> throw at runtime, the wrapper will throw an
+ <span class="d_inlinecode">AssertError</span>.
+<p></p>
+
+ (Note that <span class="d_inlinecode">Throwable</span> objects such as <span class="d_inlinecode">AssertError</span> that do not
+ subclass <span class="d_inlinecode">Exception</span> may be thrown even from <span class="d_inlinecode">nothrow</span> functions,
+ since they are considered to be serious runtime problems that cannot be
+ recovered from.)<p></p>
+<b>Examples:</b><br><pre class="d_code">
+    <span class="d_keyword">import</span> std.math : sqrt;
+
+    <span class="d_comment">// This function may throw.
+</span>    <span class="d_keyword">int</span> squareRoot(<span class="d_keyword">int</span> x)
+    {
+        <span class="d_keyword">if</span> (x &lt; 0)
+            <span class="d_keyword">throw</span> <span class="d_keyword">new</span> Exception(<span class="d_string">"Tried to take root of negative number"</span>);
+        <span class="d_keyword">return</span> <span class="d_keyword">cast</span>(<span class="d_keyword">int</span>)sqrt(<span class="d_keyword">cast</span>(<span class="d_keyword">double</span>)x);
+    }
+
+    <span class="d_comment">// This function never throws.
+</span>    <span class="d_keyword">int</span> computeLength(<span class="d_keyword">int</span> x, <span class="d_keyword">int</span> y) <span class="d_keyword">nothrow</span>
+    {
+        <span class="d_comment">// Since x*x + y*y is always positive, we can safely assume squareRoot
+</span>        <span class="d_comment">// won't throw, and use it to implement this nothrow function. If it
+</span>        <span class="d_comment">// does throw (e.g., if x*x + y*y overflows a 32-bit value), then the
+</span>        <span class="d_comment">// program will terminate.
+</span>        <span class="d_keyword">return</span> <span class="d_psymbol">assumeWontThrow</span>(squareRoot(x*x + y*y));
+    }
+
+    <span class="d_keyword">assert</span>(computeLength(3, 4) == 5);
+</pre>
+<p></p>
+</dd>
+<dt class="d_decl"><a name=".pointsTo"></a>pure nothrow @trusted bool <a name="pointsTo"></a><span class="ddoc_psymbol">pointsTo</span>(S, T, Tdummy = void)(auto ref const S <i>source</i>, ref const T <i>target</i>) if (__traits(isRef, <i>source</i>) || isDynamicArray!S || isPointer!S || is(S == class));
 </dt>
 <dd>Returns <span class="d_inlinecode"><b>true</b></span> if <span class="d_inlinecode">source</span>'s representation embeds a pointer
 that points to <span class="d_inlinecode">target</span>'s representation or somewhere inside
-it. Note that evaluating <span class="d_inlinecode"><a name="pointsTo"></a><span class="ddoc_psymbol">pointsTo</span>(x, x)</span> checks whether <span class="d_inlinecode">x</span> has
-internal pointers.<p></p>
+it.
+<p></p>
+If <span class="d_inlinecode">source</span> is or contains a dynamic array, then, then <a name="pointsTo"></a><span class="ddoc_psymbol">pointsTo</span> will check
+if there is overlap between the dynamic array and <span class="d_inlinecode">target</span>'s representation.
+<p></p>
+
+If <span class="d_inlinecode">source</span> is or contains a union, then every member of the union is
+checked for embedded pointers. This may lead to <b>false</b> positives, depending on
+which should be considered the "active" member of the union.
+<p></p>
+
+If <span class="d_inlinecode">source</span> is a class, then <a name="pointsTo"></a><span class="ddoc_psymbol">pointsTo</span> will handle it as a pointer.
+<p></p>
+
+If <span class="d_inlinecode">target</span> is a pointer, a dynamic array or a class, then <a name="pointsTo"></a><span class="ddoc_psymbol">pointsTo</span> will only
+check if <span class="d_inlinecode">source</span> points to <span class="d_inlinecode">target</span>, <i>not</i> what <span class="d_inlinecode">target</span> references.
+
+<p></p>
+<b>Note:</b><br>
+Evaluating <span class="d_inlinecode"><a name="pointsTo"></a><span class="ddoc_psymbol">pointsTo</span>(x, x)</span> checks whether <span class="d_inlinecode">x</span> has
+internal pointers. This should only be done as an assertive test,
+as the language is free to assume objects don't have internal pointers
+(TDPL 7.1.3.5).<p></p>
 
 </dd>
-<dt class="d_decl">class <a name="ErrnoException"></a><span class="ddoc_psymbol">ErrnoException</span>: object.Exception;
+<dt class="d_decl"><a name=".ErrnoException"></a>class <a name="ErrnoException"></a><span class="ddoc_psymbol">ErrnoException</span>: object.Exception;
 </dt>
 <dd>Thrown if errors that set <span class="d_inlinecode">errno</span> occur.<p></p>
+
+</dd>
+<dt class="d_decl"><a name=".ifThrown"></a>CommonType!(T1, T2) <a name="ifThrown"></a><span class="ddoc_psymbol">ifThrown</span>(E : Throwable = Exception, T1, T2)(lazy scope T1 <i>expression</i>, lazy scope T2 <i>errorHandler</i>);
+<br><a name=".ifThrown"></a>CommonType!(T1, T2) <a name="ifThrown"></a><span class="ddoc_psymbol">ifThrown</span>(E : Throwable, T1, T2)(lazy scope T1 <i>expression</i>, scope T2 delegate(E) <i>errorHandler</i>);
+<br><a name=".ifThrown"></a>CommonType!(T1, T2) <a name="ifThrown"></a><span class="ddoc_psymbol">ifThrown</span>(T1, T2)(lazy scope T1 <i>expression</i>, scope T2 delegate(Exception) <i>errorHandler</i>);
+</dt>
+<dd>ML-style functional exception handling. Runs the supplied expression and
+    returns its result. If the expression throws a <span class="d_inlinecode">Throwable</span>, runs the
+    supplied error handler instead and return its result. The error handler's
+    type must be the same as the expression's type.
+<p></p>
+<b>Parameters:</b><table class=parms><tr><td valign=top>E</td>
+<td valign=top>The type of <span class="d_inlinecode">Throwable</span>s to catch. Defaults to ${D Exception}</td></tr>
+<tr><td valign=top>T1</td>
+<td valign=top>The type of the expression.</td></tr>
+<tr><td valign=top>T2</td>
+<td valign=top>The return type of the error handler.</td></tr>
+<tr><td valign=top>T1 expression</td>
+<td valign=top>The expression to run and return its result.</td></tr>
+<tr><td valign=top>T2 errorHandler</td>
+<td valign=top>The handler to run if the expression throwed.</td></tr>
+</table><p></p>
+<b>Examples:</b><br><pre class="d_code"><span class="d_comment">//Revert to a default value upon an error:
+</span><span class="d_keyword">assert</span>(<span class="d_string">"x"</span>.to!<span class="d_keyword">int</span>().<span class="d_psymbol">ifThrown</span>(0) == 0);
+</pre>
+<p></p>
+
+    You can also chain multiple calls to <a name="ifThrown"></a><span class="ddoc_psymbol">ifThrown</span>, each capturing errors from the
+    entire preceding expression.
+
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code"><span class="d_comment">//Chaining multiple calls to ifThrown to attempt multiple things in a row:
+</span>string s=<span class="d_string">"true"</span>;
+<span class="d_keyword">assert</span>(s.to!<span class="d_keyword">int</span>().
+        <span class="d_psymbol">ifThrown</span>(<span class="d_keyword">cast</span>(<span class="d_keyword">int</span>)s.to!<span class="d_keyword">double</span>()).
+        <span class="d_psymbol">ifThrown</span>(<span class="d_keyword">cast</span>(<span class="d_keyword">int</span>)s.to!<span class="d_keyword">bool</span>())
+        == 1);
+
+<span class="d_comment">//Respond differently to different types of errors
+</span><span class="d_keyword">assert</span>(enforce(<span class="d_string">"x"</span>.to!<span class="d_keyword">int</span>() &lt; 1).to!string()
+        .<span class="d_psymbol">ifThrown</span>!ConvException(<span class="d_string">"not a number"</span>)
+        .<span class="d_psymbol">ifThrown</span>!Exception(<span class="d_string">"number too small"</span>)
+        == <span class="d_string">"not a number"</span>);
+</pre>
+<p></p>
+
+    The expression and the errorHandler must have a common type they can both
+    be implicitly casted to, and that type will be the type of the compound
+    expression.
+
+<p></p>
+<b>Examples:</b><br><pre class="d_code"><span class="d_comment">//null and new Object have a common type(Object).
+</span><span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(<span class="d_keyword">typeof</span>(<span class="d_keyword">null</span>.<span class="d_psymbol">ifThrown</span>(<span class="d_keyword">new</span> Object())) == Object));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(<span class="d_keyword">typeof</span>((<span class="d_keyword">new</span> Object()).<span class="d_psymbol">ifThrown</span>(<span class="d_keyword">null</span>)) == Object));
+
+<span class="d_comment">//1 and new Object do not have a common type.
+</span><span class="d_keyword">static</span> <span class="d_keyword">assert</span>(!<span class="d_keyword">__traits</span>(compiles, 1.<span class="d_psymbol">ifThrown</span>(<span class="d_keyword">new</span> Object())));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(!<span class="d_keyword">__traits</span>(compiles, (<span class="d_keyword">new</span> Object()).<span class="d_psymbol">ifThrown</span>(1)));
+</pre>
+<p></p>
+
+    If you need to use the actual thrown expection, you can use a delegate.
+<p></p>
+<b>Example:</b><br>
+<pre class="d_code"><span class="d_comment">//Use a lambda to get the thrown object.
+</span><span class="d_keyword">assert</span>(<span class="d_string">"%s"</span>.format().<span class="d_psymbol">ifThrown</span>!Exception(e =&gt; e.classinfo.name) == <span class="d_string">"std.format.FormatException"</span>);
+</pre>
+<p></p>
 
 </dd>
 </dl>
